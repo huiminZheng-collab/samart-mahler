@@ -80,7 +80,7 @@ pieces), global minimum margin `6.009249e-5`, cap coefficient
 | `diag_ek_branch.py` | wrong-sheet diagnostic at `τ'` | ~1 min |
 | `verify_P1_n4_81.py` | (P1) for the n4 note: `EK4(τ2)=40M7`, 45 checks | ~17 min |
 | `diag_n4_astroid.py` | wrong-sheet / astroid diagnostics for the n4 note | minutes |
-| `kink_resultant_W.py` + `n4_81_final.py` | exact kink detection and direct integration at `c=3`: `n4(81)=4.1655349907533676508(5)` | ~40 min |
+| `kink_resultant_W.py` + `n4_81_final.py` | exact kink detection and direct integration at `c=3`: `n4(81)=4.1655349907533676508(5)` | ~7.5 h |
 
 ## Reproducibility
 
