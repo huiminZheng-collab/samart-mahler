@@ -1,0 +1,48 @@
+mpmath version: 1.3.0 ; iv.dps = 40 ; NTR = 120
+eps0 = 0.000015625  (>= 1/64000); eps_ub = 1.5625e-5
+
+--- axis bound (Step 1 of P2) ---
+s2(it) >= e^{2 pi t} >= e^pi = 23.1406926327793
+e^pi > 8: True
+
+--- horizontal segment (A): y = 1/2, x in [0, 3/8] ---
+horizontal: certified in 5 pieces, max depth 3, min margin 1.7429304
+
+--- vertical segment (B): x = 3/8, y in [y0+1e-3, 1/2] ---
+vertical: certified in 15 pieces, max depth 9, min margin 0.005074841
+
+--- sub-cap (B2): x = 3/8, y in [y0+eps0, y0+1e-3] ---
+sub-cap: certified in 13 pieces, max depth 7, min margin 6.009249e-5
+
+--- certificate quality ---
+closest to [-8,8]: segment B2, t in [0.330734538883, 0.330742229313] (depth 7)
+    Z = Re [1.000054774, 1.000674969]
+        Im [-0.0005836421111, -6.009248976e-5]
+    width(Z) = 0.000620195 ; dist(Z, [-8,8]) = 6.00925e-5 ; margin/width = 0.096893
+widest enclosure: segment A, t in [0.09375, 0.1875] (depth 2)
+    Z = Re [9.742930426, 185.659862]
+        Im [-83.85319175, 69.21949328]
+    width(Z) = 175.917 ; dist(Z, [-8,8]) = 1.74293 ; margin/width = 0.00990769
+GLOBAL minimum margin over all 33 pieces: 6.009249e-5
+
+--- cap (y0, y0+eps0]: Taylor argument ---
+M0 = 38.148391199402133945
+M2 = 190741.95599701066973
+Re s2'(tau0) in [-18.0197947489675, -15.0394516865142]
+coefficient bound hi + M2*eps_ub/2 <= -13.5492801552876
+=> Im s2(tau0 + i eps) <= eps * (-13.5492801553) for all eps in (0, 1.5625e-5]
+   upper bound of eps*(hi + M2*eps0/2): eps_ub*C = -0.000211707502426 (scale -13.5 * eps)
+cap OK: coefficient strictly negative, so s2 misses [-8,8] on the cap
+
+SELF-TEST 1 (iv enclosure contains 80-dps truth): 20/20 passed
+SELF-TEST 2 (point enclosure inside block enclosure): 5/5 passed
+
+--- conclusion ---
+Every accepted piece carries a strict enclosure s2(I) subset Z_I with
+Z_I cap [-8,8] = EMPTY, decided by iv endpoint comparisons only:
+  (A) horizontal :   5 pieces -- PASS (min margin 1.74293)
+  (B) vertical   :  15 pieces -- PASS (min margin 0.00507484)
+  (B2) sub-cap   :  13 pieces -- PASS (min margin 6.00925e-5)
+  (C) cap        : Taylor bound coefficient -13.54928 < 0 -- PASS
+
+ALL CERT-2 CHECKS PASSED (fully rigorous interval certificate)

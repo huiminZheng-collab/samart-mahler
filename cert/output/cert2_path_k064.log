@@ -1,0 +1,69 @@
+mpmath version: 1.3.0 ; iv.dps = 40 ; NTR = 120
+cut to avoid: [0,64] (k = c^2 preimage of [-8,8]); path starts at i
+eps0 = 0.000015625  (>= 1/64000); eps_ub = 1.5625e-5
+
+--- axis start (elementary): s2(i) >= e^{2 pi} ---
+e^{2 pi} = 535.491655524765 > 64: True
+
+--- (i) axis segment: x = 0, y in [9/16, 1] ---
+axis: certified in 16 pieces, max depth 7, min margin 0.64806567
+
+--- (ii) quarter arc: tau = i/2 + (1/16) e^{i theta}, theta in [0, pi/2] ---
+arc: certified in 18 pieces, max depth 6, min margin 0.068957081
+
+--- (iii) horizontal: y = 1/2, x in [1/16, 3/8] ---
+horizontal: certified in 37 pieces, max depth 8, min margin 0.046090047
+
+--- (iv) vertical: x = 3/8, y in [y0+1e-3, 1/2] ---
+vertical: certified in 15 pieces, max depth 9, min margin 0.005074841
+
+--- (v) sub-cap: x = 3/8, y in [y0+eps0, y0+1e-3] ---
+sub-cap: certified in 13 pieces, max depth 7, min margin 6.009249e-5
+
+--- certificate quality (per segment, closest enclosure) ---
+(i) axis: closest to [0,64] at t in [0.5693359375, 0.576171875] (depth 6)
+    Z = Re [64.64806567, 75.59039991]
+        Im [-7.559039991e-37, 7.559039991e-37]
+    width(Z) = 10.9423 ; dist(Z, [0,64]) = 0.648066 ; margin/width = 0.0592255
+(ii) arc: closest to [0,64] at t in [0.196349540849, 0.294524311274] (depth 4)
+    Z = Re [55.0196044, 66.03002277]
+        Im [-5.097901147, -0.06895708128]
+    width(Z) = 11.0104 ; dist(Z, [0,64]) = 0.0689571 ; margin/width = 0.00626289
+(iii) horiz: closest to [0,64] at t in [0.0625, 0.063720703125] (depth 8)
+    Z = Re [58.6179575, 60.08892757]
+        Im [-1.093679264, -0.04609004723]
+    width(Z) = 1.47097 ; dist(Z, [0,64]) = 0.04609 ; margin/width = 0.0313331
+(iv) vert: closest to [0,64] at t in [0.333033609868, 0.334348305854] (depth 7)
+    Z = Re [1.00158946, 1.111461447]
+        Im [-0.0983467049, -0.005074840972]
+    width(Z) = 0.109872 ; dist(Z, [0,64]) = 0.00507484 ; margin/width = 0.0461887
+(v) sub-cap: closest to [0,64] at t in [0.330734538883, 0.330742229313] (depth 7)
+    Z = Re [1.000054774, 1.000674969]
+        Im [-0.0005836421111, -6.009248976e-5]
+    width(Z) = 0.000620195 ; dist(Z, [0,64]) = 6.00925e-5 ; margin/width = 0.096893
+global closest: segment (v) sub-cap, dist = 6.009249e-5, width = 0.000620195, margin/width = 0.096893
+global widest : segment (i) axis, width = 1022.02, dist = 77.672139
+GLOBAL minimum margin over all 99 pieces: 6.009249e-5
+
+--- (vi) cap (y0, y0+eps0]: Taylor argument (same as cert2_path.py) ---
+M0 = 38.148391199402133945
+M2 = 190741.95599701066973
+Re s2'(tau0) in [-18.0197947489675, -15.0394516865142]
+coefficient bound hi + M2*eps_ub/2 <= -13.5492801552876
+=> Im s2(tau0 + i eps) <= eps * (-13.5492801553) < 0 for all eps in (0, 1.5625e-5]
+cap OK: Im s2 < 0 strictly, so s2 misses the real interval [0,64] on the cap
+
+SELF-TEST 1 (iv enclosure contains 80-dps truth): 20/20 passed
+SELF-TEST 2 (arc point enclosure inside block enclosure): 5/5 passed
+
+--- conclusion ---
+Every accepted piece carries a strict enclosure s2(I) subset Z_I with
+Z_I cap [0,64] = EMPTY, decided by iv endpoint comparisons only:
+  (i) axis   :  16 pieces -- PASS (min margin 0.648066)
+  (ii) arc   :  18 pieces -- PASS (min margin 0.0689571)
+  (iii) horiz:  37 pieces -- PASS (min margin 0.04609)
+  (iv) vert  :  15 pieces -- PASS (min margin 0.00507484)
+  (v) sub-cap:  13 pieces -- PASS (min margin 6.00925e-5)
+  (vi) cap   : Taylor coefficient -13.54928 < 0, Im s2 < 0 -- PASS
+
+ALL CERT-2 (cut [0,64]) CHECKS PASSED (fully rigorous interval certificate)

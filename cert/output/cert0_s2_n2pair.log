@@ -1,0 +1,28 @@
+(a) formal q-series identity s2 = 16/(lam(2t)(1-lam(2t))) to q^37: PASS
+(b1) j(pi/2) interval: Re = [-3375.0, -3375.0]
+     Re width = 3.41e-91, Im width = 1.14e-91
+     |j + 3375| <= 1.8e-91  (90 digits locked)
+     disc -7, h = 1 => j in Z, locked j0 = -3375: PASS
+(b2) Phi(X) = [256, -768, 4911, -8542, 4911, -768, 256]
+     Phi = (X^2-X+16)(16X^2-X+1)(16X^2-31X+16) exactly: PASS
+     linear factors over Q(sqrt(-7)): f1: PASS, f2: PASS, f3: PASS
+     all six roots satisfy Phi exactly (Q(sqrt(-7)) arithmetic): PASS
+     separations from lam_star = (31+3s)/32:
+       |lam_star - (-15/32 + 45/32*s)| = 3.75
+       |lam_star - (-15/32 + -51/32*s)| = 4.2426407
+       |lam_star - (-15/16 + -3/16*s)| = 1.0606602
+       |lam_star - (-15/16 + 0*s)| = 0.9375
+       |lam_star - (0 + -3/16*s)| = 0.49607837
+     min separation = 3 sqrt(7)/16 = 0.4960783708  check: PASS
+(b3) lam(pi/2) interval: Re = [0.96875, 0.96875]
+                    Im = [0.24803919, 0.24803919]
+     |lam_iv - (31+3s)/32| <= 1.2e-62  (< 0.248039 = half min separation): PASS
+     => lam(pi/2) = (31 + 3 sqrt(-7))/32 EXACTLY
+     NB: lam(pi/2) = 1 - lam0 with lam0 = (1-3s)/32 the root of 16X^2-X+1;
+         the numerical value selects (31+3s)/32, not lam0 (same lam(1-lam)).
+(c) lam(1-lam) = (47-45s)/512 exactly: PASS
+    16/(lam(1-lam)) = (47+45s)/2 exactly: PASS  => s2(taup) = (47+45 sqrt(-7))/2
+    numeric check |s2(taup) - (47+45s)/2| = 1.37e-52 (50 dps): PASS
+(d) |s2(taupp) - (47-45s)/2| = 1.37e-52,  |s2(taupp) - conj(s2(taup))| = 0.0 (40+ digits): PASS
+
+ALL CERT-0' CHECKS PASSED

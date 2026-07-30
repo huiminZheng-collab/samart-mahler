@@ -1,0 +1,24 @@
+(ii) formal q-series identity s2 = 16/(lam(2t)(1-lam(2t))) holds to q^37: PASS
+(iv) Phi(X) = [256, -768, 4911, -8542, 4911, -768, 256]
+     Phi(lambda0) = 1.8991e-65 (exact root check)
+(v) Phi / (X^2-X+16): remainder = [0]  quotient = [16, -47, 303, -512, 256]
+    X^2-X+16 divides Phi exactly: PASS
+    multiplicity of lambda0 = 1 (second division leaves nonzero remainder): PASS
+    roots of Phi:
+       (0.96875 + 0.2480391854123053678595265j)
+       (0.03125 + 0.2480391854123053678595265j)
+       (0.03125 - 0.2480391854123053678595265j)
+       (0.96875 - 0.2480391854123053678595265j)
+       (0.5 + 3.968626966596885885752424j)
+       (0.5 - 3.968626966596885885752424j)
+    min |other root - lambda0| = 3.75
+(iii) j(2 tau0) interval: Re = [-3375.0, -3375.0]
+      Re width = 3.41e-91, Im width = 1.14e-91
+      |j(2 tau0) + 3375| <= 1.8e-91  (< 1e-66, pins j = -3375 in Z): PASS
+(v)   lam(2 tau0) interval: Re = [0.5, 0.5]
+                          Im = [3.968627, 3.968627]
+      |lam(2 tau0) - lambda0| <= 6.33e-95  (<< 3.75 = min root separation): PASS
+(vi)  16/(lambda0(1-lambda0)) = (1.0 + 0.0j)
+      => s2(tau0) = 1 exactly.  QED
+
+ALL CHECKS PASSED

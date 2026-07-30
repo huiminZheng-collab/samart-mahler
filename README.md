@@ -1,0 +1,104 @@
+# samart-mahler
+
+Companion code and certificates for two papers by **Huimin Zheng**
+(College of Information and Network Engineering, Anhui Science and
+Technology University; `zhhm@ahstu.edu.cn`):
+
+1. **Mahler measures at interior CM points: proofs of two conjectures of
+   Samart** (`paper/formal.tex`, `paper/formal.pdf`) — proves, as
+   identities of genuine Mahler measures,
+   - Theorem A: `m((x+1/x)(y+1/y)(z+1/z)+1) = 4 L'(g7,0)` (Samart's
+     conjecture for `k=1`), and
+   - Theorem B: `n2((47±45√−7)/2) = (4/7)(54 M7 + d7)`
+     (the conjugate pair of Samart's 2015 table).
+2. **Samart's conjecture n4(81)=40M7: the exact CM evaluation and the
+   two obstructions. A status report** (`paper/formal2.tex`,
+   `paper/formal2.pdf`) — proves the exact series-side evaluation
+   `EK4(τ2) = 40M7`, analyses the two obstructions (astroid critical
+   image; wrong sheet of the U-series below `Im τ = 1/√2`), and records
+   that the literal identity is numerically refuted:
+   `n4(81) = 4.1655349907533676508(5)` versus `40M7 = 4.1068643111560…`.
+
+## Layout
+
+```
+paper/     the two papers (LaTeX sources and PDFs), figure data
+cert/      certification scripts (the trusted base of the proofs) and
+           their complete run logs in cert/output/ — these logs are the
+           machine-readable certificate
+numerics/  numerical-evidence scripts (cross-checks, diagnostics, and
+           the direct torus integrations) and logs in numerics/output/
+```
+
+## Requirements
+
+- Python 3.12+
+- [mpmath](https://mpmath.org) (developed and audited against 1.3.0;
+  each script prints the version it runs under)
+- numpy (only for `paper/gen_fig_n4.py` and `numerics/n4_81_final.py`)
+
+No other dependencies.
+
+## Quick start
+
+The single most important script — the interval-arithmetic path
+certificate for Theorem A:
+
+```
+cd cert
+python cert2_path_k064.py
+```
+
+Expected: `ALL CERT-2 (cut [0,64]) CHECKS PASSED (fully rigorous
+interval certificate)`, 99 blocks (16/18/37/15/13 across the five path
+pieces), global minimum margin `6.009249e-5`, cap coefficient
+`≤ -13.54928`. Compare with the archived log
+`cert/output/cert2_path_k064.log`.
+
+## Script inventory
+
+### cert/ — certification scripts (print PASS/FAIL per check)
+
+| script | certifies | typical runtime |
+|---|---|---|
+| `cert2_path_k064.py` | path for Theorem A avoids the cut `[0,64]` (99 blocks + Taylor cap) | ~1 min |
+| `cert2_path.py` | companion shorter path (avoided set `[-8,8]`, 33 blocks) | ~1 min |
+| `cert0_s2_eq_1.py` | exactness `s2(τ0)=1`: formal q-series identity, sextic factorization, interval locks `\|j(2τ0)+3375\| ≤ 1.8e-91`, `\|λ(2τ0)−λ0\| ≤ 6.3e-95` | ~1 min |
+| `cert0_s2_n2pair.py` | exactness `s2(τ')=(47+45√−7)/2` and the conjugate (100 dps locks) | ~1 min |
+| `verify_P1.py` | (P1) at `τ0`: theta identity to `q^60` (exact integers), `T1, T4` Poisson rows, FE assembly | ~1 min |
+| `verify_P1_n2pair.py` | (P1) at `τw`: 43 checks (60 dps, worst diff `1.2e-58`) | ~1 min |
+
+### numerics/ — numerical evidence (not part of the trusted base)
+
+| script | purpose | typical runtime |
+|---|---|---|
+| `mahler_m.py` | true `m(f+1)` to 40 digits by direct torus integration | minutes |
+| `lvalue_g7.py` | `L'(g7,0)` to 50 digits; functional-equation self-check | ~1 min |
+| `find_tau0.py` | `τ0`, `s2(τ0)`, `EK(τ0)` to 60 digits | ~1 min |
+| `samart_ek.py` | EK formula; three-way validation at `k=64` | ~1 min |
+| `verify_n2_pair.py` | three-way numerical confirmation of Theorem B (50 dps) | ~1 min |
+| `diag_ek_branch.py` | wrong-sheet diagnostic at `τ'` | ~1 min |
+| `verify_P1_n4_81.py` | (P1) for the n4 note: `EK4(τ2)=40M7`, 45 checks | ~17 min |
+| `diag_n4_astroid.py` | wrong-sheet / astroid diagnostics for the n4 note | minutes |
+| `kink_resultant_W.py` + `n4_81_final.py` | exact kink detection and direct integration at `c=3`: `n4(81)=4.1655349907533676508(5)` | ~40 min |
+
+## Reproducibility
+
+All bounds entering the proofs are produced by outward-rounded interval
+operations (`mpmath.iv`); no machine-float arithmetic occurs in any
+certificate path. Re-running the scripts in `cert/` regenerates every
+certificate from scratch; the archived logs in `cert/output/` are the
+exact outputs on the development machine.
+
+## License
+
+- Code: MIT License (see `LICENSE`).
+- Papers (`paper/formal.*`, `paper/formal2.*`): © Huimin Zheng, 2026.
+  All rights reserved.
+
+## AI-assistance disclosure
+
+The papers were written with AI assistance (Kimi, Moonshot AI), as
+declared on their first pages. All mathematical content, including
+every proof and every certified computation, has been checked by the
+author, who takes full responsibility for correctness.
