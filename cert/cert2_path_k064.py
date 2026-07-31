@@ -25,92 +25,39 @@
 #                   (Im s2(tau0 + i eps) <= -13.549...*eps < 0, hence
 #                   s2 misses the real interval [0,64] on the cap).
 #
-# Machinery identical to cert2_path.py (strict iv end to end; no float(...),
-# no math.*, constants via outward iv enclosures). Cut predicate:
+# Machinery lives in s2_iv.py (strict iv end to end; no float(...),
+# no math.*, constants via outward iv enclosures) and is shared with the
+# independent verifier cert2_verify.py.  Cut predicate:
 #     Z certified to miss [0,64]  iff  0 notin Im Z  or  Re Z cap [0,64] = {}.
 #
-# Arc evaluation rigor (mpmath 1.3.0, libmpi.py): exp(i theta) for a real
-# interval theta is mpci_exp on the box 0 + i*theta; it computes
-# r = mpi_exp([0,0]) (outward rounding) and (c,s) = mpi_cos_sin(theta)
-# (directed-rounding cos/sin enclosure, valid for intervals of any width),
-# then re = r*c, im = r*s with outward interval multiplication. Hence
-# iv.exp(iv.mpc(0, theta_iv)) is a guaranteed rectangular enclosure of
-# {exp(i t) : t in theta_iv}, and tau_iv = i/2 + (1/16)*that is a guaranteed
-# enclosure of the arc block. Verified empirically in SELF-TEST below.
+# Certificate separation (referee request): on success this generator writes
+# a machine-readable certificate (default certificate_k064.json) recording
+# every accepted block (parameter interval, enclosure Z, margin) and the cap
+# constants as FULL-PRECISION decimal strings (mpf -> str, no float rounding).
+# cert2_verify.py re-checks the fixed blocks without any adaptive search.
+#
+# Usage: python cert2_path_k064.py [--only axis,arc,...] [-o OUT.json]
+#   --only runs a subset of segments (smoke test; cap still runs, the
+#   SELF-TESTs are skipped); omitted segments are simply absent from the JSON.
 
+import sys, os, json, datetime
+import mpmath
 from mpmath import iv, mp, mpf
 
-iv.dps = 40
-mp.dps = 50   # must precede constants: mpf(iv-endpoint) rounding at default
-              # 15 dps would cross the 40-dps iv endpoints (coverage gaps)
-NTR = 120
+import s2_iv                                   # sets iv.dps = 40, mp.dps = 50
+from s2_iv import (NTR, y0_iv, y0, eps0, eps_ub, EPSUB_iv, RHO2_iv, pi2,
+                   ZERO, HALF, s2_iv, s2_iv_tau, arc_tau, margin, width)
 
-# ---------------------------------------------------------------- constants
-y0_iv = iv.sqrt(iv.mpf(7))/8       # interval containing sqrt(7)/8 exactly
-Y0W_iv = y0_iv - y0_iv.a           # outward enclosure of the rounding width
-Y0W = mpf(Y0W_iv.b)                # mpf upper bound of |y0_iv - sqrt(7)/8|
-y0 = mpf(y0_iv.b)                  # mpf >= sqrt(7)/8 (safe side for the cap)
+BASE = os.path.dirname(os.path.abspath(__file__))
 
-EPS0_iv = 1/iv.mpf(64000)          # interval containing 1/64000 exactly
-eps0 = mpf(EPS0_iv.b)              # mpf >= 1/64000
-EPSUB_iv = iv.mpf(eps0) + iv.mpf([0, Y0W])
-eps_ub = mpf(EPSUB_iv.b)
-
-RHO2_iv = (iv.mpf(2)/100)**2       # interval containing 0.02^2 exactly
-
-PI2_iv = iv.pi/2                   # interval containing pi/2 exactly
-pi2 = mpf(PI2_iv.b)                # mpf >= pi/2 (arc theta range covers pi/2)
-
-ZERO = iv.mpf(0)
-HALF = iv.mpf(1)/2                 # exact
-R16 = iv.mpf(1)/16                 # exact
-CENTER = iv.mpc(ZERO, HALF)        # i/2, exact
-
-def cbox(E_iv):
-    """encloses exp(u+iv) for |u|,|v| <= max(E_iv), all in iv arithmetic."""
-    Eb = max(mpf(E_iv.b), mpf(10)**-38)
-    box = iv.mpc(iv.mpf([-Eb, Eb]), iv.mpf([-Eb, Eb]))
-    return iv.exp(box)
-
-def s2_iv_tau(tau):
-    """tau: complex interval. Returns complex interval Z with s2(t) in Z for
-    every t in tau. Pure iv arithmetic throughout."""
-    q = iv.exp(2*iv.pi*1j*tau)
-    R_iv = abs(q)                  # iv enclosing |q| for all tau in the block
-    assert R_iv.b < mpf('0.9'), '|q| too large for tail bound'
-    P = iv.mpc(1)
-    qodd = q
-    for n in range(1, NTR+1):
-        P *= (1 + qodd)**24        # rigorous complex integer power
-        qodd *= q*q
-    E_iv = 24*R_iv**(2*NTR+1)/((1 - R_iv)*(1 - R_iv**2))
-    return P*cbox(E_iv)/q
-
-def s2_iv(x, y):
-    """x, y: real intervals (or exact mpf)."""
-    return s2_iv_tau(iv.mpc(x, y))
-
-def arc_tau(th_iv):
-    """guaranteed enclosure of { i/2 + (1/16) exp(i t) : t in th_iv }."""
-    return CENTER + R16*iv.exp(iv.mpc(ZERO, th_iv))
-
-# ------------------------------------------------- avoidance predicate
-KLO, KHI = 0, 64                   # the cut [0,64]
-
-def margin(z):
-    """Certified distance of z from [0,64], using ONLY iv endpoint
-    comparisons; None if avoidance is not certified.
-    min(|Im z|) if 0 notin Im z; else distance of Re z from [0,64]."""
-    if 0 not in z.imag:
-        return min(abs(mpf(z.imag.a)), abs(mpf(z.imag.b)))
-    if z.real.b < KLO:
-        return KLO - mpf(z.real.b)
-    if z.real.a > KHI:
-        return mpf(z.real.a) - KHI
-    return None
-
-def width(z):
-    return max(mpf(z.real.b) - mpf(z.real.a), mpf(z.imag.b) - mpf(z.imag.a))
+# --------------------------------------------------------------------- CLI
+ONLY = None
+OUT = os.path.join(BASE, 'certificate_k064.json')
+args = sys.argv[1:]
+if '--only' in args:
+    ONLY = args[args.index('--only') + 1].split(',')
+if '-o' in args:
+    OUT = args[args.index('-o') + 1]
 
 def certify(name, Zfn, a, b, maxdepth=40):
     """Certify s2 misses [0,64] on the blocks Zfn(t), t a bisection of [a,b].
@@ -138,9 +85,11 @@ def certify(name, Zfn, a, b, maxdepth=40):
           % (name, count, deepest, mp.nstr(min_marg, 8)))
     return count, min_marg, deepest, recs
 
-print('mpmath version:', __import__('mpmath').__version__, '; iv.dps =', iv.dps, '; NTR =', NTR)
+print('mpmath version:', mpmath.__version__, '; iv.dps =', iv.dps, '; NTR =', NTR)
 print('cut to avoid: [0,64] (k = c^2 preimage of [-8,8]); path starts at i')
 print('eps0 =', mp.nstr(eps0, 20), ' (>= 1/64000); eps_ub =', mp.nstr(eps_ub, 8))
+if ONLY is not None:
+    print('SMOKE MODE: only segments', ONLY, '(SELF-TESTs skipped)')
 print()
 
 print('--- axis start (elementary): s2(i) >= e^{2 pi} ---')
@@ -148,46 +97,60 @@ mp.dps = 50
 print('e^{2 pi} =', mp.nstr(mp.e**(2*mp.pi), 15), '> 64:', mp.e**(2*mp.pi) > 64)
 print()
 
-print('--- (i) axis segment: x = 0, y in [9/16, 1] ---')
-c1, m1, d1, r1 = certify('axis', lambda t: s2_iv(ZERO, t), mpf(9)/16, mpf(1))
-print()
-print('--- (ii) quarter arc: tau = i/2 + (1/16) e^{i theta}, theta in [0, pi/2] ---')
-c2, m2, d2, r2 = certify('arc', lambda th: s2_iv_tau(arc_tau(th)), mpf(0), pi2)
-print()
-print('--- (iii) horizontal: y = 1/2, x in [1/16, 3/8] ---')
-c3, m3, d3, r3 = certify('horizontal', lambda t: s2_iv(t, HALF), mpf(1)/16, mpf(3)/8)
-print()
-print('--- (iv) vertical: x = 3/8, y in [y0+1e-3, 1/2] ---')
-c4, m4, d4, r4 = certify('vertical', lambda t: s2_iv(iv.mpf(mpf(3)/8), t),
-                         y0 + mpf('1e-3'), mpf(1)/2)
-print()
-print('--- (v) sub-cap: x = 3/8, y in [y0+eps0, y0+1e-3] ---')
-c5, m5, d5, r5 = certify('sub-cap', lambda t: s2_iv(iv.mpf(mpf(3)/8), t),
-                         y0 + eps0, y0 + mpf('1e-3'))
-print()
+# (key, display name, block evaluator, a, b) -- identical calls to pre-refactor
+SEGSPEC = [
+    ('axis',       'axis',    lambda t: s2_iv(ZERO, t),
+     mpf(9)/16, mpf(1)),
+    ('arc',        'arc',     lambda th: s2_iv_tau(arc_tau(th)),
+     mpf(0), pi2),
+    ('horizontal', 'horizontal', lambda t: s2_iv(t, HALF),
+     mpf(1)/16, mpf(3)/8),
+    ('vertical',   'vertical',   lambda t: s2_iv(iv.mpf(mpf(3)/8), t),
+     y0 + mpf('1e-3'), mpf(1)/2),
+    ('sub-cap',    'sub-cap',    lambda t: s2_iv(iv.mpf(mpf(3)/8), t),
+     y0 + eps0, y0 + mpf('1e-3')),
+]
+HEADERS = {
+    'axis':       '--- (i) axis segment: x = 0, y in [9/16, 1] ---',
+    'arc':        '--- (ii) quarter arc: tau = i/2 + (1/16) e^{i theta}, theta in [0, pi/2] ---',
+    'horizontal': '--- (iii) horizontal: y = 1/2, x in [1/16, 3/8] ---',
+    'vertical':   '--- (iv) vertical: x = 3/8, y in [y0+1e-3, 1/2] ---',
+    'sub-cap':    '--- (v) sub-cap: x = 3/8, y in [y0+eps0, y0+1e-3] ---',
+}
+segnames_disp = ['(i) axis', '(ii) arc', '(iii) horiz', '(iv) vert', '(v) sub-cap']
+
+results = {}   # key -> (count, min_margin, depth, recs, a, b)
+for key, name, fn, a, b in SEGSPEC:
+    if ONLY is not None and key not in ONLY:
+        continue
+    print(HEADERS[key])
+    c, m, d, r = certify(name, fn, a, b)
+    results[key] = (c, m, d, r, a, b)
+    print()
 
 # ------------------------------------------------- certificate quality report
-segnames = ['(i) axis', '(ii) arc', '(iii) horiz', '(iv) vert', '(v) sub-cap']
-allrecs = [(nm, r) for nm, rr in zip(segnames, [r1, r2, r3, r4, r5]) for r in rr]
-print('--- certificate quality (per segment, closest enclosure) ---')
-for nm, rr in zip(segnames, [r1, r2, r3, r4, r5]):
-    m, w, t, z, depth = min(rr, key=lambda rec: rec[0])
-    print('%s: closest to [0,64] at t in [%s, %s] (depth %d)'
-          % (nm, mp.nstr(mpf(t.a), 12), mp.nstr(mpf(t.b), 12), depth))
-    print('    Z = Re [%s, %s]' % (mp.nstr(mpf(z.real.a), 10), mp.nstr(mpf(z.real.b), 10)))
-    print('        Im [%s, %s]' % (mp.nstr(mpf(z.imag.a), 10), mp.nstr(mpf(z.imag.b), 10)))
-    print('    width(Z) = %s ; dist(Z, [0,64]) = %s ; margin/width = %s'
-          % (mp.nstr(w, 6), mp.nstr(m, 6), mp.nstr(m/w, 6)))
-worst = min(allrecs, key=lambda w: w[1][0])
-widest = max(allrecs, key=lambda w: w[1][1])
-print('global closest: segment %s, dist = %s, width = %s, margin/width = %s'
-      % (worst[0], mp.nstr(worst[1][0], 8), mp.nstr(worst[1][1], 6),
-         mp.nstr(worst[1][0]/worst[1][1], 6)))
-print('global widest : segment %s, width = %s, dist = %s'
-      % (widest[0], mp.nstr(widest[1][1], 6), mp.nstr(widest[1][0], 8)))
-gmin = worst[1][0]
-print('GLOBAL minimum margin over all %d pieces: %s' % (len(allrecs), mp.nstr(gmin, 8)))
-print()
+if ONLY is None:
+    allrecs = [(nm, r) for nm, rr in zip(segnames_disp,
+               [results[k][3] for k, *_ in SEGSPEC]) for r in rr]
+    print('--- certificate quality (per segment, closest enclosure) ---')
+    for nm, rr in zip(segnames_disp, [results[k][3] for k, *_ in SEGSPEC]):
+        m, w, t, z, depth = min(rr, key=lambda rec: rec[0])
+        print('%s: closest to [0,64] at t in [%s, %s] (depth %d)'
+              % (nm, mp.nstr(mpf(t.a), 12), mp.nstr(mpf(t.b), 12), depth))
+        print('    Z = Re [%s, %s]' % (mp.nstr(mpf(z.real.a), 10), mp.nstr(mpf(z.real.b), 10)))
+        print('        Im [%s, %s]' % (mp.nstr(mpf(z.imag.a), 10), mp.nstr(mpf(z.imag.b), 10)))
+        print('    width(Z) = %s ; dist(Z, [0,64]) = %s ; margin/width = %s'
+              % (mp.nstr(w, 6), mp.nstr(m, 6), mp.nstr(m/w, 6)))
+    worst = min(allrecs, key=lambda w: w[1][0])
+    widest = max(allrecs, key=lambda w: w[1][1])
+    print('global closest: segment %s, dist = %s, width = %s, margin/width = %s'
+          % (worst[0], mp.nstr(worst[1][0], 8), mp.nstr(worst[1][1], 6),
+             mp.nstr(worst[1][0]/worst[1][1], 6)))
+    print('global widest : segment %s, width = %s, dist = %s'
+          % (widest[0], mp.nstr(widest[1][1], 6), mp.nstr(widest[1][0], 8)))
+    gmin = worst[1][0]
+    print('GLOBAL minimum margin over all %d pieces: %s' % (len(allrecs), mp.nstr(gmin, 8)))
+    print()
 
 print('--- (vi) cap (y0, y0+eps0]: Taylor argument (same as cert2_path.py) ---')
 bx = iv.mpf(mpf(3)/8) + iv.mpf([mpf('-0.03'), mpf('0.03')])
@@ -216,62 +179,137 @@ print('cap OK: Im s2 < 0 strictly, so s2 misses the real interval [0,64] on the 
 print()
 
 # ------------------------------------------------- SELF-TEST
-mp.dps = 80
-def s2_hp(x, y):
-    """High-precision (non-interval) s2; tail error < 1e-200 << 1e-80."""
-    tau = mp.mpc(x, y)
-    q = mp.exp(2*mp.pi*1j*tau)
-    P = mp.mpc(1)
-    qodd = q
-    for n in range(1, NTR+1):
-        P *= (1 + qodd)**24
-        qodd *= q*q
-    return P/q
+if ONLY is None:
+    mp.dps = 80
+    def s2_hp(x, y):
+        """High-precision (non-interval) s2; tail error < 1e-200 << 1e-80."""
+        tau = mp.mpc(x, y)
+        q = mp.exp(2*mp.pi*1j*tau)
+        P = mp.mpc(1)
+        qodd = q
+        for n in range(1, NTR+1):
+            P *= (1 + qodd)**24
+            qodd *= q*q
+        return P/q
 
-pts = []
-for j in range(4):                 # (i) axis
-    pts.append((mpf(0), mpf(9)/16 + (mpf(1) - mpf(9)/16)*j/3))
-for j in range(6):                 # (ii) arc, 6 sample points
-    th = mp.pi*j/10
-    pts.append((mp.cos(th)/16, mpf(1)/2 + mp.sin(th)/16))
-for j in range(4):                 # (iii) horizontal
-    pts.append((mpf(1)/16 + (mpf(3)/8 - mpf(1)/16)*j/3, mpf(1)/2))
-for j in range(4):                 # (iv) vertical
-    pts.append((mpf(3)/8, y0 + mpf('1e-3') + (mpf(1)/2 - y0 - mpf('1e-3'))*j/3))
-pts += [(mpf(3)/8, y0 + eps0), (mpf(3)/8, y0 + (eps0 + mpf('1e-3'))/2)]
-assert len(pts) == 20
-ok = 0
-for x, y in pts:
-    z = s2_iv(iv.mpf(x), iv.mpf(y))
-    tv = s2_hp(x, y)
-    if z.real.a <= tv.real <= z.real.b and z.imag.a <= tv.imag <= z.imag.b:
-        ok += 1
-    else:
-        print('  CONTAINMENT FAILURE at', mp.nstr(x, 6), mp.nstr(y, 6))
-print('SELF-TEST 1 (iv enclosure contains 80-dps truth): %d/20 passed' % ok)
-assert ok == 20
+    pts = []
+    for j in range(4):                 # (i) axis
+        pts.append((mpf(0), mpf(9)/16 + (mpf(1) - mpf(9)/16)*j/3))
+    for j in range(6):                 # (ii) arc, 6 sample points
+        th = mp.pi*j/10
+        pts.append((mp.cos(th)/16, mpf(1)/2 + mp.sin(th)/16))
+    for j in range(4):                 # (iii) horizontal
+        pts.append((mpf(1)/16 + (mpf(3)/8 - mpf(1)/16)*j/3, mpf(1)/2))
+    for j in range(4):                 # (iv) vertical
+        pts.append((mpf(3)/8, y0 + mpf('1e-3') + (mpf(1)/2 - y0 - mpf('1e-3'))*j/3))
+    pts += [(mpf(3)/8, y0 + eps0), (mpf(3)/8, y0 + (eps0 + mpf('1e-3'))/2)]
+    assert len(pts) == 20
+    ok = 0
+    for x, y in pts:
+        z = s2_iv(iv.mpf(x), iv.mpf(y))
+        tv = s2_hp(x, y)
+        if z.real.a <= tv.real <= z.real.b and z.imag.a <= tv.imag <= z.imag.b:
+            ok += 1
+        else:
+            print('  CONTAINMENT FAILURE at', mp.nstr(x, 6), mp.nstr(y, 6))
+    print('SELF-TEST 1 (iv enclosure contains 80-dps truth): %d/20 passed' % ok)
+    assert ok == 20
 
-# Enclosure monotonicity on the arc: point enclosure inside block enclosure.
-ok2 = 0
-for j in range(5):
-    a = mpf(j)/10
-    b = a + mpf(1)/20
-    zb = s2_iv_tau(arc_tau(iv.mpf([a, b])))
-    thp = a + mpf(1)/40
-    zp = s2_iv_tau(arc_tau(iv.mpf(thp)))
-    if zb.real.a <= zp.real.a and zp.real.b <= zb.real.b \
-       and zb.imag.a <= zp.imag.a and zp.imag.b <= zb.imag.b:
-        ok2 += 1
-print('SELF-TEST 2 (arc point enclosure inside block enclosure): %d/5 passed' % ok2)
-assert ok2 == 5
+    # Enclosure monotonicity on the arc: point enclosure inside block enclosure.
+    ok2 = 0
+    for j in range(5):
+        a = mpf(j)/10
+        b = a + mpf(1)/20
+        zb = s2_iv_tau(arc_tau(iv.mpf([a, b])))
+        thp = a + mpf(1)/40
+        zp = s2_iv_tau(arc_tau(iv.mpf(thp)))
+        if zb.real.a <= zp.real.a and zp.real.b <= zb.real.b \
+           and zb.imag.a <= zp.imag.a and zp.imag.b <= zb.imag.b:
+            ok2 += 1
+    print('SELF-TEST 2 (arc point enclosure inside block enclosure): %d/5 passed' % ok2)
+    assert ok2 == 5
+    print()
+
+# ------------------------------------------------- certificate JSON export
+# Decimal strings are emitted at elevated working precision: str(mpf) at
+# exactly mp.dps digits sits on the binary<->decimal round-trip boundary and
+# can re-parse 1 ulp off (observed ~1e-49 at dps 50); 70 digits re-parse
+# exactly at the verifier's mp.dps = 50.  All values stay mpf -- no float.
+with mp.workdps(70):
+    def block_json(t, z, m):
+        """Full-precision record of one accepted block (mpf -> str, no float)."""
+        return {
+            't': {'a': str(mpf(t.a)), 'b': str(mpf(t.b))},
+            'Z': {'re_a': str(mpf(z.real.a)), 're_b': str(mpf(z.real.b)),
+                  'im_a': str(mpf(z.imag.a)), 'im_b': str(mpf(z.imag.b))},
+            'margin': str(mpf(m)),
+        }
+
+    cert_json = {
+        'metadata': {
+            'mpmath_version': mpmath.__version__,
+            'python_version': sys.version.split()[0],
+            'iv_dps': iv.dps,
+            'NTR': NTR,
+            'date': datetime.datetime.now().isoformat(timespec='seconds'),
+            'cut': [0, 64],
+            'generator': os.path.basename(__file__),
+        },
+        'segments': [
+            {'name': key,
+             'a': str(mpf(results[key][4])), 'b': str(mpf(results[key][5])),
+             'n_blocks': results[key][0],
+             'min_margin': str(mpf(results[key][1])),
+             'blocks': [block_json(t, z, m) for (m, w, t, z, depth) in results[key][3]]}
+            for key, *_ in SEGSPEC if key in results
+        ],
+        'cap': {
+            'M0': str(M0),
+            'M2': str(M2),
+            'lo': str(lo),            # Re s2'(tau0) in [lo, hi]
+            'hi': str(hi),
+            'eps0': str(eps0),
+            'eps_ub': str(eps_ub),    # eps0 + rounding width of y0
+            'C': str(C),              # certified upper bound of hi + M2*eps_ub/2
+        },
+    }
+    if ONLY is None:
+        cert_json['global_min_margin'] = str(mpf(gmin))
+
+# round-trip self-check at the verifier's precision (mp.dps = 50; SELF-TEST
+# leaves mp.dps = 80, so force it here): every string in the certificate
+# must re-parse to the EXACT mpf it came from
+with mp.workdps(50):
+    for key, *_ in SEGSPEC:
+        if key not in results:
+            continue
+        seg = next(s for s in cert_json['segments'] if s['name'] == key)
+        assert mpf(seg['a']) == mpf(results[key][4]) and mpf(seg['b']) == mpf(results[key][5])
+        assert mpf(seg['min_margin']) == mpf(results[key][1])
+        for bj, (m, w, t, z, depth) in zip(seg['blocks'], results[key][3]):
+            assert mpf(bj['t']['a']) == mpf(t.a) and mpf(bj['t']['b']) == mpf(t.b)
+            assert mpf(bj['Z']['re_a']) == mpf(z.real.a) and mpf(bj['Z']['re_b']) == mpf(z.real.b)
+            assert mpf(bj['Z']['im_a']) == mpf(z.imag.a) and mpf(bj['Z']['im_b']) == mpf(z.imag.b)
+            assert mpf(bj['margin']) == mpf(m)
+    for k_, v_ in (('M0', M0), ('M2', M2), ('lo', lo), ('hi', hi),
+                   ('eps0', eps0), ('eps_ub', eps_ub), ('C', C)):
+        assert mpf(cert_json['cap'][k_]) == mpf(v_), 'cap round-trip failure: %s' % k_
+with open(OUT, 'w') as f:
+    json.dump(cert_json, f, indent=2)
+print('certificate written to %s (%d blocks%s)'
+      % (OUT, sum(s['n_blocks'] for s in cert_json['segments']),
+         ', FULL RUN' if ONLY is None else ', SMOKE subset %s' % ONLY))
 print()
 
 # ------------------------------------------------- final verdict
 print('--- conclusion ---')
 print('Every accepted piece carries a strict enclosure s2(I) subset Z_I with')
 print('Z_I cap [0,64] = EMPTY, decided by iv endpoint comparisons only:')
-for (nm, c, m) in zip(segnames, [c1, c2, c3, c4, c5], [m1, m2, m3, m4, m5]):
-    print('  %-11s: %3d pieces -- PASS (min margin %s)' % (nm, c, mp.nstr(m, 6)))
+for nm, key in zip(segnames_disp, [k for k, *_ in SEGSPEC]):
+    if key not in results:
+        continue
+    print('  %-11s: %3d pieces -- PASS (min margin %s)'
+          % (nm, results[key][0], mp.nstr(results[key][1], 6)))
 print('  (vi) cap   : Taylor coefficient %s < 0, Im s2 < 0 -- PASS' % mp.nstr(C, 8))
 print()
 print('ALL CERT-2 (cut [0,64]) CHECKS PASSED (fully rigorous interval certificate)')

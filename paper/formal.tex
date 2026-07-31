@@ -74,23 +74,20 @@ the conjugate pair of quadratic CM entries of his 2015 table:
 \]
 where $n_2(s):=2\m\bigl((x+x^{-1})(y+y^{-1})(z+z^{-1})+\sqrt{s}\,\bigr)$.
 In both cases the parameter lies inside (or on the boundary of) the
-critical locus, where the identity $\m=\ReT\mt$ with the holomorphic
-(modified) Mahler measure is not guaranteed: the $L$-value side was
-computed by Samart (conditionally) and, at the $\ReT\mt$ level, by Fei,
-but the passage to the true Mahler measure at these points was open. For
-the first theorem we close the gap by a differential-comparison
-continuation: the parameter derivative of the Mahler measure is a
-single-valued period integral, the holomorphic differential identity
-spreads from Samart's region by the identity theorem, and an explicit
-certified path together with the continuity of Mahler measure finishes the
-proof at the interior point. For the second theorem no continuation is
-needed: the second preimage of the parameter under the modular
-parametrization is the Fricke partner of Samart's CM point and lies inside
-Samart's proved region, so his formula applies directly; the evaluation is
-then an exact CM lattice-sum computation with an imprimitive Hecke-sum
-factor. All non-elementary inputs are either quoted theorems or
-interval-arithmetic certificates, and all identities are confirmed
-numerically to $41$--$60$ digits.
+critical locus, so the passage from the holomorphic (modified) Mahler
+measure---where Samart computed the $L$-value side conditionally, and
+Fei the $\ReT\mt$ level---to the true Mahler measure was open. For the
+first theorem we close the gap by a differential-comparison continuation
+of the Mahler differential along an explicitly certified path, followed
+by a continuity argument at the interior point. For the second theorem
+no continuation is needed: the second preimage of the parameter under
+the modular parametrization is the Fricke partner of Samart's CM point
+and lies in his proved region, and the evaluation is an exact CM
+lattice-sum computation. The analytic and arithmetic inputs not proved
+here are stated explicitly with references; the finite numerical
+inequalities used in the continuation argument are certified by interval
+arithmetic, and all identities are confirmed numerically to
+$41$--$60$ digits.
 \end{abstract}
 
 \section{Introduction}
@@ -187,14 +184,15 @@ the identity
 \]
 is not guaranteed: the holomorphic Mahler measure $\mt$ is a multivalued
 analytic object whose real part agrees with $\m(f-c)$ only off the
-critical segment, a point stressed already by Rodriguez Villegas \cite{RV}
+critical locus, a point stressed already by Rodriguez Villegas \cite{RV}
 and recalled by Fei himself. Consequently the genuine Mahler measure
 identities at interior CM points remained open even where the
-$\ReT\mt$-identities were known. Theorem A is, to our knowledge, the first
+$\ReT\mt$-identities were known. Theorem A is, to the author's
+knowledge, the first
 complete proof of a genuine Mahler measure identity at the interior point
 $s=1$. Theorem B concerns non-real (quadratic) CM parameters, which are
-not covered by Fei's rational-singular-modulus results, and is entirely
-new.
+not covered by Fei's rational-singular-modulus results; to the author's
+knowledge it has not appeared in the literature.
 
 The structural difficulty can be seen on the modular side. Samart's
 exponential-sum formula is proved only for $\ImT\tau\ge1/2$, where
@@ -223,7 +221,7 @@ conclusion to one topological input --- that the target point $\tau_0$
 lies in $\overline W$ --- supplied by an explicit certified path
 (Proposition~\ref{prop:path}), plus the continuity of Mahler measure at
 the endpoint. The remaining pillar is an exact CM evaluation of Samart's
-series at $\tau_0$ (P1, \S\ref{subsec:P1A}): the lattice-sum form of the
+series at $\tau_0$ (\S\ref{subsec:P1A}): the lattice-sum form of the
 series involves the ring of integers of $\Qq(\sqrt{-7})$ and a principal
 ideal, and the parasitic $\zeta_K(2)$-terms cancel exactly.
 
@@ -236,14 +234,16 @@ $\ImT\tau_w=\sqrt7/4\ge1/2$ and hence lies \emph{inside} Samart's proved
 region. Since $s_2$ is exactly invariant under the Fricke involution
 (Lemma~\ref{lem:fricke}), Samart's theorem applies at $\tau_w$ directly
 and no continuation is needed. The evaluation of Samart's series at
-$\tau_w$ (P1, \S\ref{subsec:P1B}) is again a lattice-sum computation, but
+$\tau_w$ (\S\ref{subsec:P1B}) is again a lattice-sum computation, but
 now one lattice is the non-maximal order of discriminant $-28$: the sums
 are imprimitive Hecke sums with an exact Euler factor $23/16$, the
 $\zeta_K(2)$-terms do \emph{not} cancel, and their survival is precisely
 the source of the Dirichlet term $L'(\chi_{-7},-1)$.
 
-All non-elementary inputs are either quoted theorems or
-interval-arithmetic certificates (Section~\ref{sec:cert}); every identity
+The analytic and arithmetic inputs not proved in this paper are stated
+explicitly with references; the finite numerical inequalities used in
+the continuation argument are certified by interval arithmetic
+(Section~\ref{sec:cert}); every identity
 is also confirmed numerically to $41$--$60$ digits
 (Section~\ref{sec:numerics}).
 
@@ -306,8 +306,12 @@ over $\Tt^2$ uniformly for $c$ in a compact set ($\log|C|$ is the
 Mahler integrand of the nonzero Laurent polynomial $C$). Dominated
 convergence gives the claim. For $n_2$: the two branches of
 $\sqrt{s}$ differ by a sign, and $\m(f+c)=\m(f-c)$ by the substitution
-$x\mapsto -x$, so $n_2$ is well defined; its continuity follows from the
-continuity of $c\mapsto\m(f-c)$ and of $\sqrt{\cdot}$.
+$x\mapsto -x$, so $n_2$ is well defined. For its continuity, set
+$h(c):=2\m(f+c)$; then $h$ is continuous and even, and
+$n_2(s)=h(c)$ whenever $c^2=s$. On $\Cc\setminus\{0\}$ a continuous
+local branch of $\sqrt{\cdot}$ exists, so $n_2$ is continuous there.
+At $s=0$: if $s_j\to0$ and $c_j^{\,2}=s_j$, then $c_j\to0$, hence
+$n_2(s_j)=h(c_j)\to h(0)=n_2(0)$.
 \end{proof}
 
 The range $f(\Tt^3)$ is the segment $K=[-8,8]$, the \emph{critical
@@ -336,8 +340,8 @@ only for numerical cross-checks (at the boundary points $k_\pm$,
 $|k_\pm|=64$).
 
 \begin{remark}[The two cuts]\label{rem:cuts}
-As a function of the shift $c$, the bad locus is the segment $K=[-8,8]$;
-as a function of Samart's parameter $k$ with $c=\sqrt{k}$, the bad locus
+As a function of the shift $c$, the critical locus is the segment $K=[-8,8]$;
+as a function of Samart's parameter $k$ with $c=\sqrt{k}$, the critical locus
 is the segment $[0,64]$, since $c^2\in[0,64]$ with $c\notin[-8,8]$ is
 impossible. The continuation machine of Section~\ref{sec:machine} is
 formulated in the $k$-variable with the cut $[0,64]$. This distinction is
@@ -346,7 +350,7 @@ correct formulation of the propagation and for understanding the
 wrong-sheet phenomenon of Remark~\ref{rem:wrongsheet}.
 \end{remark}
 
-\subsection{The modular parametrization $s_2$}\label{subsec:s2}
+\subsection{The modular parametrization \texorpdfstring{$s_2$}{s2}}\label{subsec:s2}
 
 Define
 \begin{equation}\label{eq:s2def}
@@ -411,19 +415,36 @@ in \texttt{cert0\_s2\_eq\_1.py} and \texttt{cert0\_s2\_n2pair.py} as a
 sanity check.)
 \end{proof}
 
-\begin{remark}\label{rem:deg2}
-The function $s_2$ is $\Gamma_0(4)$-invariant (since $\lambda(2\tau)$ is)
-and has degree $2$ on $X_0(4)$: by \eqref{eq:s2prod} it has a simple pole
-at the cusp $\infty$; as $t\to0^+$,
-$\prod(1+\e^{-2\pi t(2n-1)})^{24}\to\e^{\pi/(2t)}$ super-exponentially, so
-$s_2(\ii t)\to\infty$ at the cusp $0$ as well, while
-$s_2(\tfrac12+\ii t)\to0$ at the cusp $\tfrac12$. It is therefore
-\emph{not} a Hauptmodul; the two preimages of a generic value are related
-by the Fricke involution $\tau\mapsto-1/(4\tau)$
-(Lemma~\ref{lem:fricke}).
-\end{remark}
+\begin{lemma}[Degree of $s_2$ on $X_0(4)$]\label{rem:deg2}
+The function $s_2$ is $\Gamma_0(4)$-invariant and has degree $2$ on
+$X_0(4)$, with simple poles at the cusps $\infty$ and $0$, a double
+zero at the cusp $\tfrac12$, and no other zeros or poles.
+\end{lemma}
+\begin{proof}
+The modular lambda function $\lambda$ is a Hauptmodul for $X(2)$
+\cite{DS}, and conjugation by
+$\bigl(\begin{smallmatrix}2&0\\0&1\end{smallmatrix}\bigr)$ identifies
+$\Gamma_0(4)$ with $\Gamma(2)$: for
+$\gamma=\bigl(\begin{smallmatrix}a&b\\4c&d\end{smallmatrix}\bigr)
+\in\Gamma_0(4)$ one has
+$\bigl(\begin{smallmatrix}2&0\\0&1\end{smallmatrix}\bigr)\gamma
+ \bigl(\begin{smallmatrix}1/2&0\\0&1\end{smallmatrix}\bigr)
+=\bigl(\begin{smallmatrix}a&2b\\2c&d\end{smallmatrix}\bigr)\in\Gamma(2)$,
+and both groups have index $6$, so $\lambda(2\tau)$ is a Hauptmodul for
+$X_0(4)$. By Theorem~\ref{thm:s2lambda}, $s_2=R\circ\lambda(2\tau)$
+with $R(w)=16/(w(1-w))$, so $s_2$ is $\Gamma_0(4)$-invariant, and
+$\deg s_2=\deg R=2$ since $\lambda(2\tau)$ has degree $1$. The rational
+map $R$ has simple poles at $w=0,1$ and a double zero at $w=\infty$;
+composing with the standard cusp values of $\lambda$ \cite{DS},
+$\lambda(2\tau)$ takes the values $0,1,\infty$ at the cusps
+$\infty,0,\tfrac12$ of $X_0(4)$ respectively, which gives the stated
+divisor. Since a Hauptmodul is univalent, all orders are with respect
+to the cusp local parameters. It follows that $s_2$ is \emph{not} a
+Hauptmodul; the two preimages of a generic value are related by the
+Fricke involution $\tau\mapsto-1/(4\tau)$ (Lemma~\ref{lem:fricke}).
+\end{proof}
 
-\subsection{The newform $g_7$ and the constants $M_7$, $d_7$}\label{subsec:g7}
+\subsection{The newform \texorpdfstring{$g_7$}{g7} and the constants \texorpdfstring{$M_7$, $d_7$}{M7, d7}}\label{subsec:g7}
 
 The eta product $g_7=\eta(\tau)^3\eta(7\tau)^3$ lies in
 $S_3(\Gamma_0(7),\chi_{-7})$. Its coefficients are given by the Jacobi
@@ -534,6 +555,19 @@ content is the identity
   E(\tau):=-\pi \ii\tau-\frac{\ii}{\pi^3}\bigl(U_1(\tau)-4U_4(\tau)\bigr),
 \end{equation}
 on the region where his series converge, and $\mathrm{EK}=2\ReT E$.
+
+\begin{remark}[Normalization check against \cite{Sa13}]\label{rem:samartdict}
+For the reader comparing \eqref{eq:samart} with
+\cite[Prop.~2.1(i)]{Sa13} (arXiv numbering): Samart's $f_2$ is our
+$n_2$, that is, $f_2(k)=2\m\bigl(f+\sqrt{k}\bigr)$, the branch of
+$\sqrt{k}$ being irrelevant since $\m(f+c)=\m(f-c)$; his $q$ is
+$\e^{2\pi\ii\tau}$, matching our convention; and the hypothesis
+$\ImT\tau\ge 1/2$ includes the boundary. Note in particular that the
+shift inside the Mahler measure is $\sqrt{k}$, not $k$: the two
+readings coincide at the endpoint $k=1$ but differ in general, which
+is why the cut to avoid is $[0,64]$ and not $[-8,8]$
+(Remark~\ref{rem:cuts}).
+\end{remark}
 
 For the CM evaluations we use the lattice-sum form of $\mathrm{EK}$
 (which is in fact the form stated in \cite[Prop.~2.1]{Sa13}). For
@@ -787,7 +821,7 @@ Throughout this section
   \ImT\tau_0=\frac{\sqrt7}{8}.
 \]
 
-\subsection{(P1) CM evaluation at $\tau_0$}\label{subsec:P1A}
+\subsection{CM evaluation of \texorpdfstring{$\mathrm{EK}(\tau_0)$}{EK(tau0)}}\label{subsec:P1A}
 
 Set
 \[
@@ -854,7 +888,7 @@ $\ReT\bar\beta^2=1/2$. Therefore
 \]
 \end{proof}
 
-\begin{theorem}[(P1) at $\tau_0$]\label{thm:P1A}
+\begin{theorem}[CM evaluation at $\tau_0$]\label{thm:P1A}
 \[
   \mathrm{EK}(\tau_0)=\frac{14\sqrt7}{\pi^3}\,L(g_7,3)=8M_7.
 \]
@@ -887,7 +921,7 @@ digits, and Theorem~\ref{thm:P1A} holds numerically to $5.6\times10^{-51}$:
 \]
 \end{remark}
 
-\subsection{Exactness of $s_2(\tau_0)=1$}\label{subsec:exactA}
+\subsection{Exactness of \texorpdfstring{$s_2(\tau_0)=1$}{s2(tau0)=1}}\label{subsec:exactA}
 
 \begin{lemma}\label{lem:jvalA}
 $j(2\tau_0)=-3375$ exactly.
@@ -904,7 +938,8 @@ $q$-expansion coefficients,
 $\overline{j(w)}=j(-\bar w)=j(w)$, so $j(w)$ is real. A real algebraic
 integer in $\OO_K=\Zz[(1+\sqrt{-7})/2]$ is an ordinary integer. Finally,
 interval evaluation (\texttt{cert0\_s2\_eq\_1.py}, using
-$j=E_4^3/\Delta$ with rigorous tails) gives $|j(2\tau_0)+3375|<10^{-66}$,
+$j=E_4^3/\Delta$ with rigorous tails) gives $|j(2\tau_0)+3375|\le
+1.8\times10^{-91}$,
 which pins the integer: $j(2\tau_0)=-3375=-15^3$.
 \end{proof}
 
@@ -933,7 +968,7 @@ the minimum distance from $\lambda_0:=(1+3\sqrt{-7})/2$ to any other root
 of $\Phi$ is $3.75$ (Appendix~\ref{app:poly}). Since $\Phi$ has rational
 coefficients and the minimal polynomial $X^2-X+16$ of $\lambda_0$ occurs as
 a simple factor, no other root equals $\lambda_0$. Interval evaluation gives
-$|\lambda(2\tau_0)-\lambda_0|<10^{-58}\ll 3.75$, so
+$|\lambda(2\tau_0)-\lambda_0|\le6.33\times10^{-95}\ll 3.75$, so
 $\lambda(2\tau_0)=\lambda_0$.
 \end{proof}
 
@@ -1086,10 +1121,10 @@ since $x(1-x)$ is invariant under $x\mapsto1-x$, the claim follows.
 \texttt{verify\_P1\_n2pair.py}.)
 \end{proof}
 
-Since $s_2$ has degree $2$ on $X_0(4)$ (Remark~\ref{rem:deg2}), $\tau'$
+Since $s_2$ has degree $2$ on $X_0(4)$ (Lemma~\ref{rem:deg2}), $\tau'$
 and $\tau_w=-1/(4\tau')$ are the two preimages of $k_+$ relevant here.
 
-\subsection{Exactness of $s_2(\tau')=(47+45\sqrt{-7})/2$}\label{subsec:exactB}
+\subsection{Exactness of \texorpdfstring{$s_2(\tau')=(47+45\sqrt{-7})/2$}{s2(tau')=(47+45 sqrt(-7))/2}}\label{subsec:exactB}
 
 \begin{lemma}\label{lem:jvalB}
 $j(2\tau')=-3375$ exactly --- the same value as $j(2\tau_0)$
@@ -1162,7 +1197,7 @@ $s_2(\tau'')=k_-$. The Fricke lemma (Lemma~\ref{lem:fricke}) then gives
 $s_2(\tau_w)=s_2(\tau')=k_+$ and $s_2(\tau_w')=s_2(\tau'')=k_-$.
 \end{proof}
 
-\subsection{(P1) CM evaluation at $\tau_w$}\label{subsec:P1B}
+\subsection{CM evaluation of \texorpdfstring{$\mathrm{EK}(\tau_w)$}{EK(tauw)}}\label{subsec:P1B}
 
 Recall $\pi=(1+\sqrt{-7})/2$ and the relations \eqref{eq:pirels}. Since
 $4\tau_w=-1+\sqrt{-7}=-2\bar\pi$,
@@ -1316,7 +1351,7 @@ gives $\ReT\bar\pi^2=-3/2$ --- the same value; hence
 $T_d(\tau_w')=T_d(\tau_w)$ exactly.
 \end{proof}
 
-\begin{theorem}[(P1) at $\tau_w$]\label{thm:P1B}
+\begin{theorem}[CM evaluation at $\tau_w$]\label{thm:P1B}
 \[
   \mathrm{EK}(\tau_w)=\frac47\,\bigl(54M_7+d_7\bigr).
 \]
@@ -1356,7 +1391,9 @@ Theorem~\ref{thm:P1B},
 \]
 Likewise $n_2(k_-)=n_2\bigl(s_2(\tau_w')\bigr)=\mathrm{EK}(\tau_w')
 =\mathrm{EK}(\tau_w)$ (Proposition~\ref{prop:TevalB}), or simply
-$n_2(k_-)=n_2(\overline{k_+})=n_2(k_+)$ since $f$ has real coefficients.
+$n_2(k_-)=n_2(\overline{k_+})=n_2(k_+)$: conjugating the coefficients
+of a Laurent polynomial does not change $|P|$ on $\Tt^3$, hence
+$\m(\bar P)=\m(P)$, and $f$ has real coefficients.
 \end{proof}
 
 \begin{remark}[The wrong-sheet companion at $\tau'$]\label{rem:wrongsheet}
@@ -1401,11 +1438,10 @@ The same mechanism is even more striking in Samart's $n_4$-family
 $n_4(s)=4\m\bigl(x^4+y^4+z^4+1+s^{1/4}xyz\bigr)$: at $s=81$ the
 conjectured value $40M_7$ \cite[Table~6]{Sa15} coincides with the exact
 series evaluation at the attached CM point on a wrong sheet, while
-direct torus integration gives $n_4(81)=4.1655349907533676508(5)$ ---
-the discrepancy $+0.05867\ldots$ is $2\times10^{5}$ times the
-integration error floor, so the literal identity is numerically
-refuted; see the companion note \cite{Zfn4} for the exact series-side
-evaluation and the obstruction analysis.
+direct torus integration gives $n_4(81)=4.1655349907533676508(5)$, so
+the literal identity is numerically refuted; see the companion note
+\cite{Zfn4} for the exact series-side evaluation and the obstruction
+analysis.
 \end{remark}
 
 \section{Machine certification and reproducibility}\label{sec:cert}
@@ -1422,7 +1458,12 @@ documented outward-rounding semantics of the interval arithmetic employed
 (\texttt{mpmath.iv} rounds all interval endpoints outward, with guard
 digits for the complex transcendental functions
 \cite{mpmath,ivdoc}); and (iii) the certificate data itself, emitted by
-the scripts in machine-readable form. Two implementation safeguards
+the scripts in machine-readable form (\texttt{certificate\_k064.json})
+and re-checked by the separate verifier \texttt{cert2\_verify.py}. The
+dependence on (ii) is explicit and replaceable: the frozen certificate
+can be re-executed under any interval implementation with the same
+enclosure semantics, and no other part of the paper depends on the
+library. Two implementation safeguards
 support (ii) and (iii), without belonging to the trusted base themselves.
 First, the certificate path of \texttt{cert2\_path\_k064.py} (and of its
 companion \texttt{cert2\_path.py}) contains no machine-\texttt{float}
@@ -1440,7 +1481,7 @@ scripts are plain Python 3.12 + \texttt{mpmath} \cite{mpmath} (standard
 library \texttt{fractions} for the exact algebra), run independently of
 one another.
 
-\subsection{Rigorous enclosure of $s_2$}
+\subsection{Rigorous enclosure of \texorpdfstring{$s_2$}{s2}}
 
 For $\tau$ in a (rectangular complex) interval, enclose
 $q=\e^{2\pi \ii\tau}$ by intervals, set $r:=\overline{|q|}$ (a certified
@@ -1473,21 +1514,28 @@ operations, i.e.\ to item (ii) of the trusted base. The remaining
 ingredient is the truncation error, controlled mathematically:
 
 \begin{lemma}[Tail bound]\label{lem:tail}
-If $r<1$ then
+Let $r:=|q|$ and suppose $r<1$. Write $\log(1+z)$ for the branch on
+$|z|<1$ normalized by $\log 1=0$. Then
 \[
   \prod_{n>N}\bigl(1+q^{2n-1}\bigr)^{24}
-  \in \exp\bigl([-E,E]\bigr),\qquad
+  \in \exp\bigl(\{z\in\Cc:|z|\le E\}\bigr)
+  =\bigl\{w\in\Cc:\e^{-E}\le|w|\le\e^{E}\bigr\},\qquad
   E:=\frac{24\,r^{2N+1}}{(1-r)(1-r^2)}.
 \]
 \end{lemma}
 \begin{proof}
+Since $|q^{2n-1}|\le r<1$, the chosen branch applies and the series
+$\sum_{n>N}24\log(1+q^{2n-1})$ converges absolutely, with
+$\prod_{n>N}(1+q^{2n-1})^{24}=\exp\bigl(\sum_{n>N}24\log(1+q^{2n-1})\bigr)$.
 For $|z|\le r<1$,
 $|\log(1+z)|\le-\log(1-|z|)\le |z|/(1-r)$. Summing,
 \[
   \Bigl|\sum_{n>N}24\log(1+q^{2n-1})\Bigr|
   \le\frac{24}{1-r}\sum_{n>N}r^{2n-1}
-  =\frac{24\,r^{2N+1}}{(1-r)(1-r^2)}. \qedhere
+  =\frac{24\,r^{2N+1}}{(1-r)(1-r^2)},
 \]
+so the sum lies in $\{z:|z|\le E\}$ and its exponential in
+$\{w:\e^{-E}\le|w|\le\e^{E}\}$. \qedhere
 \end{proof}
 
 On the path of Proposition~\ref{prop:path} the imaginary part is at
@@ -1496,7 +1544,8 @@ the bottom of the sub-cap), so
 $r\le\e^{-2\pi(\sqrt7/8+\varepsilon_0)}<0.1252$ and with $N=120$ the
 tail width satisfies $E<10^{-215}$. The
 scripts in fact attach the slightly stronger complex-box tail factor
-$\exp\bigl(\{u+\ii v:|u|,|v|\le E\}\bigr)$, bounding the argument of the
+$\exp\bigl(\{u+\ii v:|u|,|v|\le E\}\bigr)$, which contains the annulus
+of Lemma~\ref{lem:tail} and bounds the argument of the
 tail as well as its modulus, with all quantities entering $E$
 outward-rounded intervals; this is used both for the path certification
 and for the interval locks of Lemmas~\ref{lem:lamvalA}
@@ -1532,8 +1581,15 @@ cap        & $x=3/8$, $y\in(y_0,\,y_0+\varepsilon_0]$ & analytic,
 \end{tabular}
 \end{center}
 The complete list of blocks and enclosures is emitted by
-\texttt{cert2\_path\_k064.py} in machine-readable form; only the most
+\texttt{cert2\_path\_k064.py} in machine-readable form
+(\texttt{certificate\_k064.json}, full-precision decimal strings,
+archived together with the code); only the most
 dangerous block of each piece is reproduced in the margin table below.
+Generator and verifier are separate programs: \texttt{cert2\_verify.py}
+reads the frozen certificate, recomputes every enclosure from the block
+endpoints, checks disjointness from $[0,64]$ with positive margin,
+contiguity and coverage of each piece, and the cap inequality, and
+performs no adaptive search.
 
 \begin{proposition}[Correctness of the certificate]\label{prop:cert}
 Assume \textup{(i)} the tail bound of Lemma~\ref{lem:tail} and
@@ -1558,7 +1614,8 @@ the certified-miss predicate of the preceding subsection
 only (ii). The verification of the certificate is therefore a
 deterministic finite computation, independent of how the blocks were
 found: the \texttt{PASSED} output of \texttt{cert2\_path\_k064.py} is one
-execution of it, and any independent outward-rounded interval
+execution of it, \texttt{cert2\_verify.py} re-executes it on the frozen
+block list, and any independent outward-rounded interval
 implementation re-executing the same block list obtains the same
 verdicts.
 \end{proof}
@@ -1637,7 +1694,16 @@ above.
 
 The exactness of $s_2(\tau_0)=1$ and of
 $s_2(\tau')=(47+45\sqrt{-7})/2$ is certified by
-\texttt{cert0\_s2\_eq\_1.py} and \texttt{cert0\_s2\_n2pair.py}:
+\texttt{cert0\_s2\_eq\_1.py} and \texttt{cert0\_s2\_n2pair.py}.
+Each lock below follows the same three-step pattern: (i)~purely
+algebraic or complex-multiplication input places the target value in an
+explicit discrete set (the integers $\Zz$, or the roots of an exact
+sextic over $\Qq$); (ii)~a strict separation bound for that set is known
+($1$ for $\Zz$; $3.75$ and $3\sqrt7/16$ for the sextic roots);
+(iii)~an interval enclosure of the target, with rigorous tails and
+radius smaller than half the separation, singles out a unique element.
+No exact equality is ever inferred from a floating-point approximation
+alone. Concretely:
 \begin{itemize}
 \item the formal product identity \eqref{eq:s2lambda} is re-checked as an
   exact integer $q$-series identity to order $q^{37}$ (rational
@@ -1645,10 +1711,11 @@ $s_2(\tau')=(47+45\sqrt{-7})/2$ is certified by
 \item the sextic factorizations \eqref{eq:sextic} and \eqref{eq:sexticB}
   are verified by exact polynomial division over $\Qq$;
 \item $j(2\tau_0)$ and $j(2\tau')$ are enclosed by intervals with
-  rigorous tails: $|j(2\tau_0)+3375|<10^{-66}$ and
+  rigorous tails: $|j(2\tau_0)+3375|\le1.8\times10^{-91}$ and
   $|j(2\tau')+3375|\le1.8\times10^{-91}$, pinning the integers;
 \item the $\lambda$-values are locked by interval evaluation against the
-  root separation: $|\lambda(2\tau_0)-(1+3\sqrt{-7})/2|<10^{-58}$ with
+  root separation: $|\lambda(2\tau_0)-(1+3\sqrt{-7})/2|\le
+  6.33\times10^{-95}$ with
   separation $3.75$, and
   $|\lambda(2\tau')-(31+3\sqrt{-7})/32|\le1.2\times10^{-62}$ with
   separation $3\sqrt7/16=0.4960\ldots$.
@@ -1656,17 +1723,22 @@ $s_2(\tau')=(47+45\sqrt{-7})/2$ is certified by
 
 \subsection{Script inventory}\label{subsec:scripts}
 
-\begin{center}\small
-\begin{tabular}{ll}
+\begin{center}\footnotesize
+\begin{tabular}{lp{9.2cm}}
 \toprule
 script & content \\
 \midrule
 \texttt{cert0\_s2\_eq\_1.py} & exactness $s_2(\tau_0)=1$ (series check,
   sextic factorization, $j$ and $\lambda$ locks) \\
 \texttt{cert2\_path\_k064.py} & path certification for Theorem A
-  (avoided set $[0,64]$; self-test $20/20$) \\
+  (cut $[0,64]$; self-test $20/20$; emits
+  \texttt{certificate\_k064.json}) \\
+\texttt{s2\_iv.py} & shared interval-evaluation core for $s_2$
+  (constants, truncation, rigorous tail box) \\
+\texttt{cert2\_verify.py} & independent verifier: re-checks the frozen
+  certificate \texttt{certificate\_k064.json}, no adaptive search \\
 \texttt{cert2\_path.py} & companion: shorter path, avoided set $[-8,8]$ \\
-\texttt{verify\_P1.py} & (P1) at $\tau_0$: theta identity to $q^{60}$
+\texttt{verify\_P1.py} & CM evaluation at $\tau_0$: theta identity to $q^{60}$
   (exact integers), $T_1,T_4$ by Poisson rows \\
 \texttt{lvalue\_g7.py} & $L'(g_7,0)$ to 50 digits; functional-equation
   self-check to 52 digits \\
@@ -1676,9 +1748,9 @@ script & content \\
   to 60 digits \\
 \texttt{samart\_ek.py} & EK formula; three-way validation at $k=64$ \\
 \texttt{cert0\_s2\_n2pair.py} & exactness $s_2(\tau')=(47+45\sqrt{-7})/2$
-  and the conjugate (100 dps locks) \\
-\texttt{verify\_P1\_n2pair.py} & (P1) at $\tau_w$: 43 checks, all pass
-  (60 dps, worst $|{\rm diff}|=1.2\times10^{-58}$) \\
+  and conjugate (100 dps locks) \\
+\texttt{verify\_P1\_n2pair.py} & CM evaluation at $\tau_w$: 43 checks, all pass
+  (60 dps, worst $|{\rm diff}|=6.9\times10^{-52}$) \\
 \texttt{verify\_n2\_pair.py} & three-way numerical confirmation of
   Theorem B (50 dps) \\
 \texttt{diag\_ek\_branch.py} & wrong-sheet diagnostic of
@@ -1828,8 +1900,9 @@ conjugate) and whose rational component reproduces \eqref{eq:jacobi}.
 Alternatively, $\dim S_3(\Gamma_0(7),\chi_{-7})=1$ (there are no oldforms
 since $S_3(\mathrm{SL}_2(\Zz))=0$, and the single newform orbit is
 \textsf{7.3.b.a} \cite{LMFDB}), and both sides are normalized ($a_1=1$:
-from the Jacobi expansion on the left, and from $\alpha=1$ contributing
-$\tfrac12\cdot 1^2 q^1$ on the right).
+from the Jacobi expansion on the left, and on the right from the two
+terms $\alpha=\pm1$, whose contributions $\tfrac12\cdot 1^2 q^1$ sum to
+$q$).
 
 \begin{thebibliography}{99}
 
@@ -1911,18 +1984,25 @@ M.~L.~Glasser and I.~J.~Zucker,
 \bibitem{LMFDB}
 The LMFDB Collaboration,
 \emph{The $L$-functions and Modular Forms Database},
-newform \textsf{7.3.b.a}, \texttt{https://www.lmfdb.org}.
+newform \textsf{7.3.b.a}, \url{https://www.lmfdb.org}
+(accessed July 2026).
 
 \bibitem{mpmath}
 F.~Johansson et al.,
 \emph{mpmath: a Python library for arbitrary-precision floating-point
-arithmetic} (version 1.4.1), \texttt{https://mpmath.org}.
+arithmetic} (version 1.3.0), \url{https://mpmath.org}
+(accessed July 2026).
 
 \bibitem{ivdoc}
-The \texttt{mpmath} documentation,
+The \texttt{mpmath} documentation, version 1.3.0,
 \emph{Interval arithmetic (\texttt{mpmath.iv})},
-\texttt{https://mpmath.org/doc/current/contexts.html}
+\url{https://mpmath.org/doc/1.3.0/contexts.html}
 (outward rounding of interval endpoints; accessed July 2026).
+
+\bibitem{DS}
+F.~Diamond and J.~Shurman,
+\emph{A First Course in Modular Forms},
+Grad.\ Texts in Math.\ \textbf{228}, Springer, New York, 2005.
 
 \bibitem{MoKC}
 R.~E. Moore, R.~B. Kearfott, and M.~J. Cloud,

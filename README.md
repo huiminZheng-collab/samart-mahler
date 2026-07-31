@@ -25,9 +25,10 @@ Technology University; `zhhm@ahstu.edu.cn`):
 
 ```
 paper/     the two papers (LaTeX sources and PDFs), figure data
-cert/      certification scripts (the trusted base of the proofs) and
-           their complete run logs in cert/output/ — these logs are the
-           machine-readable certificate
+cert/      certification scripts (the trusted base of the proofs),
+           the frozen machine-readable certificate
+           certificate_k064.json, and their complete run logs in
+           cert/output/
 numerics/  numerical-evidence scripts (cross-checks, diagnostics, and
            the direct torus integrations) and logs in numerics/output/
 ```
@@ -55,7 +56,15 @@ Expected: `ALL CERT-2 (cut [0,64]) CHECKS PASSED (fully rigorous
 interval certificate)`, 99 blocks (16/18/37/15/13 across the five path
 pieces), global minimum margin `6.009249e-5`, cap coefficient
 `≤ -13.54928`. Compare with the archived log
-`cert/output/cert2_path_k064.log`.
+`cert/output/cert2_path_k064.log`. The run also emits the frozen
+machine-readable certificate `certificate_k064.json`; the independent
+verifier (no adaptive search — it re-checks the frozen block list only)
+
+```
+python cert2_verify.py
+```
+
+should print `CERTIFICATE VERIFIED` (log: `cert/output/cert2_verify.log`).
 
 ## Script inventory
 
@@ -63,12 +72,14 @@ pieces), global minimum margin `6.009249e-5`, cap coefficient
 
 | script | certifies | typical runtime |
 |---|---|---|
-| `cert2_path_k064.py` | path for Theorem A avoids the cut `[0,64]` (99 blocks + Taylor cap) | ~1 min |
+| `cert2_path_k064.py` | path for Theorem A avoids the cut `[0,64]` (99 blocks + Taylor cap); emits `certificate_k064.json` | ~1 min |
+| `cert2_verify.py` | independent re-verification of the frozen certificate | seconds |
+| `s2_iv.py` | shared interval-evaluation core for `s2` (imported by the two scripts above) | — |
 | `cert2_path.py` | companion shorter path (avoided set `[-8,8]`, 33 blocks) | ~1 min |
 | `cert0_s2_eq_1.py` | exactness `s2(τ0)=1`: formal q-series identity, sextic factorization, interval locks `\|j(2τ0)+3375\| ≤ 1.8e-91`, `\|λ(2τ0)−λ0\| ≤ 6.3e-95` | ~1 min |
 | `cert0_s2_n2pair.py` | exactness `s2(τ')=(47+45√−7)/2` and the conjugate (100 dps locks) | ~1 min |
-| `verify_P1.py` | (P1) at `τ0`: theta identity to `q^60` (exact integers), `T1, T4` Poisson rows, FE assembly | ~1 min |
-| `verify_P1_n2pair.py` | (P1) at `τw`: 43 checks (60 dps, worst diff `1.2e-58`) | ~1 min |
+| `verify_P1.py` | CM evaluation at `τ0`: theta identity to `q^60` (exact integers), `T1, T4` Poisson rows, FE assembly | ~1 min |
+| `verify_P1_n2pair.py` | CM evaluation at `τw`: 43 checks (60 dps, worst diff `6.9e-52`) | ~1 min |
 
 ### numerics/ — numerical evidence (not part of the trusted base)
 

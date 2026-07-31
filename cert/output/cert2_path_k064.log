@@ -56,6 +56,8 @@ cap OK: Im s2 < 0 strictly, so s2 misses the real interval [0,64] on the cap
 SELF-TEST 1 (iv enclosure contains 80-dps truth): 20/20 passed
 SELF-TEST 2 (arc point enclosure inside block enclosure): 5/5 passed
 
+certificate written to C:\Users\zheng\samart-f2\certificate_k064.json (99 blocks, FULL RUN)
+
 --- conclusion ---
 Every accepted piece carries a strict enclosure s2(I) subset Z_I with
 Z_I cap [0,64] = EMPTY, decided by iv endpoint comparisons only:
