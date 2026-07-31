@@ -1,5 +1,7 @@
 # samart-mahler
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21711885.svg)](https://doi.org/10.5281/zenodo.21711885)
+
 Companion code and certificates for two papers by **Huimin Zheng**
 (College of Information and Network Engineering, Anhui Science and
 Technology University; `zhhm@ahstu.edu.cn`):
