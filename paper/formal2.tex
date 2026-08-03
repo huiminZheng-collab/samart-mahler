@@ -84,7 +84,7 @@ Samart's formula evaluates \emph{exactly} to
   \mathrm{EK}_4(\tau_2)=40M_7,
 \]
 via lattice sums over the ring of integers of $\Qq(\sqrt{-7})$ and the
-principal ideal $(\bar\pi)$, with an exact cancellation of the parasitic
+principal ideal $(\bar\varpi)$, with an exact cancellation of the parasitic
 $\zeta_K(2)$-terms. Second, two quantitative obstructions to the
 remaining half $n_4(81)=\mathrm{EK}_4(\tau_2)$: the critical image of
 the $n_4$-family is a two-dimensional astroid disc containing the
@@ -191,14 +191,14 @@ We keep the notation of \cite{Zf}. Throughout,
 $\tau=x+\ii y\in\Hh$, $q=\e^{2\pi \ii\tau}$,
 $\eta(\tau)=q^{1/24}\prod_{n\ge1}(1-q^n)$, and $\sum'$ denotes omission
 of the zero term. The field $K=\Qq(\sqrt{-7})$ has ring of integers
-$\OO_K=\Zz[\pi]$, class number $h(-7)=1$ and units $\{\pm1\}$, where
+$\OO_K=\Zz[\varpi]$, class number $h(-7)=1$ and units $\{\pm1\}$, where
 \[
-  \pi:=\frac{1+\sqrt{-7}}2,\qquad
-  \pi+\bar\pi=1,\qquad \pi\bar\pi=N(\pi)=2,\qquad \pi^2=\pi-2,
+  \varpi:=\frac{1+\sqrt{-7}}2,\qquad
+  \varpi+\bar\varpi=1,\qquad \varpi\bar\varpi=N(\varpi)=2,\qquad \varpi^2=\varpi-2,
 \]
 \begin{equation}\label{eq:pirels}
-  \pi^2+\bar\pi^2=-3,\qquad \ReT\pi^2=\ReT\bar\pi^2=-\tfrac32,\qquad
-  (\bar\pi)=\bar\pi\OO_K=2\Zz+\bar\pi\Zz .
+  \varpi^2+\bar\varpi^2=-3,\qquad \ReT\varpi^2=\ReT\bar\varpi^2=-\tfrac32,\qquad
+  (\bar\varpi)=\bar\varpi\OO_K=2\Zz+\bar\varpi\Zz .
 \end{equation}
 We write $L_3:=L(g_7,3)$. The theta identity
 \cite[Appendix~B]{Zf} gives
@@ -345,7 +345,7 @@ Throughout this section
 \]
 ($\tau_w$ is the Fricke CM point of Theorem~B in \cite{Zf}). Then
 \begin{equation}\label{eq:tau2rels}
-  2\tau_2=\frac{7+\sqrt{-7}}2=3+\pi,\qquad \tau_2=\tau_w+2 .
+  2\tau_2=\frac{7+\sqrt{-7}}2=3+\varpi,\qquad \tau_2=\tau_w+2 .
 \end{equation}
 Numerically $s_4(\tau_2)=81$ to $10^{-58}$
 (\texttt{verify\_P1\_n4\_81.py}, check [A0]); its exactness --- a class
@@ -357,24 +357,24 @@ of the value of $s_4$.
 \subsection{The lattices}\label{subsec:lattices}
 
 \begin{lemma}\label{lem:lattices4}
-$\cL_2(\tau_2)=\OO_K$ and $\cL_1(\tau_2)=(\bar\pi)/2$, where
-$(\bar\pi)=\bar\pi\OO_K$ is the principal ideal of norm $2$.
+$\cL_2(\tau_2)=\OO_K$ and $\cL_1(\tau_2)=(\bar\varpi)/2$, where
+$(\bar\varpi)=\bar\varpi\OO_K$ is the principal ideal of norm $2$.
 \end{lemma}
 \begin{proof}
 By \eqref{eq:tau2rels},
-$\cL_2(\tau_2)=\Zz+\Zz\,2\tau_2=\Zz+\Zz(3+\pi)=\Zz+\Zz\pi=\OO_K$.
+$\cL_2(\tau_2)=\Zz+\Zz\,2\tau_2=\Zz+\Zz(3+\varpi)=\Zz+\Zz\varpi=\OO_K$.
 For the second, an integer translate of $\tau$ does not change the
 lattice $\cL_1(\tau)=\{m\tau+n\}$, so $\cL_1(\tau_2)=\cL_1(\tau_w)$.
-Since $2\tau_w=(-1+\sqrt{-7})/2=-\bar\pi$,
+Since $2\tau_w=(-1+\sqrt{-7})/2=-\bar\varpi$,
 \[
-  2\cL_1(\tau_w)=2\Zz+\Zz\,2\tau_w=2\Zz+\bar\pi\Zz=(\bar\pi)
+  2\cL_1(\tau_w)=2\Zz+\Zz\,2\tau_w=2\Zz+\bar\varpi\Zz=(\bar\varpi)
 \]
-by \eqref{eq:pirels}. Hence $\cL_1(\tau_2)=(\bar\pi)/2$, homothetic to
-the principal ideal $(\bar\pi)$ of norm $2$. (Note the conjugation:
-identifying $2\cL_1$ directly from $2\tau_2=3+\pi$ would give
-$\Zz+\pi\Zz=\OO_K$, since $\{3m+2n:m,n\in\Zz\}=\Zz$ --- the route
-through $\tau_w$ is what pins the ideal $(\bar\pi)$. The $T$-values are
-unaffected since $\ReT\bar\pi^2=\ReT\pi^2$.)
+by \eqref{eq:pirels}. Hence $\cL_1(\tau_2)=(\bar\varpi)/2$, homothetic to
+the principal ideal $(\bar\varpi)$ of norm $2$. (Note the conjugation:
+identifying $2\cL_1$ directly from $2\tau_2=3+\varpi$ would give
+$\Zz+\varpi\Zz=\OO_K$, since $\{3m+2n:m,n\in\Zz\}=\Zz$ --- the route
+through $\tau_w$ is what pins the ideal $(\bar\varpi)$. The $T$-values are
+unaffected since $\ReT\bar\varpi^2=\ReT\varpi^2$.)
 \end{proof}
 
 Both lattices are $\OO_K$-ideals: unlike the $\tau_w$ evaluation of
@@ -394,26 +394,26 @@ By \eqref{eq:hecke},
 \begin{equation}\label{eq:BGOK}
   B(\OO_K)=2\zeta_K(2),\qquad G(\OO_K)=2L_3 .
 \end{equation}
-For the principal ideal $(\bar\pi)$ write $\alpha=\bar\pi\gamma$,
+For the principal ideal $(\bar\varpi)$ write $\alpha=\bar\varpi\gamma$,
 $\gamma\in\OO_K\setminus\{0\}$; then
-$|\alpha|^{-4}=|\bar\pi|^{-4}|\gamma|^{-4}$ and
-$\bar\alpha^2|\alpha|^{-6}=(\pi^2/|\bar\pi|^6)\,\bar\gamma^2|\gamma|^{-6}$,
-so with $N(\bar\pi)=2$ and $|\bar\pi|^6=8$,
+$|\alpha|^{-4}=|\bar\varpi|^{-4}|\gamma|^{-4}$ and
+$\bar\alpha^2|\alpha|^{-6}=(\varpi^2/|\bar\varpi|^6)\,\bar\gamma^2|\gamma|^{-6}$,
+so with $N(\bar\varpi)=2$ and $|\bar\varpi|^6=8$,
 \begin{equation}\label{eq:BGpi}
-  B\bigl((\bar\pi)\bigr)=\frac{2\zeta_K(2)}{N(\bar\pi)^2}
+  B\bigl((\bar\varpi)\bigr)=\frac{2\zeta_K(2)}{N(\bar\varpi)^2}
   =\frac{\zeta_K(2)}2,
   \qquad
-  G\bigl((\bar\pi)\bigr)=\frac{\pi^2}8\cdot 2L_3=\frac{\pi^2L_3}4 .
+  G\bigl((\bar\varpi)\bigr)=\frac{\varpi^2}8\cdot 2L_3=\frac{\varpi^2L_3}4 .
 \end{equation}
-Note $G((\bar\pi))$ is genuinely complex ($(\bar\pi)$ is not
+Note $G((\bar\varpi))$ is genuinely complex ($(\bar\varpi)$ is not
 conjugation-stable); only its real part enters the $T$-sums, and by
 \eqref{eq:pirels},
 \begin{equation}\label{eq:ReGpi}
-  \ReT G\bigl((\bar\pi)\bigr)
-  =\frac{\ReT\pi^2}4\,L_3=-\frac{3}{8}\,L_3 .
+  \ReT G\bigl((\bar\varpi)\bigr)
+  =\frac{\ReT\varpi^2}4\,L_3=-\frac{3}{8}\,L_3 .
 \end{equation}
 (Direct Poisson row summation confirms \eqref{eq:BGOK}--\eqref{eq:ReGpi},
-including the imaginary part $\ImT G((\bar\pi))=\sqrt7\,L_3/8$, to
+including the imaginary part $\ImT G((\bar\varpi))=\sqrt7\,L_3/8$, to
 $\sim10^{-60}$; \texttt{verify\_P1\_n4\_81.py}, checks [S1]--[S4].)
 
 \subsection{The \texorpdfstring{$T$}{T}-sums and the combination}
@@ -430,13 +430,13 @@ By \eqref{eq:Talt} with $\cL_2(\tau_2)=\OO_K$ and \eqref{eq:BGOK},
 \[
   T_2(\tau_2)=2\ReT G(\OO_K)+B(\OO_K)=4L_3+2\zeta_K(2).
 \]
-For $\cL_1(\tau_2)=(\bar\pi)/2$ rescale $\lambda=\alpha/2$,
-$\alpha\in(\bar\pi)\setminus\{0\}$: then $|\lambda|^{-4}=16|\alpha|^{-4}$
+For $\cL_1(\tau_2)=(\bar\varpi)/2$ rescale $\lambda=\alpha/2$,
+$\alpha\in(\bar\varpi)\setminus\{0\}$: then $|\lambda|^{-4}=16|\alpha|^{-4}$
 and $\bar\lambda^2|\lambda|^{-6}=16\,\bar\alpha^2|\alpha|^{-6}$, so by
 \eqref{eq:BGpi} and \eqref{eq:ReGpi},
 \[
-  T_1(\tau_2)=16\Bigl[2\ReT G\bigl((\bar\pi)\bigr)
-   +B\bigl((\bar\pi)\bigr)\Bigr]
+  T_1(\tau_2)=16\Bigl[2\ReT G\bigl((\bar\varpi)\bigr)
+   +B\bigl((\bar\varpi)\bigr)\Bigr]
   =16\Bigl[-\frac{3L_3}4+\frac{\zeta_K(2)}2\Bigr]
   =-12L_3+8\zeta_K(2). \qedhere
 \]
@@ -485,7 +485,7 @@ $\ImT[2\pi(\tau+1)]=\ImT[2\pi\tau]$), so
 $\mathrm{EK}_4(\tau_2)=\mathrm{EK}_4(\tau_w)$; and
 $T_1(\tau_2)=T_1(\tau_w)=-12L_3+8\zeta_K(2)$ is \emph{numerically the
 same sum} as the $T_1$ of Theorem~B, there evaluated over the same
-lattice $(\bar\pi)/2$.
+lattice $(\bar\varpi)/2$.
 \end{remark}
 
 \section{Obstruction 1: the critical image is two-dimensional}\label{sec:astroid}
@@ -816,7 +816,7 @@ integration error floor. This note has archived its status:
 \begin{itemize}
 \item the $L$-value half is proved exactly:
 $\mathrm{EK}_4(\tau_2)=40M_7$ (Theorem~\ref{thm:P1n4}), with complete
-algebra ($\cL_2=\OO_K$, $\cL_1=(\bar\pi)/2$,
+algebra ($\cL_2=\OO_K$, $\cL_1=(\bar\varpi)/2$,
 $-T_1+4T_2=28L(g_7,3)$, exact $\zeta_K(2)$-cancellation) and machine
 certification ($45$ checks, worst $2.7\times10^{-59}$);
 \item the Mahler half is blocked twice: the critical image is the

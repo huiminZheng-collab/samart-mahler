@@ -256,14 +256,14 @@ the unit circle, and $\sum'$ denotes omission of the zero term. We write
   M_7:=L'(g_7,0),\qquad d_7:=L'(\chi_{-7},-1),
 \]
 matching Samart's shorthand in \cite{Sa15}. The field
-$K=\Qq(\sqrt{-7})$ has ring of integers $\OO_K=\Zz[\omega]$,
-$\omega=(1+\sqrt{-7})/2$, class number $h(-7)=1$ and units
-$\OO_K^\times=\{\pm1\}$; we also use
-$\pi:=(1+\sqrt{-7})/2$, satisfying $\pi^2-\pi+2=0$,
+$K=\Qq(\sqrt{-7})$ has ring of integers $\OO_K=\Zz[\varpi]$,
+$\varpi=(1+\sqrt{-7})/2$, class number $h(-7)=1$ and units
+$\OO_K^\times=\{\pm1\}$; note that $\varpi^2-\varpi+2=0$ and
 \begin{equation}\label{eq:pirels}
-  \pi+\bar\pi=1,\qquad \pi\bar\pi=2\quad(\text{so }(2)=(\pi)(\bar\pi)
-  \text{ splits}),\qquad \pi^2+\bar\pi^2=-3,\qquad
-  \ReT\pi^2=-\tfrac32 .
+  \varpi+\bar\varpi=1,\qquad \varpi\bar\varpi=2\quad(\text{so }
+  (2)=(\varpi)(\bar\varpi)
+  \text{ splits}),\qquad \varpi^2+\bar\varpi^2=-3,\qquad
+  \ReT\varpi^2=-\tfrac32 .
 \end{equation}
 The Jacobi theta constants are taken with
 $q_\vartheta=\e^{\pi \ii\tau}$:
@@ -373,8 +373,8 @@ and from $\eta(2\tau+1)=\e^{\pi \ii(2\tau+1)/12}\prod(1-q^{2n})$ we get
 $\Delta(2\tau+1)=q^2\prod(1-q^{2n})^{24}$.
 Splitting $\prod(1-(-1)^nq^n)=\prod(1+q^{2n-1})\prod(1-q^{2n})$ and
 cancelling $\prod(1-q^{2n})$ gives \eqref{eq:s2prod}; the expansion is a
-finite integer computation. Periodicity follows from
-$\Delta(\tau+\tfrac32)=\Delta(\tau+\tfrac12)$ and $\Delta(2\tau+3)=\Delta(2\tau+1)$.
+finite integer computation. Periodicity is immediate from the product expansion, since
+$q=\e^{2\pi\ii\tau}$ is $1$-periodic.
 \end{proof}
 
 \begin{theorem}[The $\lambda$-identity for $s_2$]\label{thm:s2lambda}
@@ -386,8 +386,10 @@ For every $\tau\in\Hh$,
 \begin{proof}
 By Jacobi's identity $\vartheta_3^4=\vartheta_2^4+\vartheta_4^4$,
 $\lambda=\vartheta_2^4/\vartheta_3^4$ and $1-\lambda=\vartheta_4^4/\vartheta_3^4$,
-so $16/(\lambda(1-\lambda))=16\vartheta_3^8/(\vartheta_2^4\vartheta_4^4)$,
-and
+so $16/(\lambda(1-\lambda))=16\vartheta_3^8/(\vartheta_2^4\vartheta_4^4)$.
+The theta constants carry the nome $q_\vartheta=\e^{\pi\ii\tau}$; at the
+doubled argument $2\tau$ this nome is $\e^{2\pi\ii\tau}=q$, so the product
+expansions below are directly in $q$:
 \[
   \frac{16\vartheta_3(2\tau)^8}{\vartheta_2(2\tau)^4\vartheta_4(2\tau)^4}
   =q^{-1}\prod_{n\ge1}\frac{(1+q^{2n-1})^{16}}{(1+q^{2n})^{8}(1-q^{2n-1})^{8}}.
@@ -411,8 +413,8 @@ The second product equals $1$ by Euler's identity
 Therefore the right side of \eqref{eq:s2lambda} equals
 $q^{-1}\prod(1+q^{2n-1})^{24}=s_2(\tau)$ by Lemma~\ref{lem:s2prod}. (An
 exact integer series check of the identity to order $q^{37}$ is included
-in \texttt{cert0\_s2\_eq\_1.py} and \texttt{cert0\_s2\_n2pair.py} as a
-sanity check.)
+in \texttt{cert0\_s2\_eq\_1.py} and \texttt{cert0\_s2\_n2pair.py} as an
+independent exact verification.)
 \end{proof}
 
 \begin{lemma}[Degree of $s_2$ on $X_0(4)$]\label{rem:deg2}
@@ -501,11 +503,31 @@ the simple zero of $L$ gives $\cL(-1,\chi)=2d_7$; hence
 \end{equation}
 \end{lemma}
 \begin{proof}
-The functional equation in (i) is standard for the CM form $g_7$
-(Proposition~\ref{prop:theta}); the root number $+1$ is known for this
-newform and was independently verified numerically to $52$ digits by
-comparing the two sides of the functional equation
-(\texttt{lvalue\_g7.py}). Since $\Gamma$ has a simple pole at $s=0$ while
+(i) Write $g_7(\ii y)=\sum_{n\ge1}a_n\e^{-2\pi ny}$. Termwise
+Mellin transformation gives
+\[
+  \cL(s)=\int_0^\infty g_7\bigl(\tfrac{\ii y}{\sqrt7}\bigr)\,
+  y^s\,\frac{\id y}{y},
+\]
+absolutely convergent for every $s$: $g_7(\ii y)$ decays exponentially
+as $y\to\infty$, and by the transformation below also as $y\to0$. From
+$\eta(-1/\tau)=(-\ii\tau)^{1/2}\eta(\tau)$ and
+$g_7(\tau)=\eta(\tau)^3\eta(7\tau)^3$,
+\[
+  g_7\bigl(-\tfrac1{7\tau}\bigr)=\ii\,7^{3/2}\tau^3\,g_7(\tau),
+  \qquad\text{hence, at $\tau=\ii y/\sqrt7$,}\qquad
+  g_7\bigl(\tfrac{\ii}{\sqrt7\,y}\bigr)
+  =y^3\,g_7\bigl(\tfrac{\ii y}{\sqrt7}\bigr)\quad(y>0).
+\]
+Splitting the integral at $y=1$ and substituting $y\mapsto1/y$ in the
+lower half yields
+\[
+  \cL(s)=\int_1^\infty g_7\bigl(\tfrac{\ii y}{\sqrt7}\bigr)
+  \bigl(y^s+y^{3-s}\bigr)\,\frac{\id y}{y}=\cL(3-s),
+\]
+with root number $+1$. (The identity was independently verified
+numerically to $52$ digits in \texttt{lvalue\_g7.py}.) Since $\Gamma$
+has a simple pole at $s=0$ while
 $\cL(0)=\cL(3)$ is finite, $L(g_7,s)$ vanishes at $s=0$, and
 $L'(g_7,0)=\lim_{s\to0}\Gamma(s)L(g_7,s)=\cL(3)$; finally
 $\cL(3)=7^{3/2}(2\pi)^{-3}\cdot 2\cdot L(g_7,3)$ as stated. Part (ii) is
@@ -825,20 +847,20 @@ Throughout this section
 
 Set
 \[
-  \beta:=4\tau_0=\frac{3+\sqrt{-7}}2=1+\omega .
+  \beta:=4\tau_0=\frac{3+\sqrt{-7}}2=1+\varpi .
 \]
 Then $N(\beta)=|\beta|^2=4$, and $\beta^2=3\beta-4$ (from the quadratic
-equation for $\tau_0$), whence $\beta\omega=\beta(\beta-1)=2\beta-4$.
+equation for $\tau_0$), whence $\beta\varpi=\beta(\beta-1)=2\beta-4$.
 
 \begin{lemma}\label{lem:latticesA}
 $\cL_4(\tau_0)=\OO_K$ and $\cL_1(\tau_0)=(\beta)/4$, where
 $(\beta)=\beta\OO_K$ is the principal ideal of norm $4$.
 \end{lemma}
 \begin{proof}
-$\cL_4(\tau_0)=\Zz+\Zz\beta=\Zz+\Zz(1+\omega)=\Zz+\Zz\omega=\OO_K$.
+$\cL_4(\tau_0)=\Zz+\Zz\beta=\Zz+\Zz(1+\varpi)=\Zz+\Zz\varpi=\OO_K$.
 For the second,
 \[
-  (\beta)=\{\beta(m+n\omega):m,n\in\Zz\}
+  (\beta)=\{\beta(m+n\varpi):m,n\in\Zz\}
   =\{m\beta+n(2\beta-4)\}=\{a\beta+4b:a,b\in\Zz\}=4\Zz+\Zz\beta,
 \]
 so $(\beta)/4=\Zz+\Zz(\beta/4)=\Zz+\Zz\tau_0=\cL_1(\tau_0)$.
@@ -989,10 +1011,10 @@ $\mathfrak{f}_1(\tau)=\zeta_{48}^{-1}\eta\bigl((\tau+1)/2\bigr)/\eta(\tau)
 $s_2(\tau)=\mathfrak{f}_1(2\tau)^{24}$, so Corollary~\ref{cor:s2valA} says
 that $\mathfrak{f}_1$ assumes a $24$th root of unity at $2\tau_0$. The
 value of Lemma~\ref{lem:lamvalA} also has an arithmetic explanation. With
-$\pi=(1+\sqrt{-7})/2$ as in \eqref{eq:pirels},
+$\varpi=(1+\sqrt{-7})/2$ as in \eqref{eq:pirels},
 \[
-  \lambda_0=\bar\pi^{\,4},\qquad 1-\lambda_0=\pi^4,\qquad
-  \lambda_0(1-\lambda_0)=\pi^4\bar\pi^{\,4}=N(\pi)^4=2^4=16,
+  \lambda_0=\bar\varpi^{\,4},\qquad 1-\lambda_0=\varpi^4,\qquad
+  \lambda_0(1-\lambda_0)=\varpi^4\bar\varpi^{\,4}=N(\varpi)^4=2^4=16,
 \]
 which is the source of the ``$16$'' in Theorem~\ref{thm:s2lambda}, and
 hence of $s_2(\tau_0)=1$. Finally, $j(2\tau_0)=-3375=-15^3$
@@ -1131,7 +1153,7 @@ $j(2\tau')=-3375$ exactly --- the same value as $j(2\tau_0)$
 \textup{(}Lemma~\ref{lem:jvalA}\textup{)}.
 \end{lemma}
 \begin{proof}
-$w:=2\tau'=(1+\sqrt{-7})/4=\pi/2$ satisfies $2w^2-w+1=0$, a primitive
+$w:=2\tau'=(1+\sqrt{-7})/4=\varpi/2$ satisfies $2w^2-w+1=0$, a primitive
 quadratic form of discriminant $-7$. Since $h(-7)=1$, exactly as in
 Lemma~\ref{lem:jvalA}, $j(w)$ is a real algebraic integer in $\OO_K$,
 hence an ordinary integer. Interval evaluation
@@ -1199,24 +1221,24 @@ $s_2(\tau_w)=s_2(\tau')=k_+$ and $s_2(\tau_w')=s_2(\tau'')=k_-$.
 
 \subsection{CM evaluation of \texorpdfstring{$\mathrm{EK}(\tau_w)$}{EK(tauw)}}\label{subsec:P1B}
 
-Recall $\pi=(1+\sqrt{-7})/2$ and the relations \eqref{eq:pirels}. Since
-$4\tau_w=-1+\sqrt{-7}=-2\bar\pi$,
+Recall $\varpi=(1+\sqrt{-7})/2$ and the relations \eqref{eq:pirels}. Since
+$4\tau_w=-1+\sqrt{-7}=-2\bar\varpi$,
 \begin{equation}\label{eq:L4B}
-  \cL_4(\tau_w)=\Zz+\Zz\,4\tau_w=\Zz+\Zz\,2\bar\pi=\Zz+\Zz\sqrt{-7}=:\OO_2,
+  \cL_4(\tau_w)=\Zz+\Zz\,4\tau_w=\Zz+\Zz\,2\bar\varpi=\Zz+\Zz\sqrt{-7}=:\OO_2,
 \end{equation}
 the order of conductor $2$ in $\OO_K$ (discriminant $-28$, class number
 $1$ --- only its $\Zz$-module structure is used below), and
 \begin{equation}\label{eq:L1B}
   \cL_1(\tau_w)=\Zz+\Zz\tau_w=\frac{4\Zz+\Zz\,4\tau_w}4
-  =\frac{2\Zz+\Zz\bar\pi}2=\frac{(\bar\pi)}2,
+  =\frac{2\Zz+\Zz\bar\varpi}2=\frac{(\bar\varpi)}2,
 \end{equation}
 because
-$(\bar\pi)=\bar\pi\OO_K=\bar\pi\Zz+\bar\pi^2\Zz
-=\bar\pi\Zz+(\bar\pi-2)\Zz=2\Zz+\bar\pi\Zz$
-(using $\bar\pi^2=\bar\pi-2$). So $\cL_1(\tau_w)$ is homothetic to the
-principal ideal $(\bar\pi)$ of norm $2$. At the conjugate point
-$\tau_w'=\pi/2$ one gets $\cL_4(\tau_w')=\OO_2$ (the same) and
-$\cL_1(\tau_w')=(\pi)/2$ --- the other prime above $2$.
+$(\bar\varpi)=\bar\varpi\OO_K=\bar\varpi\Zz+\bar\varpi^2\Zz
+=\bar\varpi\Zz+(\bar\varpi-2)\Zz=2\Zz+\bar\varpi\Zz$
+(using $\bar\varpi^2=\bar\varpi-2$). So $\cL_1(\tau_w)$ is homothetic to the
+principal ideal $(\bar\varpi)$ of norm $2$. At the conjugate point
+$\tau_w'=\varpi/2$ one gets $\cL_4(\tau_w')=\OO_2$ (the same) and
+$\cL_1(\tau_w')=(\varpi)/2$ --- the other prime above $2$.
 
 \textbf{Imprimitive sums over $\OO_2$.} Define
 \[
@@ -1227,7 +1249,7 @@ Note $G(\OO_2)$ is real: $\OO_2=\Zz+\Zz\sqrt{-7}$ is stable under
 conjugation, so the sum equals its own conjugate.
 
 \begin{lemma}[Odd norm $\Leftrightarrow$ $1\bmod2$]\label{lem:oddnorm}
-For $\gamma=a+b\pi\in\OO_K$,
+For $\gamma=a+b\varpi\in\OO_K$,
 $N(\gamma)=a^2+ab+2b^2\equiv a(a+b)\pmod2$. Hence $N(\gamma)$ is odd if
 and only if $a$ is odd and $b$ is even, i.e.\ $\gamma\equiv1\pmod{2\OO_K}$.
 \end{lemma}
@@ -1241,7 +1263,7 @@ $\OO_2\setminus\{0\}=\bigl(2\OO_K\setminus\{0\}\bigr)\sqcup
 \{\gamma\in\OO_K:N(\gamma)\text{ odd}\}$.
 \end{corollary}
 \begin{proof}
-$\OO_2=\Zz+\Zz\sqrt{-7}=\Zz+\Zz(1+\sqrt{-7})=\Zz+2\Zz\pi=\Zz+2\OO_K$,
+$\OO_2=\Zz+\Zz\sqrt{-7}=\Zz+\Zz(1+\sqrt{-7})=\Zz+2\Zz\varpi=\Zz+2\OO_K$,
 so $\gamma\in\OO_2$ is either in $2\OO_K$ or in $1+2\OO_K$, and
 Lemma~\ref{lem:oddnorm} applies.
 \end{proof}
@@ -1259,7 +1281,7 @@ in the ray class $1\bmod2$, so for $\ReT s$ large
 \begin{equation}\label{eq:oddzeta}
   {\sum_{N(\gamma)\text{ odd}}}^{\!\prime}N(\gamma)^{-s}
   =2\sum_{N(\mathfrak a)\text{ odd}}N(\mathfrak a)^{-s}
-  =2\,\zeta_K(s)\,\bigl(1-N(\pi)^{-s}\bigr)\bigl(1-N(\bar\pi)^{-s}\bigr)
+  =2\,\zeta_K(s)\,\bigl(1-N(\varpi)^{-s}\bigr)\bigl(1-N(\bar\varpi)^{-s}\bigr)
   =2\,\zeta_K(s)\,(1-2^{-s})^2 .
 \end{equation}
 At $s=2$: $\sum'_{N(\gamma)\text{ odd}}|\gamma|^{-4}
@@ -1276,13 +1298,13 @@ For the $\psi$-twisted sum, $\psi((\alpha))=\alpha^2$ contributes equally
 for both generators ($(-\alpha)^2=\alpha^2$), so by \eqref{eq:hecke},
 \begin{equation}\label{eq:oddhecke}
   {\sum_{N(\gamma)\text{ odd}}}^{\!\prime}\frac{\gamma^2}{N(\gamma)^{3}}
-  =2L(g_7,3)\Bigl(1-\frac{\pi^2}{8}\Bigr)\Bigl(1-\frac{\bar\pi^2}{8}\Bigr)
+  =2L(g_7,3)\Bigl(1-\frac{\varpi^2}{8}\Bigr)\Bigl(1-\frac{\bar\varpi^2}{8}\Bigr)
   =2L(g_7,3)\cdot\frac{23}{16}=\frac{23}{8}\,L(g_7,3),
 \end{equation}
 the Euler factor being \emph{exact} by \eqref{eq:pirels}:
 \[
-  \Bigl(1-\frac{\pi^2}{8}\Bigr)\Bigl(1-\frac{\bar\pi^2}{8}\Bigr)
-  =1-\frac{\pi^2+\bar\pi^2}{8}+\frac{(\pi\bar\pi)^2}{64}
+  \Bigl(1-\frac{\varpi^2}{8}\Bigr)\Bigl(1-\frac{\bar\varpi^2}{8}\Bigr)
+  =1-\frac{\varpi^2+\bar\varpi^2}{8}+\frac{(\varpi\bar\varpi)^2}{64}
   =1+\frac38+\frac1{16}=\frac{23}{16}.
 \]
 Conjugating (note $L(g_7,3)\in\Rr$ since $a_n\in\Zz$) gives the same value
@@ -1304,7 +1326,7 @@ form for the discriminant-$(-28)$ Epstein zeta \cite{GZ},
 $Z(\OO_2,s)=2(1-2^{1-s}+2^{1-2s})\,\zeta(s)L(\chi_{-7},s)$, at $s=2$ gives
 $2(1-\tfrac12+\tfrac18)\zeta_K(2)=\tfrac54\zeta_K(2)$, agreeing with
 $B(\OO_2)$ --- an independent literature formula. (iii) The complementary
-coset sums over $\pi+\OO_2$ (since $\OO_K=\OO_2\sqcup(\pi+\OO_2)$)
+coset sums over $\varpi+\OO_2$ (since $\OO_K=\OO_2\sqcup(\varpi+\OO_2)$)
 evaluate to $B(\OO_K)-B(\OO_2)=(3/4)\zeta_K(2)$ and
 $2L(g_7,3)-3L(g_7,3)=-L(g_7,3)$, confirmed directly to $10^{-61}$
 (\texttt{verify\_P1\_n2pair.py}, checks [O1]--[O3]).
@@ -1324,30 +1346,30 @@ Proposition~\ref{prop:BG},
 \[
   T_4(\tau_w)=2\ReT G(\OO_2)+B(\OO_2)=6L_3+\frac54\,\zeta_K(2).
 \]
-For $\cL_1(\tau_w)=(\bar\pi)/2$, write $\lambda=\alpha/2$,
-$\alpha\in(\bar\pi)\setminus\{0\}$, $\alpha=\bar\pi\gamma$,
+For $\cL_1(\tau_w)=(\bar\varpi)/2$, write $\lambda=\alpha/2$,
+$\alpha\in(\bar\varpi)\setminus\{0\}$, $\alpha=\bar\varpi\gamma$,
 $\gamma\in\OO_K\setminus\{0\}$. Then $|\lambda|^{-4}=16|\alpha|^{-4}$ and
 $\bar\lambda^2/|\lambda|^6=16\,\bar\alpha^2/|\alpha|^6$, with
 \[
-  {\sum_{\alpha\in(\bar\pi)}}^{\!\prime}|\alpha|^{-4}
-  =|\bar\pi|^{-4}{\sum_{\gamma\in\OO_K}}^{\!\prime}|\gamma|^{-4}
-  =N(\bar\pi)^{-2}\cdot2\zeta_K(2)=\frac{\zeta_K(2)}2,
+  {\sum_{\alpha\in(\bar\varpi)}}^{\!\prime}|\alpha|^{-4}
+  =|\bar\varpi|^{-4}{\sum_{\gamma\in\OO_K}}^{\!\prime}|\gamma|^{-4}
+  =N(\bar\varpi)^{-2}\cdot2\zeta_K(2)=\frac{\zeta_K(2)}2,
 \]
 \[
-  {\sum_{\alpha\in(\bar\pi)}}^{\!\prime}\frac{\bar\alpha^2}{|\alpha|^6}
-  =\frac{\pi^2}{|\bar\pi|^6}
+  {\sum_{\alpha\in(\bar\varpi)}}^{\!\prime}\frac{\bar\alpha^2}{|\alpha|^6}
+  =\frac{\varpi^2}{|\bar\varpi|^6}
    {\sum_{\gamma\in\OO_K}}^{\!\prime}\frac{\bar\gamma^2}{|\gamma|^6}
-  =\frac{\pi^2}{8}\cdot2L_3=\frac{\pi^2L_3}4 ,
+  =\frac{\varpi^2}{8}\cdot2L_3=\frac{\varpi^2L_3}4 ,
 \]
-so, using $\ReT\pi^2=-3/2$ from \eqref{eq:pirels},
+so, using $\ReT\varpi^2=-3/2$ from \eqref{eq:pirels},
 \[
   T_1(\tau_w)
-  =16\Bigl[2\ReT\frac{\pi^2L_3}4+\frac{\zeta_K(2)}2\Bigr]
+  =16\Bigl[2\ReT\frac{\varpi^2L_3}4+\frac{\zeta_K(2)}2\Bigr]
   =16\Bigl[-\frac34\,L_3+\frac{\zeta_K(2)}2\Bigr]
   =-12L_3+8\zeta_K(2).
 \]
-At $\tau_w'$ the same computation with $(\pi)$ in place of $(\bar\pi)$
-gives $\ReT\bar\pi^2=-3/2$ --- the same value; hence
+At $\tau_w'$ the same computation with $(\varpi)$ in place of $(\bar\varpi)$
+gives $\ReT\bar\varpi^2=-3/2$ --- the same value; hence
 $T_d(\tau_w')=T_d(\tau_w)$ exactly.
 \end{proof}
 
@@ -1403,8 +1425,8 @@ $1/2$; Theorem~\ref{thm:samart} does not apply there, and indeed the
 identity \emph{fails} at $\tau'$. Numerically (60 dps,
 \texttt{diag\_ek\_branch.py} and check [WS] of
 \texttt{verify\_P1\_n2pair.py}), direct Poisson-row evaluation of the
-lattice sums at $\tau'$ (where $\cL_4(\tau')=\Zz+\Zz\pi=\OO_K$ but
-$\cL_1(\tau')=\pi\OO_2/4$ is an $\OO_2$-module \emph{not} homothetic to an
+lattice sums at $\tau'$ (where $\cL_4(\tau')=\Zz+\Zz\varpi=\OO_K$ but
+$\cL_1(\tau')=\varpi\OO_2/4$ is an $\OO_2$-module \emph{not} homothetic to an
 $\OO_K$-ideal) gives
 \[
   T_4(\tau')=4L(g_7,3)+2\zeta_K(2),\qquad
@@ -1519,7 +1541,7 @@ $|z|<1$ normalized by $\log 1=0$. Then
 \[
   \prod_{n>N}\bigl(1+q^{2n-1}\bigr)^{24}
   \in \exp\bigl(\{z\in\Cc:|z|\le E\}\bigr)
-  =\bigl\{w\in\Cc:\e^{-E}\le|w|\le\e^{E}\bigr\},\qquad
+  \subset\bigl\{w\in\Cc:\e^{-E}\le|w|\le\e^{E}\bigr\},\qquad
   E:=\frac{24\,r^{2N+1}}{(1-r)(1-r^2)}.
 \]
 \end{lemma}
@@ -1534,7 +1556,8 @@ $|\log(1+z)|\le-\log(1-|z|)\le |z|/(1-r)$. Summing,
   \le\frac{24}{1-r}\sum_{n>N}r^{2n-1}
   =\frac{24\,r^{2N+1}}{(1-r)(1-r^2)},
 \]
-so the sum lies in $\{z:|z|\le E\}$ and its exponential in
+so the sum lies in $\{z:|z|\le E\}$; its exponential therefore lies
+in $\exp(\{z:|z|\le E\})$, hence in
 $\{w:\e^{-E}\le|w|\le\e^{E}\}$. \qedhere
 \end{proof}
 
@@ -1544,8 +1567,9 @@ the bottom of the sub-cap), so
 $r\le\e^{-2\pi(\sqrt7/8+\varepsilon_0)}<0.1252$ and with $N=120$ the
 tail width satisfies $E<10^{-215}$. The
 scripts in fact attach the slightly stronger complex-box tail factor
-$\exp\bigl(\{u+\ii v:|u|,|v|\le E\}\bigr)$, which contains the annulus
-of Lemma~\ref{lem:tail} and bounds the argument of the
+$\exp\bigl(\{u+\ii v:|u|,|v|\le E\}\bigr)$, which contains the disk
+image $\exp(\{z:|z|\le E\})$ of Lemma~\ref{lem:tail} and is itself
+contained in the modulus annulus; it thus bounds the argument of the
 tail as well as its modulus, with all quantities entering $E$
 outward-rounded intervals; this is used both for the path certification
 and for the interval locks of Lemmas~\ref{lem:lamvalA}
@@ -1892,9 +1916,9 @@ so equality of the coefficients of $q^1$ and $q^2$ already proves
 \eqref{eq:theta}. \texttt{verify\_P1.py} checks the first 60 coefficients
 \emph{exactly} as integers: the coefficient of $q^N$ on the right is
 \[
-  \frac12\sum_{\substack{m,n\in\Zz\\m^2+mn+2n^2=N}}\bigl((m^2-2n^2)+(2mn+n^2)\omega\bigr),
+  \frac12\sum_{\substack{m,n\in\Zz\\m^2+mn+2n^2=N}}\bigl((m^2-2n^2)+(2mn+n^2)\varpi\bigr),
 \]
-whose $\omega$-component vanishes for every $N$ (pairing $\alpha$ with its
+whose $\varpi$-component vanishes for every $N$ (pairing $\alpha$ with its
 conjugate) and whose rational component reproduces \eqref{eq:jacobi}.
 
 Alternatively, $\dim S_3(\Gamma_0(7),\chi_{-7})=1$ (there are no oldforms
