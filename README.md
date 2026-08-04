@@ -7,15 +7,18 @@ Companion code and certificates for two papers by **Huimin Zheng**
 Technology University; `zhhm@ahstu.edu.cn`):
 
 1. **Mahler measures at interior CM points: proofs of two conjectures of
-   Samart** (`paper/formal.tex`, `paper/formal.pdf`) — proves, as
+   Samart** ([arXiv:2608.02255](https://arxiv.org/abs/2608.02255);
+   `paper/formal.tex`, `paper/formal.pdf`) — proves, as
    identities of genuine Mahler measures,
    - Theorem A: `m((x+1/x)(y+1/y)(z+1/z)+1) = 4 L'(g7,0)` (Samart's
      conjecture for `k=1`), and
    - Theorem B: `n2((47±45√−7)/2) = (4/7)(54 M7 + d7)`
      (the conjugate pair of Samart's 2015 table).
 2. **Samart's conjecture n4(81)=40M7: the exact CM evaluation and the
-   two obstructions. A status report** (`paper/formal2.tex`,
-   `paper/formal2.pdf`) — proves the exact series-side evaluation
+   two obstructions. A status report**
+   ([arXiv:2608.02265](https://arxiv.org/abs/2608.02265);
+   `paper/formal2.tex`, `paper/formal2.pdf`) — proves the exact
+   series-side evaluation
    `EK4(τ2) = 40M7`, analyses the two obstructions (astroid critical
    image; wrong sheet of the U-series below `Im τ = 1/√2`), and records
    that the literal identity is numerically refuted:
