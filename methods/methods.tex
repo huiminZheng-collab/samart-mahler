@@ -1940,7 +1940,8 @@ The evaluation track of the machine (station S5) applies to any CM
 point, independently of the certification stations S3/S4. Applied to
 the Heegner points $\tau_D=(1+\sqrt{-D})/2$ with
 $D\in\{11,19,43,67,163\}$ --- the class-number-one discriminants
-$D\equiv3\ (\mathrm{mod}\ 8)$, in which $2$ is inert --- and to
+$D\equiv3\ (\mathrm{mod}\ 8)$ with $D>3$ (for $D=3$ see
+Theorem~\ref{thm:B}), in which $2$ is inert --- and to
 $\tau_{27}=(1+3\sqrt{-3})/2$, attached to the order of conductor $3$
 in $\Qq(\sqrt{-3})$, it produces a \emph{uniform} answer, derived
 exactly from the lattice decomposition and independently recovered
@@ -1959,20 +1960,25 @@ two conjugate Hecke characters of $K$ of conductor $(2)$, whose
 theta series are the level-$4D$ CM newform pair; by the functional
 equations $MU_D=\pm\bigl(M_{4D}^{(1)}+M_{4D}^{(2)}\bigr)$, the sign
 being determined by the root numbers of the pair.
-\item (\emph{New type})
+\item (\emph{New type}) For $D\in\{11,19,43,67,163\}$:
 $DU_D:=\dfrac{3D^{3/2}}{2\pi^3}\,BU_D$,
 $BU_D:=\dfrac{2B_1-B_a-B_b}{2}$, where
 $B_r:=\displaystyle\sum_{\alpha\in r+2\OO_K}N(\alpha)^{-2}$
-are the partial zeta values of the three ray classes modulo $(2)$;
-equivalently $BU_D$ is the corresponding $L(2,\cdot)$-combination of
-the order-$3$ ray class characters of the conductor-$2$ order
+are the partial zeta values of the ray classes modulo $(2)$ and
+$1,a,b$ are representatives of the three classes; equivalently
+$BU_D$ is the corresponding $L(2,\cdot)$-combination of the
+order-$3$ ray class characters of the conductor-$2$ order
 $\OO_2$, whose class group is $\Zz/3\Zz$.
 \item For $D=27$: $M_{27}:=L'(g_{27},0)$ for the level-$27$ newform
 CM by the order of discriminant $-27$;
+$DU_{27}:=\dfrac{9\sqrt3}{2\pi^3}\,BU_{27}$, with $BU_{27}$ the
+same combination of the partial zeta values of the ray classes
+modulo $(2)$ \emph{in the conductor-$3$ order $\OO_3$} (the ring
+class group of the conductor-$6$ order is again $\Zz/3\Zz$);
 $DX_{27}:=\dfrac{9\sqrt3}{2\pi^3}\,X_{27}$,
 $X_{27}:=\displaystyle\sum_{\gamma\in\omega+\OO_3}N(\gamma)^{-2}$,
 the partial zeta value of the coset of $\omega=(1+\sqrt{-3})/2$ in
-the conductor-$3$ order $\OO_3$.
+$\OO_3$.
 \end{enumerate}
 \end{definition}
 
@@ -1990,6 +1996,22 @@ n_4\bigl(s_4(\tau_{27})\bigr)
 \qquad \tau_{27}=\frac{1+3\sqrt{-3}}2.
 \end{equation}
 \end{conjecture}
+
+\begin{remark}[The $D=27$ identity simplifies]\label{rem:dx27}
+The constant $DX_{27}$ turns out \emph{not} to be new: the
+evaluation machine gives
+\[
+  DX_{27}=\frac{56}{27}\,d_3
+\]
+to $120$ digits (the partial zeta $X_{27}$ over the ramified prime
+$3$ reduces to $L(\chi_{-3},2)$), so \eqref{eq:ray27} is
+equivalently
+\[
+n_4\bigl(s_4(\tau_{27})\bigr)
+=\frac{10}{81}\bigl(12M_{27}+4MU_{27}+25d_3+72DU_{27}\bigr).
+\]
+The genuinely new constant in Conjecture~\ref{conj:ray} is $DU_D$.
+\end{remark}
 
 The evidence is threefold.
 (i) \emph{Exact derivation.} For $D\equiv3\ (8)$ the $\EK_4$ lattice
@@ -2040,7 +2062,7 @@ $163$ & $-262537412640768639.99999999999926673\ldots$ & $9.96\times10^{-60}$\\
 \end{tabular}
 \caption{The six Heegner-point parameters ($60$ digits; truncated)
 and the residuals $|n_4(s_4(\tau_D))-\mathrm{RHS}|$; the PSLQ
-re-checks give residuals $\le1.4\times10^{-56}$. Values of the
+re-checks ($D\neq27$) give residuals $\le1.4\times10^{-56}$. Values of the
 constants to $15$ digits:
 $(M_{11},MU_{11},d_{11},DU_{11})
 =(0.257838994176722,\allowbreak5.13771317570429,\allowbreak
@@ -2055,8 +2077,9 @@ in the repository.}
 \begin{remark}[Status]\label{rem:raystatus}
 Conjecture~\ref{conj:ray} is one certification short of a proof.
 All six parameters satisfy $|s_4(\tau_D)|>256$
-(Table~\ref{tab:ray}), and a $40$-digit scan of the vertical ray
-$\ReT\tau=1/2$, $\ImT\tau\ge\ImT\tau_D$ finds the minimum of
+(Table~\ref{tab:ray}), and a $40$-digit scan of the segment
+$\ImT\tau_D\le\ImT\tau\le\ImT\tau_D+8$ of the vertical ray
+$\ReT\tau=1/2$ finds the minimum of
 $|s_4|$ at the bottom endpoint $\tau_D$ itself
 (\texttt{gen\_conj\_s4.py}); once the ray is certified by interval
 arithmetic --- a one-leg instance of the \texttt{cert2} machine of
@@ -2064,8 +2087,9 @@ arithmetic --- a one-leg instance of the \texttt{cert2} machine of
 on a neighbourhood of $\tau_D$ and the exact evaluation above
 becomes a proof. We have not yet run that certification, and we do
 not know minimal polynomials of the parameters $s_4(\tau_D)$: PSLQ
-at $110$ digits excludes degree $\le4$ with coefficients
-$\le10^8$, so station S4 is open. Curiously
+at $110$ digits excludes degree $\le3$ with coefficients
+$\le10^8$ and degree $4$ with coefficients $\le10^6$, so station
+S4 is open. Curiously
 $s_4(\tau_D)\approx j(D)-640$ with an error decaying like
 $\e^{-c\sqrt D}$ ($2.2\times10^{-4}$ at $D=43$;
 $7.3\times10^{-13}$ at $D=163$, the $\e^{\pi\sqrt{163}}$ effect;
@@ -2082,9 +2106,15 @@ $D\equiv3\ (8)$ the prime $2$ is inert and the conductor-$2$ order
 has class group $\Zz/3\Zz$, whose characters have order $3$ ---
 not quadratic Dirichlet characters. It is consistent with this
 picture that the Heegner-point entries of Samart's Table 6 all have
-$D\equiv5,7\ (8)$; whether the $D\equiv5\ (8)$ points (class number
-$2$, ring class group $\Zz/6\Zz$) also conceal order-$3$
-constituents is an interesting question. Conjecture~\ref{conj:ray}
+$D\equiv5,7\ (8)$, with the single exception of the rational value
+$s=-144$ attached to $D=3$: there the unit group $\mu_6$ collapses
+the conductor-$2$ ring class number to $1$, and no order-$3$
+characters arise (Theorem~\ref{thm:B} indeed uses only $M_{12}$ and
+$d_3$). For $D\equiv5\ (8)$ the conductor-$2$ ring class groups are
+$2$-primary ($\Zz/4\Zz$ for $D=5,13$;
+$\Zz/4\Zz\times\Zz/2\Zz$ for $D=21$), so the order-$3$ ray
+constants of Conjecture~\ref{conj:ray} are genuinely specific to
+$D\equiv3\ (8)$, $D>3$. Conjecture~\ref{conj:ray}
 is thus the first batch of identities \emph{predicting} a new
 constant type rather than repackaging known ones.
 \end{remark}
@@ -2094,11 +2124,15 @@ constant type rather than repackaging known ones.
 We record the conjectural framework into which the results of this
 paper fit, and two refinements suggested by the present data. It is
 a standard expectation, implicit in \cite{De} and made formal by
-Trieu's conditional theorem \cite[Thm.~0.2]{Tr1} --- conditionally
-on Beilinson's conjecture \cite{Bei}, the Mahler measure of an exact
-polynomial is an elliptic $L$-value up to dilogarithmic corrections,
-which in some cases simplify to Dirichlet $L$-values --- that every
-Mahler measure identity of Boyd--Samart type is an instance of
+Trieu's conditional theorem \cite[Thm.~0.2]{Tr1}: for a
+three-variable polynomial $P$ whose zero locus $W_P$ has genus $1$,
+with a wedge decomposition of the symbol $xyz^3$
+\cite[(0.8)]{Tr1}, Beilinson's conjecture \cite{Bei} implies
+$m(P)=m(\widetilde P)+a\,L'(E,-1)$ up to Bloch--Wigner
+dilogarithmic corrections, which in some cases simplify to Dirichlet
+$L$-values (the $K3$-surface sequel \cite{Tr2} is of the same
+shape). Thus every Mahler measure identity of Boyd--Samart type is
+expected to be an instance of
 Beilinson's conjecture for the corresponding motive, with the exact
 rational coefficients governed by Bloch--Kato \cite{BK}; see also
 \cite{ZaG} for the elliptic-polylogarithm picture and \cite{BZ} for
@@ -2108,9 +2142,10 @@ Shioda--Inose \cite{SI} its $L$-function splits off a weight-$3$ CM
 newform (the $M$-terms of our identities), while the Dirichlet terms
 fall on the proved line of the $K_3$-theory of imaginary quadratic
 fields \cite{Za}. Fei's theorem \cite[Thm.~0.2]{Fei} --- $179$
-identities of the same two-term shape across $23$ Landau--Ginzburg
-families, with Dirichlet conductors obeying $d\mid D$ and $D/d$ a
-square --- is the corresponding theorem-level catalogue; and the
+identities of the same two-term shape, covering $23$ of his $25$
+Landau--Ginzburg families, in which the newform levels satisfy
+$-D/d$ a square and the Dirichlet discriminants $d'$ satisfy
+$d'\mid D$ --- is the corresponding theorem-level catalogue; and the
 $25$ families known today do not exhaust the rational weight-$3$ CM
 newforms classified by Sch\"utt \cite{Sch}. But the literature
 contains no family-level conjecture predicting the discriminant
@@ -2123,31 +2158,33 @@ restatements of Beilinson's conjecture: their predictions
 (discriminant structure, denominators, no-formula cases) are not
 implied by it.
 
+The mechanism expected to produce the shape below is that the
+holomorphic Mahler function $\mt(c(\tau))$ is a Beilinson regulator
+pairing of a motivic class attached to the family with the Deninger
+cycle --- cf.\ \cite{Tr1}, where this is proved for single
+polynomials. We do not attempt to make the motivic clause precise
+here; the conjecture records only its falsifiable arithmetic
+consequence.
+
 \begin{conjecture}[CM specialization: shape and discriminant
 structure]\label{conj:umbA}
 Let $P_c$ be a Laurent-polynomial family with a Hauptmodul
 parametrization $c=c(\tau)$ by a genus-$0$ congruence group
-$\Gamma$, whose fibres are elliptic curves or K3 surfaces. Then:
-\begin{enumerate}
-\item the holomorphic Mahler function $\mt(c(\tau))$ is the
-Beilinson regulator pairing of a canonical motivic class of the
-family (an element of a $K_4^{(3)}$/Goncharov complex) with the
-Deninger cycle;
-\item for every CM point $\tau_0$ of discriminant $D$ with
+$\Gamma$, whose fibres are elliptic curves or K3 surfaces. Then for
+every CM point $\tau_0$ of discriminant $D$ with
 $c(\tau_0)\in\bar{\Qq}$, the value $\m(P_{c(\tau_0)})$ lies in the
 $\Qq$-span of the values $L'(g,0)$ and $L(\chi,2)$, where $g$ runs
 over the weight-$3$ newforms CM by Hecke characters of the orders of
 discriminant $D$, and $\chi$ over the ray class characters of those
 orders; the levels and conductors are explicitly determined by the
 level of $\Gamma$ and by $D$.
-\end{enumerate}
 \end{conjecture}
 
 The new content: (1) the occurring characters are delimited a priori
 --- Fei's constraint ($d\mid D$, $D/d$ a square) is the
 genus-theoretic, $2$-primary part, while Conjecture~\ref{conj:ray}
 shows the odd part of the ring class group entering through
-order-$3$ ray characters, and clause (ii) of the conjecture predicts
+order-$3$ ray characters, and the conjecture predicts
 the same for every
 order; (2) completeness: every algebraic singular modulus in the
 $c$-image carries a formula; (3) a Galois-orbit form: via the
@@ -2157,7 +2194,7 @@ Galois orbits.
 
 \begin{conjecture}[Denominators are controlled by local
 data]\label{conj:umbB}
-In every identity of Conjecture~\ref{conj:umbA}\textup{(}ii\textup{)},
+In every identity of Conjecture~\ref{conj:umbA},
 the reduced denominators of the rational coefficients divide an
 explicit integer formed from the Tamagawa numbers (component groups)
 of the special fibre at its bad primes, the unit index of the order,
@@ -2183,9 +2220,12 @@ denominators
 $3$, $4$, $7$, $8$, $14$, $15$, $16$, $21$, $24$, $28$, $48$.
 Conjecture~\ref{conj:ray}
 supplies six conjectured ones: $9D$ for the five discriminants of
-\eqref{eq:raymain}, and $81$. Notably $9D$ is divisible by
-the discriminant --- consistent with control by class-group and
-Tamagawa data, and a first test for Conjecture~\ref{conj:umbB}.
+\eqref{eq:raymain}, and $81$. We caution that the factor $D$ in
+$9D$ is a normalization artifact: it enters through the $D^{3/2}$
+factor converting $L(g_D,3)$ into $M_D$ (in the natural
+$(\zeta_K(2),L(g_D,3),BU_D)$ units no $D$-denominator appears), so
+it carries no Tamagawa information. The nontrivial content for
+Conjecture~\ref{conj:umbB} is the residual factor $9$ (and $81$).
 \end{remark}
 
 % ============================================================
@@ -2390,7 +2430,7 @@ J. Amer. Math. Soc. \textbf{10} (1997), 259--281.
 
 \bibitem{BZ}
 F.~Brunault and W.~Zudilin,
-\emph{Many Variations of Mahler Measures: A Last Symphony},
+\emph{Many Variations of Mahler Measures: A Lasting Symphony},
 Cambridge Univ. Press, Cambridge, 2020.
 
 \bibitem{Sch}
@@ -2426,7 +2466,7 @@ Experiment. Math. \textbf{7} (1998), no.~1, 37--82.
 \bibitem{BerK3}
 M.-J.~Bertin,
 \emph{Mesure de Mahler d'hypersurfaces $K3$},
-J. Number Theory \textbf{128} (2008), no.~12, 2890--2913.
+J. Number Theory \textbf{128} (2008), no.~11, 2890--2913.
 
 \bibitem{DdJZ}
 T.~Dokchitser, R.~de~Jeu and D.~Zagier,
