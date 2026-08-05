@@ -76,8 +76,9 @@ an exact three-track CM evaluation. Applied to Samart's family
 $n_4(s)=4\m\bigl(x^4+y^4+z^4+1+s^{1/4}xyz\bigr)$, the machine proves
 twelve further entries of his 2015 table \cite[Table~6]{Sa15}: the
 conjugate pairs at $s=8292456\pm3132675\sqrt7$ (whose two identities
-are proved separately, not merely as a sum), $s=3656\pm2600\sqrt2$,
-$s=-144$, the conjugate pair $s=143208\pm101574\sqrt2$ attached to
+are proved separately, not merely as a sum) and
+$s=3656\pm2600\sqrt2$, the value $s=-144$,
+the conjugate pair $s=143208\pm101574\sqrt2$ attached to
 $\Qq(\ii)$, the two values
 $s=1207368+853632\sqrt2\pm697680\sqrt3\pm493272\sqrt6$ with matching
 signs attached to the
@@ -89,7 +90,8 @@ $s_4(\ii\sqrt6/2)=s_4(\ii\sqrt6/6)$), where the lattice
 sums involve two newforms and a genus character; the value
 $s=(-192303-85995\sqrt5)/2$ attached to the class-number-two field
 $\Qq(\sqrt{-15})$; and the pair $s=-893952\pm516096\sqrt3$ attached
-to $\Qq(\sqrt{-21})$ --- the first Mahler measure identities proved
+to $\Qq(\sqrt{-21})$ --- the first Mahler measure identities in the
+$n_4$ family proved
 at CM points of class number four (the $\Qq(\sqrt3)$ pair attached
 to $\Qq(\sqrt{-21})$), where the lattice sums involve four newforms
 and the genus group $(\Zz/2)^2$. New methodological
@@ -104,8 +106,8 @@ is not the topological boundary of the continuation region $V_4$.
 Every identity is certified by an exact algebraic track (rational
 arithmetic only, up to the quoted CM-theory inputs disclosed in
 Section~\ref{sec:cert}), rigorous final-identity interval locks
-(half-widths down to
-$9.1\times10^{-53}$), and independent $50$--$60$-digit numerical
+(half-widths between
+$4.6\times10^{-53}$ and $5.8\times10^{-52}$), and independent $50$--$60$-digit numerical
 cross-checks; all certification scripts are public. Beyond Table~6,
 the evaluation track of the machine produces six new identities at
 Heegner points (discriminants $D=11,19,27,43,67,163$), stated as
@@ -201,9 +203,10 @@ The purpose of this paper is threefold:
   (Section~\ref{sec:cert});
 \item[(ii)] to apply the machine to twelve further entries of Samart's
   Table~6 (Theorems A--F below and Theorems G--K of
-  Section~\ref{sec:app6}), covering every regime that occurs:
-  deep pure-imaginary interior points (A, C, D, E), a non-pure-imaginary
-  interior point (B), the first class-number-two CM points (E, H, I),
+  Section~\ref{sec:app6}), covering every regime the machine can
+  reach:
+  deep pure-imaginary interior points (A, C, D, E), non-pure-imaginary
+  interior points (B, G), the first class-number-two CM points (E, H, I),
   a point on Samart's applicability boundary that turns out to be a
   strict
   interior point of the continuation region (F), and the first
@@ -320,7 +323,7 @@ All twelve identities are machine-certified. Concretely, each proof
 consists of an exact algebraic track (rational/algebraic-integer
 arithmetic only, no floating point), rigorous interval locks of the
 CM values and of the final identities (final-identity half-widths
-between $9.1\times10^{-53}$ and $2.3\times10^{-51}$), and independent
+between $4.6\times10^{-53}$ and $5.8\times10^{-52}$), and independent
 $50$--$60$-digit numerical cross-checks; the scripts are listed in
 Section~\ref{sec:cert} and are publicly available
 (see the Data Availability statement). Two representative reference
@@ -618,7 +621,7 @@ devil's staircase is continuous, locally constant off the Cantor set,
 yet non-constant. Membership of the target point in $\overline W$ is
 a genuine topological input --- supplied in our applications either
 by Samart's proved region (Theorems A, C, D, E), or by an explicitly
-certified path (Theorems B, F), and \emph{absent} for the blocked
+certified path (Theorems B, F--K), and \emph{absent} for the blocked
 entries of Table~\ref{tab:open}.
 \end{remark}
 
@@ -708,7 +711,7 @@ comparison $|s_4(q)|\ge s_4(\e^{-\pi\sqrt2})=256$ by real-variable
 monotonicity, which locates his argument in the convergence region
 --- is replaced here by the hypothesis $|s_4|>256$ on $D$, certified
 by interval arithmetic in each application
-(Theorems~\ref{thm:B} and~\ref{thm:F}). This repair was identified
+(Theorems~\ref{thm:B}, \ref{thm:F}--\ref{thm:K}). This repair was identified
 by a line-by-line check of the proof of \cite[Prop.~2.1(i)]{Sa13}
 and of the convergence analysis of \cite[Thm.~2.3]{Ro} (Samart's
 proof of Prop.~2.1(iii) itself is one sentence, referring to the
@@ -859,7 +862,7 @@ independent tracks, any one of which is sufficient in principle:
   lattice sums, $E_1$-continued-fraction-bracketed Mellin integrals
   for the $L$-values, Euler--Maclaurin for the Dirichlet values.
   Achieved half-widths are quoted in each application section
-  (down to $9.1\times10^{-53}$).
+  (between $4.6\times10^{-53}$ and $5.8\times10^{-52}$).
 \item \textbf{mp cross-checks.} Independent $60$-digit
   (\texttt{mpmath}, non-interval) reimplementations of every
   quantity, agreeing typically to $10^{-60}$; these corroborate the
@@ -868,7 +871,8 @@ independent tracks, any one of which is sufficient in principle:
 Newform identifications use Ligozat's eta-quotient criteria
 \cite{Lig} (weight, character, cusp orders), exact-integer theta
 identity checks to order $q^{60}$ against the Sturm bound
-\cite{Sturm} (which is $\le6$ in all our cases), and the LMFDB
+\cite{Sturm} (at most $48$ in our cases, always below the $q^{60}$
+check order), and the LMFDB
 labels \cite{LMFDB}. Level and root number of each twist are
 determined by the \emph{Fricke ratio}
 $f\bigl(\ii/(\sqrt N\,y)\bigr)\big/\bigl(y^3 f(\ii y/\sqrt N)\bigr)$
@@ -897,7 +901,8 @@ script & content \\
 \texttt{n4\_m144\_true\_mahler.py} & true Mahler side of
   Theorem B by spectral torus integration (22-digit collision) \\
 \texttt{cert0\_n4\_p3\_t1t2.py} & exactness of the $s_4$-values of
-  Theorems C, D and of the conjugate of C (Theorem F's $s$-value) \\
+  Theorems C, D, of the conjugate of C (Theorem F's $s$-value), and
+  of the conjugate of D (Theorem G's $s$-value) \\
 \texttt{verify\_P1\_n4\_p3\_t1t2.py} & Theorems C, D: three tracks,
   [G] identifications, Fricke-ratio level determinations \\
 \texttt{cert0\_n4\_p4\_t3.py} & Theorem E: four-point quartic lock
@@ -916,20 +921,20 @@ script & content \\
   $X^2+192303X+1185921$ \\
 \texttt{cert0\_n5\_e78.py} & Theorems J, K: $\Qq(\sqrt3)$ pair lock,
   $X^2+1787904X+84934656$ \\
-\texttt{verify\_P1\_n5\_e1.py} & Theorem G: $49$ checks, three
+\texttt{verify\_P1\_n5\_e1.py} & Theorem G: $48$ checks, three
   tracks, [V] locks \\
-\texttt{verify\_P1\_n5\_e2.py} & Theorem H: $55$ checks, three
+\texttt{verify\_P1\_n5\_e2.py} & Theorem H: $53$ checks, three
   tracks, genus-character decomposition, [V] locks \\
-\texttt{verify\_P1\_n5\_e6.py} & Theorem I: $44$ checks, three
+\texttt{verify\_P1\_n5\_e6.py} & Theorem I: $42$ checks, three
   tracks, conductor-$2$-order lattice decomposition, [V] locks \\
-\texttt{verify\_P1\_n5\_e78.py} & Theorems J, K: $73$ checks, three
+\texttt{verify\_P1\_n5\_e78.py} & Theorems J, K: $71$ checks, three
   tracks, four-class anchors, [V] locks \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 All computations use \texttt{mpmath} interval arithmetic at
-$40$--$70$ decimal digits (\texttt{iv.dps}); the certification
+$40$--$80$ decimal digits (\texttt{iv.dps}); the certification
 scripts print \texttt{PASS}/\texttt{FAIL} per check and terminate
 with an all-checks-passed line, re-verified by the author.
 
@@ -1309,7 +1314,7 @@ $\OO_4\setminus\{0\}=\{a\text{ odd},\ b\equiv0\ (4)\}\sqcup
 2\OO_2\setminus\{0\}$ and the projector of
 \S\ref{subsec:rayproj} ([Y4]). The newform identification
 $g_{16}=\eta(4\tau)^6\in S_3(\Gamma_0(16),\chi_{-4})$ is Sturm-level
-(five cusp orders all $1$; weighted degree $6=\frac{3}{12}\cdot24$;
+(six cusp orders all $1$; weighted degree $6=\frac{3}{12}\cdot24$;
 Sturm bound $6$; theta identity
 $2g_{16}=\sum_{\alpha\equiv1\,(2)}\alpha^2q^{N\alpha}$ of conductor
 $(2)$ exact to $q^{60}$). In the $e$-basis
@@ -1572,10 +1577,12 @@ The point
   \tau_4=\frac{1+\sqrt{-2}}2,\qquad \ImT\tau_4=\frac1{\sqrt2},
 \]
 lies \emph{exactly} on the boundary of Samart's applicability region.
-Moreover $q(\tau_4)=-\e^{-\pi\sqrt2}<0$ is a negative real (outside
-his $q\in(0,1)$ hypothesis) and $|s_4(\tau_4)|=20.96\ldots<256$
+Moreover $\tau_4$ is not pure imaginary,
+$q(\tau_4)=-\e^{-\pi\sqrt2}<0$ is a negative real (outside
+his $q\in(0,1)$ hypothesis) and $|s_4(\tau_4)|=20.955\ldots<256$
 (outside the ${}_5F_4$ convergence region), so
-Theorem~\ref{thm:samart4} fails to cover $\tau_4$ for two independent
+Theorem~\ref{thm:samart4} fails to cover $\tau_4$ for three
+independent
 reasons. This was expected to require a boundary-continuity argument.
 It does not: the boundary in question is not the boundary of the
 problem.
@@ -1786,7 +1793,7 @@ $\Lambda_2=\OO_2$, the conductor-$2$ order of $\Qq(\ii)$ --- the
 same lattice as Theorem~\ref{thm:D}'s $\Lambda_1$ --- and
 $2\Lambda_1=2\OO_2\sqcup\bigl((1+2\ii)+2\OO_2\bigr)$; the exact
 track gives
-$\mathrm{comb}=-20L_{16}+32L_{16}^{\mathrm{tw}}-\tfrac{27}{4}z_C
+$\mathrm{comb}=-20L_{16}+32L_{16}^{\mathrm{tw}}-\tfrac{27}{4}\zeta_K(2)
 +16z_{V_2}$ and
 $\EK_4(\tau_0)=(-200,320,-135/2,160)\cdot e$, the right-hand side
 of Theorem~\ref{thm:G}; the interval lock [V3] has half-width
@@ -2289,10 +2296,17 @@ compatible with stations S2/S4 of the machine.
 \item \emph{The formerly ready entries} \#1, \#2, \#6, \#7, \#8 are
   now proved as Theorems~\ref{thm:G}--\ref{thm:K}
   (Section~\ref{sec:app6}); Table~6 has no reachable entries left.
-\item \emph{The blocked entries} \#3, \#4, \#5, \#9, \#10: a
-  corrected (wrong-sheet-free) formula is needed before the machine
-  has anything to certify; the $\widetilde n$ framework of
-  \cite{ST} is the natural candidate.
+\item \emph{Six Heegner-point identities one leg short of proof}:
+  Conjecture~\ref{conj:ray} is a single one-leg \texttt{cert2}
+  certification away from a proof (Remark~\ref{rem:raystatus}); the
+  exact coefficients and the evaluation track are already in place.
+\item \emph{The blocked entries} \#3, \#4, \#5, \#9, \#10: for \#3,
+  \#9, \#10 (wrong sheet below $\ImT\tau=1/\sqrt2$) a corrected
+  series input is needed; for \#4 and \#5 ($c(\tau_0)$ in the
+  interior of the critical astroid) an interior-point formula of
+  $\widetilde n$-type is needed before the machine has anything to
+  certify; the $\widetilde n$ framework of \cite{ST} is the natural
+  candidate for both.
 \item \emph{Samart's three-modular-$L$-value hypothesis}
   $s=16+1600\sqrt[3]2-1280\sqrt[3]4$ \cite{Sa15}: the conjectured
   value involves three modular $L$-values and no attached CM point in

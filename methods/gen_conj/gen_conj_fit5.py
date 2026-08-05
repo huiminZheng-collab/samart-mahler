@@ -6,7 +6,9 @@
 #   B(O_3) = 6 zeta_K(2) - 2 X,  X = sum_{gamma in w+O_3} 1/N^2.
 # Predicted (M27 = L'(g27,0), MU = 108^{3/2} U/(4 pi^3),
 # DU = BU*9 s3/(2 pi^3), DX = X*9 s3/(2 pi^3), d3 = L'(chi_{-3},-1)):
-#   EK4 = (40/9) M27 + (40/81) MU + 10 d3 - (10/3) DX + (80/9) DU.
+#   EK4 = (40/27) M27 + (40/81) MU + 10 d3 - (10/3) DX + (80/9) DU.
+# (DX turns out to equal (56/27) d3, so this simplifies to
+#  EK4 = (40/27) M27 + (40/81) MU + (250/81) d3 + (80/9) DU.)
 # New file; modifies nothing.
 from mpmath import (mp, mpf, mpc, pi, zeta, sinh, cosh, cos, exp, sqrt,
                     diff as mpdiff, dirichlet, gamma, power, gammainc,
