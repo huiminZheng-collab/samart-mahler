@@ -1,6 +1,6 @@
 % methods.tex -- full text (2026-08-05)
 % "A certified continuation machine for Mahler measure identities at CM points,
-%  with seven new proofs of conjectures of Samart"
+%  with twelve new proofs of conjectures of Samart"
 \documentclass[11pt]{article}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage[margin=1in]{geometry}
@@ -39,7 +39,7 @@
 \newtheorem{remark}[theorem]{Remark}
 
 \title{A certified continuation machine for Mahler measure\\
-identities at CM points, with seven new proofs of\\
+identities at CM points, with twelve new proofs of\\
 conjectures of Samart}
 \author{Huimin Zheng\thanks{%
 College of Information and Network Engineering,
@@ -73,17 +73,25 @@ critical image, a propagation lemma that replaces all monodromy and
 universal-cover arguments, interval-arithmetic path certification, and
 an exact three-track CM evaluation. Applied to Samart's family
 $n_4(s)=4\m\bigl(x^4+y^4+z^4+1+s^{1/4}xyz\bigr)$, the machine proves
-seven further entries of his 2015 table \cite[Table~6]{Sa15}: the
+twelve further entries of his 2015 table \cite[Table~6]{Sa15}: the
 conjugate pairs at $s=8292456\pm3132675\sqrt7$ (whose two identities
 are proved separately, not merely as a sum), $s=3656\pm2600\sqrt2$,
-$s=-144$, $s=143208+101574\sqrt2$, and the value
-$s=1207368+853632\sqrt2+697680\sqrt3+493272\sqrt6$ attached to the
+$s=-144$, the conjugate pair $s=143208\pm101574\sqrt2$ attached to
+$\Qq(\ii)$, the two values
+$s=1207368+853632\sqrt2\pm697680\sqrt3\pm493272\sqrt6$ with matching
+signs attached to the
 class-number-two field $\Qq(\sqrt{-6})$ --- the first Mahler measure
-identity in the $n_4$ family proved at a \emph{non-degenerate} CM
-point of class number two (Samart's $s=2304$ \cite{Sa13}, attached
+identities in the $n_4$ family proved at \emph{non-degenerate} CM
+points of class number two (Samart's $s=2304$ \cite{Sa13}, attached
 to $\tau=\sqrt{-6}/2$, is the degenerate value
 $s_4(\ii\sqrt6/2)=s_4(\ii\sqrt6/6)$), where the lattice
-sums involve two newforms and a genus character. New methodological
+sums involve two newforms and a genus character; the value
+$s=(-192303-85995\sqrt5)/2$ attached to the class-number-two field
+$\Qq(\sqrt{-15})$; and the pair $s=-893952\pm516096\sqrt3$ attached
+to $\Qq(\sqrt{-21})$ --- the first Mahler measure identities proved
+at CM points of class number four (the $\Qq(\sqrt3)$ pair attached
+to $\Qq(\sqrt{-21})$), where the lattice sums involve four newforms
+and the genus group $(\Zz/2)^2$. New methodological
 ingredients include: the Fricke ratio as the only non-vacuous
 level/root-number discriminator (the ``functional-equation residue''
 test is vacuous for root number $+1$ at every level); a genuine
@@ -97,10 +105,10 @@ arithmetic only, up to the quoted CM-theory inputs disclosed in
 Section~\ref{sec:cert}), rigorous interval locks (half-widths down to
 $9.1\times10^{-53}$), and independent $50$--$60$-digit numerical
 cross-checks; all certification scripts are public. Finally we score
-the ten remaining open entries of Table~6 against the machine's five
-stations: five are within current reach (only mechanical work remains),
-and five are blocked by genuine obstructions --- a two-dimensional
-critical image or a wrong-sheet Eisenstein--Kronecker series ---
+the five remaining open entries of Table~6 against the machine's five
+stations: all five are blocked by genuine obstructions --- a
+two-dimensional critical image or a wrong-sheet
+Eisenstein--Kronecker series ---
 which we analyze precisely.
 \end{abstract}
 
@@ -151,6 +159,10 @@ critical locus the passage from $\ReT\mt$ to the genuine Mahler
 measure is not automatic --- a point stressed already by Rodriguez
 Villegas \cite{RV} --- and it is precisely this passage that the
 continuation machine of \cite{Zf} and of the present paper performs.
+Altogether, twenty-three of the twenty-nine entries are now proved
+--- eleven previously, twelve in the present paper
+(Theorems A--K) --- one is refuted, and five
+remain open.
 
 \begin{remark}[The status of $s=-3969$]\label{rem:fei}
 For the entry $s=-3969$ above, \cite{Fei} proves the identity for
@@ -162,8 +174,9 @@ supplied by the present machine: the attached point
 $\tau=(1+\sqrt{-7})/2$ lies on the vertical segment
 $\ReT\tau=1/2$, $0.702\le\ImT\tau\le\sqrt{21}/2$, which
 \texttt{n5\_line\_cert.py} certifies inside the good component $W$
-by interval arithmetic (public repository; the certificate was
-produced for the Phase-8 entries of Table~\ref{tab:open}). Hence
+by interval arithmetic (public repository; the same certificate
+covers the CM points of Theorems~\ref{thm:H}--\ref{thm:K}, see
+Section~\ref{sec:app6}). Hence
 Theorem~\ref{thm:main} applies and the $s=-3969$ evaluation holds
 for the genuine Mahler measure.
 \end{remark}
@@ -176,13 +189,16 @@ The purpose of this paper is threefold:
   whose trusted base consists of pure mathematics, documented
   interval-arithmetic semantics, and public source code
   (Section~\ref{sec:cert});
-\item[(ii)] to apply the machine to seven further entries of Samart's
-  Table~6 (Theorems A--F below), covering all four regimes that occur:
+\item[(ii)] to apply the machine to twelve further entries of Samart's
+  Table~6 (Theorems A--F below and Theorems G--K of
+  Section~\ref{sec:app6}), covering every regime that occurs:
   deep pure-imaginary interior points (A, C, D, E), a non-pure-imaginary
-  interior point (B), the first class-number-two CM point (E), and a
-  point on Samart's applicability boundary that turns out to be a strict
-  interior point of the continuation region (F);
-\item[(iii)] to take stock: to score the ten remaining open entries of
+  interior point (B), the first class-number-two CM points (E, H, I),
+  a point on Samart's applicability boundary that turns out to be a
+  strict
+  interior point of the continuation region (F), and the first
+  class-number-four CM points (J, K);
+\item[(iii)] to take stock: to score the five remaining open entries of
   Table~6 against the machine's checklist (\S\ref{subsec:inventory})
   and to describe precisely where and why the method stops
   (Section~\ref{sec:boundary}).
@@ -290,7 +306,7 @@ $L$-value expression; the inclusion $\tau_0\in\overline W$ is
 certifiable by rigorous interval arithmetic.
 \end{theorem}
 
-All seven identities are machine-certified. Concretely, each proof
+All twelve identities are machine-certified. Concretely, each proof
 consists of an exact algebraic track (rational/algebraic-integer
 arithmetic only, no floating point), rigorous interval locks of the
 CM values and of the final identities (half-widths between
@@ -309,11 +325,11 @@ computed from the functional equations and cross-checked against
 direct lattice-sum evaluations; further values are collected in the
 application sections.
 
-\subsection{The ten remaining entries}\label{subsec:inventory}
+\subsection{The five remaining entries}\label{subsec:inventory}
 
-Table~6 of \cite{Sa15} has twenty-nine entries: eighteen are now
-proved (eleven previously known, plus the seven of Theorems
-A--F), one is refuted ($s=81$ \cite{Zf2}), and ten remain open.
+Table~6 of \cite{Sa15} has twenty-nine entries: twenty-three are now
+proved (eleven previously known, plus the twelve of Theorems
+A--K), one is refuted ($s=81$ \cite{Zf2}), and five remain open.
 The machine reduces a proof of each entry to five \emph{stations}
 (Section~\ref{sec:machine} for definitions):
 \begin{enumerate}
@@ -330,15 +346,17 @@ The machine reduces a proof of each entry to five \emph{stations}
 \item[\textbf{S5}] \emph{P1 assemblability}: an exact CM evaluation
   of $\EK_4(\tau_0)$ in the relevant imaginary quadratic field.
 \end{enumerate}
-Table~\ref{tab:open} scores the ten open entries against these
+Table~\ref{tab:open} scores the five open entries against these
 stations.
 
 \begin{table}[htb]
 \centering\scriptsize
-\caption{The ten open entries of Samart's Table~6, scored against the
-five stations of the machine. ``Outside/inside'' refers to the
+\caption{The five open entries of Samart's Table~6, scored against the
+five stations of the machine (the original numbering of the ten-entry
+list is kept; entries \#1, \#2, \#6, \#7, \#8 are now proved as
+Theorems~\ref{thm:G}--\ref{thm:K}). ``Outside/inside'' refers to the
 astroid disc $\Ast$; $\zeta$ abbreviates
-$1207368$, $a=853632$, $b=697680$, $d=493272$ in rows 2--4:
+$1207368$, $a=853632$, $b=697680$, $d=493272$ in rows 3--4:
 $s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$ with the indicated signs.}
 \label{tab:open}
 \setlength{\tabcolsep}{2.5pt}
@@ -347,18 +365,6 @@ $s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$ with the indicated signs.}
 \# & $s$ & $\tau_0$ & $\ImT\tau_0$ & S2: $c(\tau_0)$ & S3: position
  & S4/S5 status & verdict\\
 \midrule
-1 & $143208-101574\sqrt2$ & $(1+2\ii)/2$ & $1$
-  & outside $\Ast$ ($|s|>256$)
-  & interior; $\tau_0$ lies on the certified path of
-    Section~\ref{sec:app5}
-  & S4 done (conjugate of Thm.~D lock); S5 ready ($\Qq(\ii)$, $h=1$)
-  & ready\\
-2 & $\zeta$, signs $({+}{-}{-})$ & $(1+\ii\sqrt6)/2$ & $1.225$
-  & outside $\Ast$ ($|s|>256$)
-  & interior; short \texttt{cert2} extension
-  & S4 done (\texttt{cert0\_n4\_p4\_t3.py}); S5 ready ($h=2$,
-    \S\ref{sec:app4})
-  & ready\\
 3 & $\zeta$, signs $({-}{+}{-})$ & $\ii\sqrt6/4$ & $0.612$
   & outside $\Ast$ ($s>256$)
   & \emph{exterior}: EK series wrong-sheeted below $1/\sqrt2$
@@ -372,24 +378,8 @@ $s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$ with the indicated signs.}
 5 & $(-192303+85995\sqrt5)/2$ & $(3+\ii\sqrt{15})/6$ & $0.646$
   & inside $\Ast$ ($s\approx-6.17$)
   & blocked (two-dimensional image); also exterior
-  & S4 open (disc.\ $-15$, $h=2$); S5 needs level-$15$ pair
+  & S4 done (\texttt{cert0\_n5\_e56.py} pair lock); S5 moot
   & blocked\\
-6 & $(-192303-85995\sqrt5)/2$ & $(1+\ii\sqrt{15})/2$ & $1.936$
-  & outside $\Ast$
-  & interior; \texttt{cert2} feasible on $\ReT\tau=1/2$
-  & S4 open (pair lock with \#5); S5 ready ($h=2$ machinery)
-  & ready\\
-7 & $-893952+516096\sqrt3$ & $(3+\ii\sqrt{21})/6$ & $0.764$
-  & outside $\Ast$ (functional $\approx3.02$)
-  & interior; $\tau_0$ lies on the certified path of
-    Section~\ref{sec:app5}
-  & S4 open (pair lock with \#8); S5 ready (level $84$, $h=2$)
-  & ready\\
-8 & $-893952-516096\sqrt3$ & $(1+\ii\sqrt{21})/2$ & $2.291$
-  & outside $\Ast$
-  & interior; \texttt{cert2} feasible
-  & S4 open (same pair lock); S5 ready
-  & ready\\
 9 & $347648256+141926400\sqrt6$ & $\ii\sqrt{42}/42$ & $0.154$
   & outside $\Ast$ ($c>4$ real)
   & \emph{exterior}: wrong sheet, deep below $1/\sqrt2$
@@ -405,23 +395,18 @@ $s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$ with the indicated signs.}
 \end{table}
 
 The conjectured right-hand sides are Samart's \cite[Table~6]{Sa15};
-for example, entry \#1 is
-$n_4(143208-101574\sqrt2)\stackrel?=\frac58\bigl(4M_{16}^{\mathrm{tw}}
--20M_{16}-9d_4+4d_8\bigr)$, the conjugate sign pattern of
-Theorem~\ref{thm:D}, and entries \#2--\#4 are the three remaining
-sign patterns of Theorem~\ref{thm:E}'s family. Five entries are
-\emph{ready}: for \#1 and \#7 the target CM point even lies on the
-already certified path of Section~\ref{sec:app5} (legs
-$\{x=1/2,\ 0.702\le y\le1\}$ and $\{y=1,\ 0\le x\le1/2\}$), so only
-stations S4/S5 remain; \#2, \#6, \#8 require a routine
-\texttt{cert2} adaptation and a new \texttt{cert0} pair lock. The
-five \emph{blocked} entries split into two genuine obstructions,
+entries \#3 and \#4 are the two remaining sign patterns of
+Theorem~\ref{thm:E}'s family (the other two being Theorems~\ref{thm:E}
+and~\ref{thm:H}). All five remaining entries are \emph{blocked}, by
+two genuine obstructions
 analyzed in Section~\ref{sec:boundary}: the two-dimensional critical
 image (\#4, \#5: the $s=81$ mechanism of \cite{Zf2}), and the
 wrong-sheet phenomenon of the EK series below $\ImT\tau=1/\sqrt2$
 (\#3, \#9, \#10, and again \#5), where the conjectured identity
 concerns the true Mahler measure but the series side of the machine
-has no valid input.
+has no valid input. The five entries that this scoring marked as
+within current reach --- \#1, \#2, \#6, \#7, \#8 --- are now proved
+as Theorems~\ref{thm:G}--\ref{thm:K} (Section~\ref{sec:app6}).
 
 Beyond Table~6, three further open directions are discussed in
 Section~\ref{sec:boundary}: Samart's ``three modular $L$-value''
@@ -901,6 +886,22 @@ script & content \\
   (interior-point verdict, margin $0.11590$) \\
 \texttt{n4\_p4\_t4\_verify.py} & Theorem F: three tracks, shifted
   $\coth/\tanh$ row machine, [V] locks \\
+\texttt{n5\_line\_cert.py} & certified vertical segment
+  $\ReT\tau=1/2$, $0.702\le\ImT\tau\le\sqrt{21}/2$ (station S3 of
+  Theorems G--K and Remark~\ref{rem:fei}; $8$ blocks, minimum margin
+  $0.00729$) \\
+\texttt{cert0\_n5\_e56.py} & Theorem I: $\Qq(\sqrt5)$ pair lock,
+  $X^2+192303X+1185921$ \\
+\texttt{cert0\_n5\_e78.py} & Theorems J, K: $\Qq(\sqrt3)$ pair lock,
+  $X^2+1787904X+84934656$ \\
+\texttt{verify\_P1\_n5\_e1.py} & Theorem G: $49$ checks, three
+  tracks, [V] locks \\
+\texttt{verify\_P1\_n5\_e2.py} & Theorem H: $55$ checks, three
+  tracks, genus-character decomposition, [V] locks \\
+\texttt{verify\_P1\_n5\_e6.py} & Theorem I: $44$ checks, three
+  tracks, conductor-$2$-order lattice decomposition, [V] locks \\
+\texttt{verify\_P1\_n5\_e78.py} & Theorems J, K: $73$ checks, three
+  tracks, four-class anchors, [V] locks \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1260,8 +1261,8 @@ is the right-hand side of Theorem~\ref{thm:C}. \qed
 ($|\Delta|\le4.1\times10^{-48}$, $3.7\times10^{-45}$; separation
 $2.87\times10^{5}$), pinning
 $s_4(2\ii)=143208+101574\sqrt2$ and
-$s_4\bigl((1+2\ii)/2\bigr)=143208-101574\sqrt2$ (the latter is the
-open entry \#1 of Table~\ref{tab:open}).
+$s_4\bigl((1+2\ii)/2\bigr)=143208-101574\sqrt2$ (the latter is
+proved as Theorem~\ref{thm:G}, Section~\ref{sec:app6}).
 
 \textbf{Station S5.} $K=\Qq(\ii)$, $\OO_K=\Zz[\ii]$, $h=1$, units
 $\mu_4$ --- and $\sum_{u\in\mu_4}u^2=0$, so $G(\OO_K)=0$ (exact [Y1];
@@ -1411,8 +1412,10 @@ $s_4(-1/(2\tau))=s_4(\tau)$, observed numerically to $10^{-33}$ at
 sample points; and the second class of discriminant $-24$ degenerates:
 $s_4(\ii\sqrt6/2)=s_4(\ii\sqrt6/6)=2304\in\Zz$, which is why that
 value is absent from the quartic roots. In particular the $(+,-)$
-value is open entry \#2 of Table~\ref{tab:open} and the $(-,\pm)$
-values are entries \#3, \#4: their station S4 is already done.
+value is entry \#2, proved as Theorem~\ref{thm:H}
+(Section~\ref{sec:app6}), and the $(-,\pm)$
+values are entries \#3, \#4 of Table~\ref{tab:open}: their station
+S4 is already done.
 
 \subsection{The two newforms and the genus character}\label{subsec:genus}
 
@@ -1595,10 +1598,11 @@ $r^{41}<10^{-78}$):
 \end{itemize}
 Hence the whole path and $\tau_4$ lie in $W$, the component of the
 anchor box, and Theorem~\ref{thm:main} gives
-$n_4(s_4(\tau_4))=\EK_4(\tau_4)$. As a byproduct, the open entries
+$n_4(s_4(\tau_4))=\EK_4(\tau_4)$. As a byproduct, the entries
 \#1 ($\tau=(1+2\ii)/2$, the top corner of the legs) and \#7
-($\tau=(3+\ii\sqrt{21})/6=1/2+0.7638\ii$, on leg B) of
-Table~\ref{tab:open} already have their station S3 certified by this
+($\tau=(3+\ii\sqrt{21})/6=1/2+0.7638\ii$, on leg B) --- now proved
+as Theorems~\ref{thm:G} and~\ref{thm:J} (Section~\ref{sec:app6})
+--- already have their station S3 certified by this
 same path.
 
 \subsection{Station S4}
@@ -1665,6 +1669,247 @@ noise floor).
 \end{remark}
 
 % ============================================================
+\section{Five further proofs: class numbers one, two, and four}
+\label{sec:app6}
+
+The five entries of Samart's Table~6 that the checklist of
+\S\ref{subsec:inventory} scored as within current reach are now
+proved. We state them as Theorems G--K and record the status of
+each station; the three genuinely new methodological ingredients
+are collected in \S\ref{subsec:app6new}.
+
+\begin{theorem}[Theorem G]\label{thm:G}
+With the notation of Theorem~\ref{thm:D},
+\[
+  n_4\bigl(143208-101574\sqrt2\bigr)
+  =\frac58\bigl(4M_{16}^{\mathrm{tw}}-20M_{16}-9d_4+4d_8\bigr).
+\]
+The attached CM point is $\tau_0=(1+2\ii)/2$.
+\end{theorem}
+
+\begin{theorem}[Theorem H: class number two, second sign pattern]
+\label{thm:H}
+With the notation of Theorem~\ref{thm:E},
+\begin{multline*}
+  n_4\bigl(1207368+853632\sqrt2-697680\sqrt3-493272\sqrt6\bigr)\\
+  =\frac{5}{24}\Bigl(4M_{24}^{(1),\mathrm{tw}}+4M_{24}^{(2),\mathrm{tw}}
+   -28M_{24}^{(1)}-12M_{24}^{(2)}
+   -28d_3+24d_4+8d_8-d_{24}\Bigr).
+\end{multline*}
+The attached CM point is $\tau_0=(1+\sqrt{-6})/2$.
+\end{theorem}
+
+\begin{theorem}[Theorem I:
+\texorpdfstring{$\Qq(\sqrt{-15})$}{Q(sqrt(-15))}]\label{thm:I}
+Let $K=\Qq(\sqrt{-15})$ \textup{(}class number $2$\textup{)}, and let
+$g_{15}^{(1)},g_{15}^{(2)}$ be the two newforms of
+$S_3(\Gamma_0(15),\chi_{-15})$, theta series of the two
+gr\"ossencharacters of $K$ of type $(2,0)$ \textup{(}LMFDB
+\textup{\textsf{15.3.d.a}} and \textup{\textsf{15.3.d.b}}, the only
+dimension-one CM forms of this level\textup{)}, numbered so that
+$a_2\bigl(g_{15}^{(1)}\bigr)=+1$ and $a_2\bigl(g_{15}^{(2)}\bigr)=-1$.
+With $M_{15}^{(i)}:=L'\bigl(g_{15}^{(i)},0\bigr)$,
+\[
+  n_4\Bigl(\frac{-192303-85995\sqrt5}{2}\Bigr)
+  =\frac1{15}\bigl(160M_{15}^{(1)}+120M_{15}^{(2)}+88d_3+5d_{15}\bigr).
+\]
+The attached CM point is $\tau_0=(1+\sqrt{-15})/2$.
+\end{theorem}
+
+\begin{theorem}[Theorem J: class number four]\label{thm:J}
+Let $K=\Qq(\sqrt{-21})$ \textup{(}discriminant $-84$, class number
+$4$, class group $(\Zz/2)^2$ with ideal classes
+$1,[\mathfrak p_2],[\mathfrak p_3],[\mathfrak p_6]$,
+$\mathfrak p_6=\mathfrak p_2\mathfrak p_3$\textup{)}. The
+four-dimensional space $S_3(\Gamma_0(84),\chi_{-84})$ is spanned by
+the CM theta series
+\[
+  g(\varepsilon_2,\varepsilon_3)
+  =P_0+\varepsilon_2P_2+\varepsilon_3P_3+\varepsilon_2\varepsilon_3P_6,
+  \qquad \varepsilon_2,\varepsilon_3\in\{\pm1\},
+\]
+of the four gr\"ossencharacters of $K$ of type $(2,0)$, where
+$P_0,P_2,P_3,P_6$ are the theta sums over the four ideal classes
+\textup{(}LMFDB \textup{\textsf{84.3.d.*}}; the precise theta
+construction is documented in the header of
+\texttt{verify\_P1\_n5\_e78.py}\textup{)}. With
+$M_{84}^{(3)}:=L'\bigl(g(-1,+1),0\bigr)$ and
+$M_{84}^{(4)}:=L'\bigl(g(-1,-1),0\bigr)$,
+\[
+  n_4\bigl(-893952+516096\sqrt3\bigr)
+  =\frac{20}{7}\bigl(M_{84}^{(3)}-M_{84}^{(4)}+8d_3-4d_4\bigr).
+\]
+The attached CM point is $\tau_0=(3+\sqrt{-21})/6$.
+\end{theorem}
+
+\begin{theorem}[Theorem K]\label{thm:K}
+With the notation of Theorem~\ref{thm:J},
+\[
+  n_4\bigl(-893952-516096\sqrt3\bigr)
+  =\frac{20}{21}\bigl(M_{84}^{(3)}+M_{84}^{(4)}+8d_3+4d_4\bigr).
+\]
+The attached CM point is $\tau_0=(1+\sqrt{-21})/2$.
+\end{theorem}
+
+\subsection{Station status}\label{subsec:app6stations}
+
+\textbf{Theorem G.} S1/S2: $s_4(\tau_0)=143208-101574\sqrt2$
+($|s|>256$, outside $\Ast$). S3 is free: $\tau_0=(1/2,1)$ is the top
+corner of the certified path of Section~\ref{sec:app5} (the
+intersection of legs A and B of \texttt{n4\_p4\_t4\_cert.py}). S4 is
+quoted from \texttt{cert0\_n4\_p3\_t1t2.py} (the conjugate lock of
+Theorem~\ref{thm:D}, \S\ref{subsec:app3D}). S5 is
+\texttt{verify\_P1\_n5\_e1.py} ($49$ checks): $2\tau_0=1+2\ii$ gives
+$\Lambda_2=\OO_2$, the conductor-$2$ order of $\Qq(\ii)$ --- the
+same lattice as Theorem~\ref{thm:F}'s $\Lambda_1$ --- and
+$2\Lambda_1=2\OO_2\sqcup\bigl((1+2\ii)+2\OO_2\bigr)$; the exact
+track gives
+$\mathrm{comb}=-20L_{16}+32L_{16}^{\mathrm{tw}}-\tfrac{27}{4}z_C
++16z_{V_2}$ and
+$\EK_4(\tau_0)=(-200,320,-135/2,160)\cdot e$, the right-hand side
+of Theorem~\ref{thm:G}; the interval lock [V3] has half-width
+$1.23\times10^{-52}$ and the mp track agrees to
+$1.87\times10^{-60}$. \qed
+
+\textbf{Theorem H.} S3: $\tau_0=(1+\ii\sqrt6)/2$ lies on the
+certified vertical segment of \texttt{n5\_line\_cert.py}
+(point-enclosure astroid margin $3.16$; \S\ref{subsec:app6new}(i)).
+S4 is quoted from \texttt{cert0\_n4\_p4\_t3.py} (the four-point
+quartic lock, point tag \texttt{'C'}; \S\ref{sec:app4}). S5 is
+\texttt{verify\_P1\_n5\_e2.py} ($55$ checks): $2\tau_0=1+\sqrt{-6}$
+gives $\Lambda_2=\OO_K$, and
+$2\Lambda_1=\{c+d\sqrt{-6}:c\equiv d\ (2)\}
+=2\OO_K\sqcup C''$ with $C''=\{c,d\text{ both odd}\}$ the
+$\chi_{-8}\circ N=-1$ side of the odd sums; with the anchors of
+\S\ref{subsec:class2} the exact track gives
+\[
+  \mathrm{comb}=-T(\Lambda_1)+4T(\Lambda_2)=3T(\OO_K)-16T(C'')
+  =(-14,-6,16,16,-3,-7,8,8)
+\]
+on the basis
+$\bigl(L_1,L_2,L_1^{\mathrm{tw}},L_2^{\mathrm{tw}},\zeta_K(2),
+L(\chi_8,2)L(\chi_{-3},2),L(\chi_{-8},2)L(\chi_3,2),
+\mathrm{Cat}\,L(\chi_{24},2)\bigr)$ of \S\ref{subsec:class2} ---
+minus four times Theorem~\ref{thm:E}'s combination with the
+character-dependent pieces sign-flipped, the same flip pattern as
+Theorems C/F --- and
+$\EK_4(\tau_0)=(5\sqrt6/\pi^3)\,\mathrm{comb}$ ($\ImT\tau_0$
+halved relative to Theorem~\ref{thm:E}), the right-hand side of
+Theorem~\ref{thm:H}; [V3] half-width $1.94\times10^{-52}$, mp
+agreement $1.87\times10^{-60}$. \qed
+
+\textbf{Theorem I.} S3: $\tau_0=(1+\ii\sqrt{15})/2$ lies on the
+certified vertical segment (margin $9.54$). S4 is
+\texttt{cert0\_n5\_e56.py}: a $\Qq(\sqrt5)$ pair lock of $\tau_0$
+together with the point $(3+\ii\sqrt{15})/6$ of the blocked entry
+\#5, minimal polynomial $X^2+192303X+1185921$ (discriminant
+$5\cdot85995^2$), root separation $1.92\times10^{5}$ against lock
+widths $\le2.8\times10^{-48}$. S5 is \texttt{verify\_P1\_n5\_e6.py}
+($44$ checks): $\tau_0=\omega$ with $\OO_K=\Zz[\omega]$, so
+$\Lambda_1=\OO_K$ and $\Lambda_2=\Zz[\sqrt{-15}]=\OO_2$, the
+conductor-$2$ order; $\OO_2=2\OO_K\sqcup C''$ with
+$C''=\{\alpha\in\OO_K:N(\alpha)\text{ odd}\}$, evaluated by
+Euler-factor removal at the two primes above $2$
+($\chi_{-15}(2)=+1$); the exact track gives
+$\mathrm{comb}=(6,8,3/2,11/2)$ on the basis
+$\bigl(L_1,L_2,\zeta_K(2),L(\chi_5,2)L(\chi_{-3},2)\bigr)$ and
+$\EK_4(\tau_0)=(5\sqrt{15}/\pi^3)\,\mathrm{comb}$, the right-hand
+side of Theorem~\ref{thm:I}; [V3] half-width $1.01\times10^{-52}$,
+mp agreement $1.24\times10^{-60}$. \qed
+
+\textbf{Theorems J and K.} S3: both points lie on the certified
+vertical segment: $(3+\ii\sqrt{21})/6$ at $y=\sqrt{21}/6\approx0.764$
+(also on leg B of \texttt{n4\_p4\_t4\_cert.py}) and
+$(1+\ii\sqrt{21})/2$ at $y=\sqrt{21}/2$, the top endpoint of the
+segment, certified interior with margin $14.97$. S4 is
+\texttt{cert0\_n5\_e78.py}: a $\Qq(\sqrt3)$ pair lock, minimal
+polynomial $X^2+1787904X+84934656$ (discriminant
+$3\cdot1032192^2$), root separation $1.79\times10^{6}$ against lock
+widths $8.3\times10^{-52}$ and $2.6\times10^{-47}$. S5 is
+\texttt{verify\_P1\_n5\_e78.py} ($73$ checks): here the $\EK_4$
+lattices are \emph{class} lattices, not orders ---
+$T(\Lambda_1)=1296\,T(\mathfrak p_6)$,
+$T(\Lambda_2)=81\,T(\mathfrak p_3)$ for Theorem~\ref{thm:J} and
+$T(\Lambda_1)=16\,T(\mathfrak p_2)$, $T(\Lambda_2)=T(\OO_K)$ for
+Theorem~\ref{thm:K} --- and with the four-class anchors of
+\S\ref{subsec:app6new}(iii) the combinations collapse to
+\begin{align*}
+  \mathrm{comb}_J&=-1296\,T(\mathfrak p_6)+324\,T(\mathfrak p_3)
+   =36(A_3-A_4)+72\bigl(L_3-L_4\bigr),\\
+  \mathrm{comb}_K&=-16\,T(\mathfrak p_2)+4\,T(\OO_K)
+   =4(A_3+A_4)+8\bigl(L_3+L_4\bigr),
+\end{align*}
+with $L_i$ the values $L\bigl(g(\varepsilon_2,\varepsilon_3),3\bigr)$;
+$\EK_4$ contributes the factors $5\sqrt{21}/(3\pi^3)$ and
+$5\sqrt{21}/\pi^3$ respectively, and the uniform Fricke relation of
+\S\ref{subsec:app6new}(iii) closes the assembly. The interval locks
+[V5]/[V6] have half-widths $5.09\times10^{-52}$ and
+$1.70\times10^{-52}$; the mp residuals are $0$ and
+$2.49\times10^{-60}$. \qed
+
+\subsection{Three methodological additions}\label{subsec:app6new}
+
+(i) \emph{One line, one certificate.}
+\texttt{n5\_line\_cert.py} certifies the entire vertical segment
+$\ReT\tau=1/2$, $0.702\le\ImT\tau\le\sqrt{21}/2$ in a single run:
+the anchor disk (one box, margin $0.29143$, certified $|s_4|>256$),
+the horizontal leg $y=1$ ($2$ blocks, minimum margin $0.14759$) and
+the vertical leg ($6$ blocks, minimum margin $7.29\times10^{-3}$;
+global minimum $0.0072856708$ over the $8$ blocks), with
+interval-certified interior-point verdicts at the three targets on
+the line (margins $3.16$, $9.54$, $14.97$) and $23/23+5/5$
+self-tests. The single certificate covers the CM points of
+Theorems~\ref{thm:H}, \ref{thm:I}, \ref{thm:J} and~\ref{thm:K}
+simultaneously --- and also the point $\tau=(1+\sqrt{-7})/2$ of
+Remark~\ref{rem:fei} ($s=-3969$), whose ordinate
+$\sqrt7/2\approx1.323$ lies inside the segment.
+
+(ii) \emph{The $\Qq(\sqrt{-15})$ orbit trap.} For discriminant $-15$
+the principal form is $x^2+xy+4y^2$, \emph{not} $x^2+15y^2$: the
+latter, with $3x^2+5y^2$, belongs to the order of discriminant
+$-60$, and newforms assembled as $P\pm Q$ from that wrong orbit fail
+every Hecke and Fricke check. The correct construction uses the
+field form and the $\mathfrak p_2$-elements
+$\{c^2+15d^2=8n,\ c\equiv d\ (4)\}$:
+$a_1=P+(\bar\omega/8)R$, $a_2=P-(\bar\omega/8)R$; the genus
+character flips the non-principal part (also at the ramified primes
+$3,5$, where the naive $\chi_5$-twist formula fails); the
+$\sqrt{-15}$ parts cancel exactly and the coefficients are integral
+(Hecke/CM checks pass, Fricke ratio $+1$). Full details in the
+header of \texttt{verify\_P1\_n5\_e6.py}.
+
+(iii) \emph{Class number four: the four-class anchor decomposition.}
+For $K=\Qq(\sqrt{-21})$ the class group coincides with the genus
+group $(\Zz/2)^2$, and the Dirichlet side of the lattice sums
+decomposes into the three genus characters with discriminant pairs
+$(-4,21)$, $(-3,28)$, $(-7,12)$, with anchors
+$A_4=L(\chi_{-4},2)L(\chi_{21},2)$,
+$A_3=L(\chi_{-3},2)L(\chi_{28},2)$,
+$A_7=L(\chi_{-7},2)L(\chi_{12},2)$. The class-lattice sums are
+\begin{align*}
+  T(\OO_K)&=\tfrac12(z_K+A_4+A_3+A_7)+(L_1+L_2+L_3+L_4),\\
+  T(\mathfrak p_2)&=\tfrac18(z_K-A_4-A_3+A_7)
+   +\tfrac14(L_1+L_2-L_3-L_4),\\
+  T(\mathfrak p_3)&=\tfrac1{18}(z_K-A_4+A_3-A_7)
+   +\tfrac19(L_1-L_2+L_3-L_4),\\
+  T(\mathfrak p_6)&=\tfrac1{72}(z_K+A_4-A_3-A_7)
+   +\tfrac1{36}(L_1-L_2-L_3+L_4),
+\end{align*}
+with $z_K=\zeta_K(2)$. The even-character values have the closed
+forms $L(\chi_{28},2)=2\sqrt7\,\pi^2/49$ and
+$L(\chi_{21},2)=8\sqrt{21}\,\pi^2/441$, certified by reduction to
+the finite integer identities $\sum_a\chi_{28}(a)a^2=448$ and
+$\sum_a\chi_{21}(a)a^2=168$; the Fricke relation
+$L'(g,0)=(42\sqrt{21}/\pi^3)\,L(g,3)$ (level $84$, root number
+$+1$) is uniform over the four newforms; and in the final assembly
+$z_K$ and $A_7$ both cancel (\S\ref{subsec:app6stations}).
+
+With Theorems~\ref{thm:G}--\ref{thm:K}, every entry of Samart's
+Table~6 that the machine can reach is proved: twenty-three of
+twenty-nine. The five remaining entries are blocked by the two
+obstructions analyzed in Section~\ref{sec:boundary}.
+
+% ============================================================
 \section{The boundary of the method}\label{sec:boundary}
 
 We collect the precise limits of the machine, all visible already in
@@ -1722,13 +1967,9 @@ compatible with stations S2/S4 of the machine.
 \subsection{Open directions}
 
 \begin{itemize}
-\item \emph{The ready entries} \#1, \#2, \#6, \#7, \#8 of
-  Table~\ref{tab:open}. For \#1 and \#7 the continuation step is
-  already certified (Section~\ref{sec:app5}); what remains is
-  mechanical: \texttt{cert0} pair locks in discriminants $-15$ and
-  $-21$ (class number $2$; the genus machinery of
-  Section~\ref{sec:app4} applies) and three-track P1 assemblies at
-  levels $15$, $84$, and $24$, $16$.
+\item \emph{The formerly ready entries} \#1, \#2, \#6, \#7, \#8 are
+  now proved as Theorems~\ref{thm:G}--\ref{thm:K}
+  (Section~\ref{sec:app6}); Table~6 has no reachable entries left.
 \item \emph{The blocked entries} \#3, \#4, \#5, \#9, \#10: a
   corrected (wrong-sheet-free) formula is needed before the machine
   has anything to certify; the $\widetilde n$ framework of
@@ -1881,8 +2122,9 @@ Ramanujan J. \textbf{19} (2009), 187--205.
 \bibitem{LMFDB}
 The LMFDB Collaboration,
 \emph{The $L$-functions and Modular Forms Database},
-newforms \textsf{7.3.b.a}, \textsf{12.3.c.a}, \textsf{24.3.h.a},
-\textsf{24.3.h.b}, \url{https://www.lmfdb.org}
+newforms \textsf{7.3.b.a}, \textsf{12.3.c.a}, \textsf{15.3.d.a},
+\textsf{15.3.d.b}, \textsf{24.3.h.a},
+\textsf{24.3.h.b}, \textsf{84.3.d.*}, \url{https://www.lmfdb.org}
 (accessed August 2026).
 
 \bibitem{mpmath}

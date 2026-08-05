@@ -24,13 +24,16 @@ Technology University; `zhhm@ahstu.edu.cn`):
    that the literal identity is numerically refuted:
    `n4(81) = 4.1655349907533676508(5)` versus `40M7 = 4.1068643111560…`.
 3. **A certified continuation machine for Mahler measure identities at
-   CM points, with seven new proofs of conjectures of Samart**
+   CM points, with twelve new proofs of conjectures of Samart**
    (submitted; `methods/methods.tex`, `methods/methods.pdf`) —
    axiomatizes the differential-comparison continuation method and
-   proves seven entries of Samart's 2015 Table 6 (`n4` family):
+   proves twelve entries of Samart's 2015 Table 6 (`n4` family):
    `s = 8292456±3132675√7`, `s = 3656±2600√2`, `s = −144`,
-   `s = 143208+101574√2`, and
-   `s = 1207368+853632√2+697680√3+493272√6` (class number two).
+   `s = 143208±101574√2`,
+   `s = 1207368+853632√2+697680√3+493272√6` and
+   `s = 1207368+853632√2−697680√3−493272√6` (class number two),
+   `s = (−192303−85995√5)/2` (Q(√−15), class number two), and
+   `s = −893952±516096√3` (Q(√−21), class number four).
 
 ## Layout
 
@@ -42,7 +45,7 @@ cert/      certification scripts (the trusted base of the proofs),
            cert/output/
 numerics/  numerical-evidence scripts (cross-checks, diagnostics, and
            the direct torus integrations) and logs in numerics/output/
-methods/   the methods paper (LaTeX source and PDF) and its thirteen
+methods/   the methods paper (LaTeX source and PDF) and its nineteen
            certification/verification scripts
 ```
 
@@ -128,7 +131,13 @@ certifier (all print per-check PASS/FAIL and a final
 | `verify_P1_n4_p4_t3.py` | Theorem E (`s = 1207368+853632√2+697680√3+493272√6`, Q(√−6), h=2), three tracks | <1 min |
 | `n4_p4_t4_cert.py` | certified path from the anchor box to `τ4 = (1+√−2)/2` inside `V4` | <1 min |
 | `n4_p4_t4_verify.py` | Theorem F (`s = 3656−2600√2`), three tracks | <1 min |
-| `n5_line_cert.py` | vertical line `Re τ = 1/2`, `0.702 ≤ Im τ ≤ √21/2` inside the good component `W` (used for the status of `s = −3969`) | seconds |
+| `n5_line_cert.py` | vertical line `Re τ = 1/2`, `0.702 ≤ Im τ ≤ √21/2` inside the good component `W` (station S3 of Theorems G–K; also used for the status of `s = −3969`) | seconds |
+| `cert0_n5_e56.py` | exactness of the `s4` pair in Q(√5): `X² + 192303X + 1185921` (Theorem I and blocked entry #5) | seconds |
+| `cert0_n5_e78.py` | exactness of the `s4` pair in Q(√3): `X² + 1787904X + 84934656` (Theorems J, K) | seconds |
+| `verify_P1_n5_e1.py` | Theorem G (`s = 143208−101574√2`, Q(i), h=1), three tracks, 49 checks | ~1 min |
+| `verify_P1_n5_e2.py` | Theorem H (`s = 1207368+853632√2−697680√3−493272√6`, Q(√−6), h=2), three tracks, 55 checks | ~1 min |
+| `verify_P1_n5_e6.py` | Theorem I (`s = (−192303−85995√5)/2`, Q(√−15), h=2), three tracks, 44 checks | ~1 min |
+| `verify_P1_n5_e78.py` | Theorems J and K (`s = −893952±516096√3`, Q(√−21), h=4), three tracks, 73 checks | <1 min |
 
 ## Reproducibility
 
