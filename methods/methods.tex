@@ -1,0 +1,1907 @@
+% methods.tex -- full text (2026-08-05)
+% "A certified continuation machine for Mahler measure identities at CM points,
+%  with seven new proofs of conjectures of Samart"
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+% ---- notation (unified with formal.tex / formal2.tex) ----
+\newcommand{\m}{\mathrm{m}}                 % logarithmic Mahler measure
+\newcommand{\mt}{\widetilde{\mathrm{m}}}    % holomorphic (modified) Mahler measure
+\newcommand{\Cc}{\mathbb{C}}
+\newcommand{\Qq}{\mathbb{Q}}
+\newcommand{\Zz}{\mathbb{Z}}
+\newcommand{\Rr}{\mathbb{R}}
+\newcommand{\Hh}{\mathbb{H}}
+\newcommand{\Tt}{\mathbb{T}}
+\newcommand{\Nn}{\mathbb{N}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\id}{\mathrm{d}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\cL}{\widetilde{L}}
+\newcommand{\ReT}{\mathrm{Re}}
+\newcommand{\ImT}{\mathrm{Im}}
+\DeclareMathOperator{\EK}{EK}
+\DeclareMathOperator{\Ast}{Ast}
+\DeclareMathOperator{\dist}{dist}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{A certified continuation machine for Mahler measure\\
+identities at CM points, with seven new proofs of\\
+conjectures of Samart}
+\author{Huimin Zheng\thanks{%
+College of Information and Network Engineering,
+Anhui Science and Technology University,
+Fengyang, Anhui 233100, P.~R.~China.
+Email: \texttt{zhhm@ahstu.edu.cn}.}}
+\date{}
+
+\begin{document}
+\maketitle
+
+% ------------------------------------------------------------
+\section*{Declaration on the use of AI tools}
+The research reported in this article --- including the computational
+exploration, the discovery of the proof strategy, the machine-certified
+verifications, and the preparation of the manuscript --- was carried out
+by the author with the assistance of the AI system \emph{Kimi}
+(Moonshot AI). All mathematical content, including every proof and
+every certified computation, has been checked and verified by the
+author, who takes full responsibility for the correctness and integrity
+of the article. All certification scripts are available for independent
+verification (see Section~\ref{sec:cert}).
+% ------------------------------------------------------------
+
+\begin{abstract}
+We axiomatize the differential-comparison continuation method of
+\cite{Zf} into a general machine for proving Mahler measure identities
+at CM points: a modular parametrization with rigorous tail bounds, a
+single-valued holomorphic Mahler differential on the complement of the
+critical image, a propagation lemma that replaces all monodromy and
+universal-cover arguments, interval-arithmetic path certification, and
+an exact three-track CM evaluation. Applied to Samart's family
+$n_4(s)=4\m\bigl(x^4+y^4+z^4+1+s^{1/4}xyz\bigr)$, the machine proves
+seven further entries of his 2015 table \cite[Table~6]{Sa15}: the
+conjugate pairs at $s=8292456\pm3132675\sqrt7$ (whose two identities
+are proved separately, not merely as a sum), $s=3656\pm2600\sqrt2$,
+$s=-144$, $s=143208+101574\sqrt2$, and the value
+$s=1207368+853632\sqrt2+697680\sqrt3+493272\sqrt6$ attached to the
+class-number-two field $\Qq(\sqrt{-6})$ --- the first Mahler measure
+identity in the $n_4$ family proved at a \emph{non-degenerate} CM
+point of class number two (Samart's $s=2304$ \cite{Sa13}, attached
+to $\tau=\sqrt{-6}/2$, is the degenerate value
+$s_4(\ii\sqrt6/2)=s_4(\ii\sqrt6/6)$), where the lattice
+sums involve two newforms and a genus character. New methodological
+ingredients include: the Fricke ratio as the only non-vacuous
+level/root-number discriminator (the ``functional-equation residue''
+test is vacuous for root number $+1$ at every level); a genuine
+twist-level trap ($g_{16}\otimes\chi_8$ has level $64$, not $32$, and
+the wrong level silently scales the $L$-value); a genus-character
+decomposition of the lattice sums in class number two; and the
+discovery that Samart's applicability boundary $\{\ImT\tau=1/\sqrt2\}$
+is not the topological boundary of the continuation region $V_4$.
+Every identity is certified by an exact algebraic track (rational
+arithmetic only, up to the quoted CM-theory inputs disclosed in
+Section~\ref{sec:cert}), rigorous interval locks (half-widths down to
+$9.1\times10^{-53}$), and independent $50$--$60$-digit numerical
+cross-checks; all certification scripts are public. Finally we score
+the ten remaining open entries of Table~6 against the machine's five
+stations: five are within current reach (only mechanical work remains),
+and five are blocked by genuine obstructions --- a two-dimensional
+critical image or a wrong-sheet Eisenstein--Kronecker series ---
+which we analyze precisely.
+\end{abstract}
+
+\medskip
+\noindent\textbf{Keywords:} Mahler measure $\cdot$ modular forms
+$\cdot$ complex multiplication $\cdot$ special values of
+$L$-functions $\cdot$ rigorous interval arithmetic
+
+\medskip
+\noindent\textbf{Mathematics Subject Classification (2020):}
+Primary 11R06; Secondary 11F03, 11M41, 11Y40
+
+% ============================================================
+\section{Introduction}\label{sec:intro}
+
+\subsection{The question}
+
+Let $\m(P)$ denote the logarithmic Mahler measure of a Laurent
+polynomial and let
+\[
+  n_4(s):=4\,\m\bigl(x^4+y^4+z^4+1+s^{1/4}xyz\bigr),\qquad s\in\Cc,
+\]
+the value being independent of the choice of the fourth root
+(Section~\ref{sec:machine}). In \cite{Sa13,Sa15} Samart expressed
+$n_4(s)$, for $s$ in the image of a modular parametrization
+$s_4(\tau)$, as an Eisenstein--Kronecker (EK) series, proved the
+identity for pure imaginary $\tau$ with $\ImT\tau\ge1/\sqrt2$, and
+conjectured on numerical evidence the twenty-nine $L$-value
+evaluations of his Table~6 \cite{Sa15}: each attaches to a CM value
+of $s$ a rational linear combination of $L$-values of CM weight-three
+newforms and of quadratic Dirichlet characters.
+
+The table is now largely, but not entirely, resolved. Eleven entries
+were proved previously: the exterior values $s=256$ (Rogers
+\cite{Ro}), $s=648,2304,20736,614656$ (Samart \cite{Sa13}),
+$s=26856\pm15300\sqrt3$ (Samart's own Theorem~3.1 \cite{Sa15}), the
+outside-the-critical-locus value $s=-3969$ (Fei \cite{Fei}), and
+$s=-1024,-12288,-82944$ (Guo--Peng--Qin \cite{GPQ}). One entry is
+\emph{refuted}: the conjecture $n_4(81)=40M_7$ fails numerically as a
+statement about the true Mahler measure, the conjectured value being
+the evaluation of the EK series at the attached CM point on a wrong
+sheet \cite{Zf2}. He--Ye \cite{HY} resolved the companion family
+$n_3$ completely; the $n_2$ family was completed in \cite{Zf,ZGQ,GPQ}.
+Fei \cite{Fei} proved, for all rational singular moduli in twenty-three
+families, identities at the level of the real part of the
+\emph{holomorphic} Mahler measure $\ReT\mt$; at parameters inside the
+critical locus the passage from $\ReT\mt$ to the genuine Mahler
+measure is not automatic --- a point stressed already by Rodriguez
+Villegas \cite{RV} --- and it is precisely this passage that the
+continuation machine of \cite{Zf} and of the present paper performs.
+
+\begin{remark}[The status of $s=-3969$]\label{rem:fei}
+For the entry $s=-3969$ above, \cite{Fei} proves the identity for
+$\ReT\mt$ only, and the determination of the region off which
+$\m=\ReT\mt$ is left open there (his Remark~2.4); by
+Section~\ref{sec:boundary} below, avoiding the critical image alone
+does not suffice (the wrong-sheet phenomenon). The missing step is
+supplied by the present machine: the attached point
+$\tau=(1+\sqrt{-7})/2$ lies on the vertical segment
+$\ReT\tau=1/2$, $0.702\le\ImT\tau\le\sqrt{21}/2$, which
+\texttt{n5\_line\_cert.py} certifies inside the good component $W$
+by interval arithmetic (public repository; the certificate was
+produced for the Phase-8 entries of Table~\ref{tab:open}). Hence
+Theorem~\ref{thm:main} applies and the $s=-3969$ evaluation holds
+for the genuine Mahler measure.
+\end{remark}
+
+The purpose of this paper is threefold:
+\begin{enumerate}
+\item[(i)] to axiomatize the differential-comparison continuation
+  method of \cite{Zf} into a general, family-independent machine
+  (Section~\ref{sec:machine}), with an explicit certifier architecture
+  whose trusted base consists of pure mathematics, documented
+  interval-arithmetic semantics, and public source code
+  (Section~\ref{sec:cert});
+\item[(ii)] to apply the machine to seven further entries of Samart's
+  Table~6 (Theorems A--F below), covering all four regimes that occur:
+  deep pure-imaginary interior points (A, C, D, E), a non-pure-imaginary
+  interior point (B), the first class-number-two CM point (E), and a
+  point on Samart's applicability boundary that turns out to be a strict
+  interior point of the continuation region (F);
+\item[(iii)] to take stock: to score the ten remaining open entries of
+  Table~6 against the machine's checklist (\S\ref{subsec:inventory})
+  and to describe precisely where and why the method stops
+  (Section~\ref{sec:boundary}).
+\end{enumerate}
+
+\subsection{Results of this paper}
+
+Throughout, $d_k:=L'(\chi_{-k},-1)$ for the odd quadratic Dirichlet
+character $\chi_{-k}$ of conductor $k$, and $M_k$ or $M_k^{(i)}$
+denotes $L'(g_k,0)$, resp.\ $L'(g_k^{(i)},0)$, for the indicated
+weight-$3$ CM newform(s); a superscript $\mathrm{tw}$ denotes the
+$L'$-value of an explicitly identified quadratic twist.
+
+\begin{theorem}[Theorem A: the $\sqrt7$ pair]\label{thm:A}
+Let $M_7:=L'(g_7,0)$ with
+$g_7(\tau)=\eta(\tau)^3\eta(7\tau)^3$ \textup{(}LMFDB
+\textup{\textsf{7.3.b.a}}\textup{)} and
+$M_7^{\mathrm{tw}}:=L'(g_7\otimes\chi_{-4},0)$. Then
+\begin{align}
+n_4\bigl(8292456+3132675\sqrt7\bigr)
+  &=\frac{5}{28}\bigl(4M_7^{\mathrm{tw}}+224M_7+32d_4+7d_7\bigr),
+    \label{eq:A1}\\
+n_4\bigl(8292456-3132675\sqrt7\bigr)
+  &=\frac{5}{14}\bigl(4M_7^{\mathrm{tw}}-224M_7+32d_4-7d_7\bigr).
+    \label{eq:A2}
+\end{align}
+\end{theorem}
+
+\begin{theorem}[Theorem B]\label{thm:B}
+With $M_{12}:=L'(g_{12},0)$, $g_{12}(\tau)=\eta(2\tau)^3\eta(6\tau)^3$
+\textup{(}LMFDB \textup{\textsf{12.3.c.a}}\textup{)},
+\[
+  n_4(-144)=\frac{10}{3}\bigl(4M_{12}+d_3\bigr).
+\]
+\end{theorem}
+
+\begin{theorem}[Theorem C]\label{thm:C}
+With $M_8:=L'(g_8,0)$,
+$g_8(\tau)=\eta(\tau)^2\eta(2\tau)\eta(4\tau)\eta(8\tau)^2
+\in S_3(\Gamma_0(8),\chi_{-8})$,
+and $M_8^{\mathrm{tw}}:=L'(g_8\otimes\chi_8,0)$, where
+$\chi_8=(2/\cdot)$ is the even primitive character of conductor $8$,
+\[
+  n_4\bigl(3656+2600\sqrt2\bigr)
+  =\frac58\bigl(4M_8^{\mathrm{tw}}+28M_8+4d_4+d_8\bigr).
+\]
+\end{theorem}
+
+\begin{theorem}[Theorem D]\label{thm:D}
+With $M_{16}:=L'(g_{16},0)$,
+$g_{16}(\tau)=\eta(4\tau)^6\in S_3(\Gamma_0(16),\chi_{-4})$, and
+$M_{16}^{\mathrm{tw}}:=L'(g_{16}\otimes\chi_8,0)$
+\textup{(}level $64$ --- see \S\ref{subsec:twisttrap}\textup{)},
+\[
+  n_4\bigl(143208+101574\sqrt2\bigr)
+  =\frac{5}{16}\bigl(4M_{16}^{\mathrm{tw}}+20M_{16}+9d_4+4d_8\bigr).
+\]
+\end{theorem}
+
+\begin{theorem}[Theorem E: class number two]\label{thm:E}
+Let $K=\Qq(\sqrt{-6})$ \textup{(}class number $2$\textup{)}, and let
+$g_{24}^{(1)},g_{24}^{(2)}$ be the two newforms of
+$S_3(\Gamma_0(24),\chi_{-24})$, theta series of the two
+gr\"ossencharacters of $K$ of type $(2,0)$ \textup{(}LMFDB
+\textup{\textsf{24.3.h.a}} and \textup{\textsf{24.3.h.b}}\textup{)}.
+With $M_{24}^{(i)}:=L'(g_{24}^{(i)},0)$ and
+$M_{24}^{(i),\mathrm{tw}}:=L'(g_{24}^{(i)}\otimes\chi_{-8},0)$
+\textup{(}level $96$\textup{)},
+\begin{multline*}
+  n_4\bigl(1207368+853632\sqrt2+697680\sqrt3+493272\sqrt6\bigr)\\
+  =\frac{5}{48}\Bigl(4M_{24}^{(1),\mathrm{tw}}
+   +4M_{24}^{(2),\mathrm{tw}}+28M_{24}^{(1)}+12M_{24}^{(2)}
+   +28d_3+24d_4+8d_8+d_{24}\Bigr).
+\end{multline*}
+\end{theorem}
+
+\begin{theorem}[Theorem F: a boundary point that is interior]\label{thm:F}
+With the notation of Theorem~\ref{thm:C},
+\[
+  n_4\bigl(3656-2600\sqrt2\bigr)
+  =\frac54\bigl(4M_8^{\mathrm{tw}}-28M_8+4d_4-d_8\bigr).
+\]
+The $s$-value is the conjugate of Theorem~\ref{thm:C}, but the attached
+CM point $\tau_4=(1+\sqrt{-2})/2$ lies \emph{exactly} on Samart's
+applicability boundary $\ImT\tau=1/\sqrt2$, where his proof does not
+apply; the identity is proved by the continuation machine
+\textup{(}Section~\ref{sec:app5}\textup{)}, which shows that $\tau_4$
+is a strict interior point of the continuation region $V_4$
+\textup{(}certified margin $0.11590$\textup{)}.
+\end{theorem}
+
+\begin{theorem}[The machine, informal]\label{thm:machine}
+\textup{(}Precise form: Theorem~\ref{thm:main}.\textup{)}
+Let $P_c$ be a tempered Laurent-polynomial family with a modular
+parametrization $c=c(\tau)$ and critical image $K\subset\Cc$, and let
+$E(\tau)$ be the Eisenstein--Kronecker expression for the holomorphic
+Mahler measure, valid on an open set $U\subset\Hh$. If
+\textup{(i)} the period integral $\Omega(c)$ is single-valued and
+holomorphic on $\Cc\setminus K$, \textup{(ii)} $c(\tau_0)$ is a CM
+parameter with $\tau_0\in\overline W$, where $W$ is the connected
+component of $\Hh\setminus c^{-1}(K)$ containing $U$, and
+\textup{(iii)} the lattice sums underlying $E(\tau_0)$ evaluate
+exactly, then $\m(P_{c(\tau_0)})$ equals the corresponding
+$L$-value expression; the inclusion $\tau_0\in\overline W$ is
+certifiable by rigorous interval arithmetic.
+\end{theorem}
+
+All seven identities are machine-certified. Concretely, each proof
+consists of an exact algebraic track (rational/algebraic-integer
+arithmetic only, no floating point), rigorous interval locks of the
+CM values and of the final identities (half-widths between
+$9.1\times10^{-53}$ and $2.3\times10^{-51}$), and independent
+$50$--$60$-digit numerical cross-checks; the scripts are listed in
+Section~\ref{sec:cert} and are publicly available
+(see the Data Availability statement). Two representative reference
+values:
+\begin{align*}
+  M_8&=0.1353184954231269106150060654595395883532\ldots,\\
+  M_8^{\mathrm{tw}}
+   &=1.549084847095611486271658159444376281785\ldots
+     \quad(\text{level }32,\ w=+1),
+\end{align*}
+computed from the functional equations and cross-checked against
+direct lattice-sum evaluations; further values are collected in the
+application sections.
+
+\subsection{The ten remaining entries}\label{subsec:inventory}
+
+Table~6 of \cite{Sa15} has twenty-nine entries: eighteen are now
+proved (eleven previously known, plus the seven of Theorems
+A--F), one is refuted ($s=81$ \cite{Zf2}), and ten remain open.
+The machine reduces a proof of each entry to five \emph{stations}
+(Section~\ref{sec:machine} for definitions):
+\begin{enumerate}
+\item[\textbf{S1}] \emph{Parametrization}: a CM point $\tau_0$ with
+  $s_4(\tau_0)=s$ identified, at least numerically;
+\item[\textbf{S2}] \emph{Critical image}: the position of
+  $c(\tau_0)$ relative to the astroid disc $\Ast$ and the cross
+  $[-4,4]\cup\ii[-4,4]$;
+\item[\textbf{S3}] \emph{Interior-or-boundary}: membership of
+  $\tau_0$ in $\overline W$, certified by a \texttt{cert2} path,
+  or direct applicability of Samart's theorem;
+\item[\textbf{S4}] \emph{\texttt{cert0} algebraicity}: an exact
+  algebraic lock of the value $s_4(\tau_0)$;
+\item[\textbf{S5}] \emph{P1 assemblability}: an exact CM evaluation
+  of $\EK_4(\tau_0)$ in the relevant imaginary quadratic field.
+\end{enumerate}
+Table~\ref{tab:open} scores the ten open entries against these
+stations.
+
+\begin{table}[htb]
+\centering\scriptsize
+\caption{The ten open entries of Samart's Table~6, scored against the
+five stations of the machine. ``Outside/inside'' refers to the
+astroid disc $\Ast$; $\zeta$ abbreviates
+$1207368$, $a=853632$, $b=697680$, $d=493272$ in rows 2--4:
+$s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$ with the indicated signs.}
+\label{tab:open}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{cp{2.3cm}llp{1.9cm}p{2.3cm}p{2.5cm}l}
+\toprule
+\# & $s$ & $\tau_0$ & $\ImT\tau_0$ & S2: $c(\tau_0)$ & S3: position
+ & S4/S5 status & verdict\\
+\midrule
+1 & $143208-101574\sqrt2$ & $(1+2\ii)/2$ & $1$
+  & outside $\Ast$ ($|s|>256$)
+  & interior; $\tau_0$ lies on the certified path of
+    Section~\ref{sec:app5}
+  & S4 done (conjugate of Thm.~D lock); S5 ready ($\Qq(\ii)$, $h=1$)
+  & ready\\
+2 & $\zeta$, signs $({+}{-}{-})$ & $(1+\ii\sqrt6)/2$ & $1.225$
+  & outside $\Ast$ ($|s|>256$)
+  & interior; short \texttt{cert2} extension
+  & S4 done (\texttt{cert0\_n4\_p4\_t3.py}); S5 ready ($h=2$,
+    \S\ref{sec:app4})
+  & ready\\
+3 & $\zeta$, signs $({-}{+}{-})$ & $\ii\sqrt6/4$ & $0.612$
+  & outside $\Ast$ ($s>256$)
+  & \emph{exterior}: EK series wrong-sheeted below $1/\sqrt2$
+  & S4 done (same lock); S5 moot
+  & blocked\\
+4 & $\zeta$, signs $({-}{-}{+})$ & $(2+\ii\sqrt6)/4$ & $0.612$
+  & \emph{inside} $\Ast$ ($s\approx-2.45$)
+  & blocked (two-dimensional image, open mapping)
+  & S4 done (same lock); S5 moot
+  & blocked\\
+5 & $(-192303+85995\sqrt5)/2$ & $(3+\ii\sqrt{15})/6$ & $0.646$
+  & inside $\Ast$ ($s\approx-6.17$)
+  & blocked (two-dimensional image); also exterior
+  & S4 open (disc.\ $-15$, $h=2$); S5 needs level-$15$ pair
+  & blocked\\
+6 & $(-192303-85995\sqrt5)/2$ & $(1+\ii\sqrt{15})/2$ & $1.936$
+  & outside $\Ast$
+  & interior; \texttt{cert2} feasible on $\ReT\tau=1/2$
+  & S4 open (pair lock with \#5); S5 ready ($h=2$ machinery)
+  & ready\\
+7 & $-893952+516096\sqrt3$ & $(3+\ii\sqrt{21})/6$ & $0.764$
+  & outside $\Ast$ (functional $\approx3.02$)
+  & interior; $\tau_0$ lies on the certified path of
+    Section~\ref{sec:app5}
+  & S4 open (pair lock with \#8); S5 ready (level $84$, $h=2$)
+  & ready\\
+8 & $-893952-516096\sqrt3$ & $(1+\ii\sqrt{21})/2$ & $2.291$
+  & outside $\Ast$
+  & interior; \texttt{cert2} feasible
+  & S4 open (same pair lock); S5 ready
+  & ready\\
+9 & $347648256+141926400\sqrt6$ & $\ii\sqrt{42}/42$ & $0.154$
+  & outside $\Ast$ ($c>4$ real)
+  & \emph{exterior}: wrong sheet, deep below $1/\sqrt2$
+  & S4 open (disc.\ $-168$, $h=4$); S5 moot
+  & blocked\\
+10 & $347648256-141926400\sqrt6$ & $\ii\sqrt{42}/14$ & $0.463$
+  & outside $\Ast$ ($s\approx995$, $c>4$ real)
+  & \emph{exterior}: wrong sheet below $1/\sqrt2$
+  & S4 open; S5 moot
+  & blocked\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The conjectured right-hand sides are Samart's \cite[Table~6]{Sa15};
+for example, entry \#1 is
+$n_4(143208-101574\sqrt2)\stackrel?=\frac58\bigl(4M_{16}^{\mathrm{tw}}
+-20M_{16}-9d_4+4d_8\bigr)$, the conjugate sign pattern of
+Theorem~\ref{thm:D}, and entries \#2--\#4 are the three remaining
+sign patterns of Theorem~\ref{thm:E}'s family. Five entries are
+\emph{ready}: for \#1 and \#7 the target CM point even lies on the
+already certified path of Section~\ref{sec:app5} (legs
+$\{x=1/2,\ 0.702\le y\le1\}$ and $\{y=1,\ 0\le x\le1/2\}$), so only
+stations S4/S5 remain; \#2, \#6, \#8 require a routine
+\texttt{cert2} adaptation and a new \texttt{cert0} pair lock. The
+five \emph{blocked} entries split into two genuine obstructions,
+analyzed in Section~\ref{sec:boundary}: the two-dimensional critical
+image (\#4, \#5: the $s=81$ mechanism of \cite{Zf2}), and the
+wrong-sheet phenomenon of the EK series below $\ImT\tau=1/\sqrt2$
+(\#3, \#9, \#10, and again \#5), where the conjectured identity
+concerns the true Mahler measure but the series side of the machine
+has no valid input.
+
+Beyond Table~6, three further open directions are discussed in
+Section~\ref{sec:boundary}: Samart's ``three modular $L$-value''
+hypothesis $s=16+1600\sqrt[3]2-1280\sqrt[3]4$ \cite{Sa15}, which has
+no attached CM point in the $s_4$-image; the exterior entries, for
+which a corrected formula of Samart--Tao $\widetilde n$-type \cite{ST}
+would be needed; and the Boyd-lineage two-variable conjectures, where
+no CM evaluation is available at all.
+
+% ============================================================
+\section{The machine}\label{sec:machine}
+
+This section axiomatizes the method of \cite[\S3--\S5]{Zf} in
+family-independent language. The running example is the $n_4$-family,
+but the only family-specific inputs are the parametrization, the
+critical image, and the anchor identity; we display them as separate
+\emph{stations} S1--S5, matching the checklist of
+\S\ref{subsec:inventory}.
+
+\subsection{Families, parametrizations, critical images}\label{subsec:fam}
+
+\begin{definition}[Tempered family]\label{def:tempered}
+A \emph{tempered family} is a Laurent-polynomial family
+$P_c(x_1,\dots,x_n)=P(x_1,\dots,x_n)+c$, $c\in\Cc$, such that
+$c\mapsto\m(P_c)$ is continuous on all of $\Cc$ --- for the families
+here this holds by the elementary dominated-convergence argument of
+\cite[Lemma~2.1]{Zf}. A \emph{critical image} is any closed set $K\subset\Cc$ containing
+the full image $P(\Tt^n)$; on $\Cc\setminus K$ the polynomial $P_c$
+does not vanish on $\Tt^n$, the integrand $\log|P_c|$ is
+real-analytic in $c$, and $c\mapsto\m(P_c)$ is real-analytic.
+(Taking only the critical \emph{values} of $P$ would not suffice:
+$P_c$ vanishes on $\Tt^n$ for every $-c\in P(\Tt^n)$, including
+regular values --- e.g.\ $P=x+x^{-1}$ on $\Tt^1$ has critical values
+$\pm2$ but image $[-2,2]$. In both running examples below
+$K=\overline{P(\Tt^n)}$, the closure of the full image.)
+\end{definition}
+
+Two families serve as running examples.
+
+\begin{example}[The $n_2$ family \cite{Zf}]\label{ex:n2}
+$P+c$ with $P=(x+x^{-1})(y+y^{-1})(z+z^{-1})$ and
+$c=\sqrt{s_2(\tau)}$, $s_2(\tau)=q^{-1}\prod_{n\ge1}(1+q^{2n-1})^{24}$.
+The critical image in the $c$-plane is the slit $[-8,8]$, and in the
+$s$-plane the segment $[0,64]$: one-dimensional.
+\end{example}
+
+\begin{example}[The $n_4$ family]\label{ex:n4}
+$P_c=(x^4+y^4+z^4+1)/(xyz)+c$ after clearing the monomial (Mahler
+measure is unchanged), with the natural \emph{holomorphic}
+parametrization
+\begin{equation}\label{eq:cdef}
+  c(\tau)=\Bigl(\frac{\eta(2\tau)}{\eta(\tau)}\Bigr)^{6}
+   \bigl(16A(\tau)^4+A(\tau)^{-4}\bigr),\qquad
+  A(\tau)=\frac{\eta(\tau)\eta(4\tau)^2}{\eta(2\tau)^3},\qquad
+  s_4(\tau)=c(\tau)^4 .
+\end{equation}
+Both $c$ and $s_4$ are holomorphic on $\Hh$ --- no branch choice is
+needed, in contrast to Example~\ref{ex:n2} --- and $s_4$ has an
+integral $q$-expansion
+$s_4=q^{-1}\bigl(1+104q+4372q^2+\cdots\bigr)\in\Zz(\!(q)\!)$
+(exact integer check to order $q^{30}$ in
+\texttt{cert0\_s4\_m144.py}). The critical image is
+\emph{two-dimensional}: $P(\Tt^3)$ is the closed astroid disc
+\begin{equation}\label{eq:astroid}
+  \Ast=\bigl\{c\in\Cc:\ |\ReT c|^{2/3}+|\ImT c|^{2/3}\le 4^{2/3}\bigr\},
+\end{equation}
+since $P$ is a sum of four unit phasors with product $1$
+\cite{Zf2}. The branch cut of the holomorphic Mahler measure is the
+cross $\{c:c^4\in(0,256]\}=\bigl([-4,4]\cup\ii[-4,4]\bigr)
+\setminus\{0\}$, contained in $\overline{\Ast}$; hence avoiding
+$\Ast$ automatically avoids every bad set, and we take $K=\Ast$.
+\end{example}
+
+\begin{remark}\label{rem:2D}
+The dimension of the critical image is the single most important
+topological invariant of a family for this method. A one-dimensional
+slit does not separate the plane: every point of the slit lies in the
+closure of the good domain, and the propagation lemma below reaches
+boundary points by continuity (this is what makes the $k=1$ proof of
+\cite{Zf} possible). The two-dimensional astroid disc has interior:
+a CM parameter landing inside it (\#4 and \#5 of
+Table~\ref{tab:open}; the refuted $s=81$) lies inside an open bad
+region, no path can approach it from the good domain (open mapping),
+and the machine stops. See Section~\ref{sec:boundary}.
+\end{remark}
+
+\begin{definition}[The good domain and the EK expression]
+For a holomorphic parametrization $c(\tau)$ set
+\[
+  V:=\bigl\{\tau\in\Hh:\ c(\tau)\notin K\bigr\}\qquad
+  (\text{open, since }c\text{ is holomorphic}),
+\]
+and let $F(\tau):=\m\bigl(P_{c(\tau)}\bigr)$ (times the family's
+normalization factor), continuous on all of $\Hh$ and real-analytic
+on $V$. An \emph{EK datum} is a holomorphic function $E(\tau)$ on
+$\Hh$ with $G:=\ReT E$ (in alternative normalizations $2\ReT E$ or
+$\ImT E$; all that matters is that $G$ be the real part of a
+holomorphic function) real-analytic everywhere, such that $F=G$ on a
+nonempty open \emph{anchor} set $U\subset V$. For the $n_4$ family
+(Example~\ref{ex:n4}), with $U_j$ as in \eqref{eq:Uj} below,
+\begin{equation}\label{eq:E4}
+  E_4(\tau):=-\ii\Bigl(2\pi\tau+\frac{10}{\pi^3}
+   \bigl(U_1(\tau)-2U_2(\tau)\bigr)\Bigr),\qquad
+  \EK_4(\tau):=\ReT E_4(\tau)
+   =\ImT\Bigl[2\pi\tau+\frac{10}{\pi^3}\bigl(U_1-2U_2\bigr)\Bigr],
+\end{equation}
+holomorphic, resp.\ real-analytic, on all of $\Hh$; the double series
+\begin{equation}\label{eq:Uj}
+  U_j(\tau):=\sum_{m\neq0}\frac1m\sum_{n\in\Zz}(jm\tau+n)^{-3}
+\end{equation}
+converges absolutely, locally uniformly on $\Hh$
+\cite[\S2.4]{Zf}. The lattice-sum form used for all CM evaluations is
+\begin{equation}\label{eq:EK4lattice}
+  \EK_4(\tau)=\frac{10\,\ImT\tau}{\pi^3}
+   \bigl(-T_1(\tau)+4T_2(\tau)\bigr),\qquad
+  T_d(\tau):={\sum_{\lambda\in\Lambda_d(\tau)}}^{\!\prime}
+   \Bigl[\frac{2\ReT\bar\lambda^2}{|\lambda|^6}
+        +\frac{1}{|\lambda|^4}\Bigr],
+\end{equation}
+with $\Lambda_d(\tau):=\Zz+\Zz\,d\tau$; the series is absolutely
+convergent, and \eqref{eq:EK4lattice} follows from
+$w^{-3}-\bar w^{-3}=-2\ii(3u^2v-v^3)|w|^{-6}$ and
+$3u^2-v^2=4u^2-|w|^2$ exactly as in \cite[Lemma~2.6]{Zf}.
+\end{definition}
+
+\subsection{The Mahler differential is single-valued}\label{subsec:diff}
+
+\begin{proposition}[Mahler differential formula]\label{prop:mahlerdiff}
+Let $P_c$ be a tempered family and $K\subset\Cc$ its critical image.
+Then
+\[
+  \Omega(c):=\int_{\Tt^n}\frac{\id\mu}{P_c}
+\]
+is single-valued and holomorphic on $\Cc\setminus K$, and as real
+$1$-forms there,
+\begin{equation}\label{eq:dm}
+  \id\m(P_c)=\ReT\bigl[\Omega(c)\,\id c\bigr].
+\end{equation}
+\end{proposition}
+\begin{proof}
+For any compact $K_0\Subset\Cc\setminus K$ one has
+$|P_c|\ge\dist(K_0,K)>0$ uniformly for $c\in K_0$ on $\Tt^n$, so
+differentiation under the integral sign is legitimate and gives
+$\Omega'(c)=-\int_{\Tt^n}\id\mu/P_c^2$; holomorphy and
+single-valuedness follow (the integral is defined over the
+\emph{fixed} cycle $\Tt^n$). Writing $c=c_1+\ii c_2$ and
+differentiating $\m(P_c)=\int\log|P_c|\id\mu$ under the integral
+sign gives
+$\partial_{c_1}\m=\int\ReT(1/P_c)\id\mu=\ReT\Omega$ and
+$\partial_{c_2}\m=\int\ReT(\ii/P_c)\id\mu=-\ImT\Omega$, hence
+$\id\m=\ReT\Omega\,\id c_1-\ImT\Omega\,\id c_2
+=\ReT[\Omega\,\id c]$. The sign is $+$ under the present $P+c$
+convention (it is $-$ in the $f-c$ convention of
+\cite[Lemma~2.7]{Zf}).
+\end{proof}
+
+\begin{remark}\label{rem:monodromy}
+Proposition~\ref{prop:mahlerdiff} is the point at which all
+monodromy and universal-cover arguments disappear from the method.
+The holomorphic Mahler measure $\mt$ of Villegas \cite{RV} is
+multivalued, but its multivaluedness lives in locally constant
+imaginary periods: every branch satisfies $\mt'(c)=\Omega(c)$ on
+$\Cc\setminus K$. Comparing \emph{differentials} rather than
+functions therefore never sees a branch choice, and the identity
+theorem below applies to a genuine single-valued holomorphic
+function.
+\end{remark}
+
+\subsection{The propagation theorem}\label{subsec:prop}
+
+\begin{lemma}[Propagation lemma]\label{lem:prop}
+Let $U\subset\Cc$ be connected open, $Z\subset U$ relatively closed,
+and $H:U\to\Rr$ continuous and locally constant on $U\setminus Z$.
+Then $H$ is constant on every connected component $W$ of
+$U\setminus Z$; if $H|_W\equiv C$ then
+$H|_{\overline W\cap U}\equiv C$.
+\end{lemma}
+\begin{proof}
+A locally constant function is constant on each connected component.
+For the second assertion, let $p\in\overline{W}\cap U$ and choose
+$p_n\in W$ with $p_n\to p$; continuity gives $H(p)=\lim_n H(p_n)=C$.
+\end{proof}
+
+\begin{remark}\label{rem:devil}
+The conclusion cannot be upgraded to ``$H$ constant on $U$'': the
+devil's staircase is continuous, locally constant off the Cantor set,
+yet non-constant. Membership of the target point in $\overline W$ is
+a genuine topological input --- supplied in our applications either
+by Samart's proved region (Theorems A, C, D, E), or by an explicitly
+certified path (Theorems B, F), and \emph{absent} for the blocked
+entries of Table~\ref{tab:open}.
+\end{remark}
+
+\begin{theorem}[Main theorem: differential-comparison continuation]
+\label{thm:main}
+Let $P_c$ be a tempered family with critical image $K$, let
+$c(\tau)$ be holomorphic on $\Hh$, set
+$V=\{\tau:c(\tau)\notin K\}$, and let $F(\tau)=\m(P_{c(\tau)})$
+\textup{(}with the family normalization\textup{)}. Let $E(\tau)$ be
+holomorphic on $\Hh$, set $G:=\ReT E$ (the $n_4$ normalization
+$G=\EK_4=\ReT E_4$ of \eqref{eq:E4}; rescaling $E$ absorbs any
+other convention), and suppose $F=G$ on a nonempty
+open subset of a connected component $W$ of $V$. Then
+\begin{equation}\label{eq:mainconcl}
+  F(\tau)=G(\tau)\qquad\text{for every }
+  \tau\in\overline{W}\cap\Hh .
+\end{equation}
+\end{theorem}
+\begin{proof}
+Write $F=\nu\,\m(P_{c(\tau)})$ with the family's constant
+normalization factor $\nu$ ($\nu=4$ for the $n_4$ family).
+On $V$ both $\Omega(c(\tau))c'(\tau)$ and $E'(\tau)$ are holomorphic,
+so $\Psi(\tau):=\nu\,\Omega(c(\tau))c'(\tau)-E'(\tau)$ is
+holomorphic on $V$. By the chain rule applied to \eqref{eq:dm},
+$\id F=\nu\,\ReT[\Omega(c(\tau))c'(\tau)\,\id\tau]$ on $V$, and
+$\id G=\ReT[E'(\tau)\,\id\tau]$ there; hence
+$\id(F-G)=\ReT[\Psi(\tau)\,\id\tau]$. On the anchor open set
+$F-G=0$, so $\ReT[\Psi\,\id\tau]=0$ in all directions
+$\id\tau$; testing $\id\tau=1$ and $\id\tau=\ii$ gives $\Psi=0$
+there, and the identity theorem on the connected open set $W$ gives
+$\Psi\equiv0$ on $W$. Thus $H:=F-G$ is locally constant on $W$,
+constant since $W$ is connected, and zero because it vanishes on the
+anchor; $H$ is continuous on all of $\Hh$ (Mahler continuity,
+Definition~\ref{def:tempered}; $G$ is real-analytic everywhere), so
+Lemma~\ref{lem:prop} with $U=\Hh$, $Z=c^{-1}(K)$ gives
+$H\equiv0$ on $\overline W\cap\Hh$.
+\end{proof}
+
+\begin{remark}[The five stations]\label{rem:stations}
+Instantiating Theorem~\ref{thm:main} for a conjectured identity
+$n_4(s)=R$ at a CM parameter splits into the five stations of
+\S\ref{subsec:inventory}: S1 identifies $\tau_0$ with
+$s_4(\tau_0)=s$; S2 locates $c(\tau_0)$ relative to $\Ast$; S3
+certifies $\tau_0\in\overline W$ (or gets it for free from Samart's
+proved region); S4 upgrades the numerical coincidence $s_4(\tau_0)=s$
+to an exact algebraic lock (\S\ref{subsec:cert0}); S5 evaluates
+$\EK_4(\tau_0)$ exactly as a rational linear combination of
+$L$-values (\S\ref{subsec:verify}). Theorem~\ref{thm:main} then
+yields $n_4(s_4(\tau_0))=\EK_4(\tau_0)$, and S4+S5 turn this into
+the identity $n_4(s)=R$.
+\end{remark}
+
+\subsection{The anchor identity for the \texorpdfstring{$n_4$}{n4}
+family}\label{subsec:anchor}
+
+The anchor input is Samart's theorem, quoted with one repair.
+
+\begin{theorem}[Samart, {\cite[Prop.~2.1(iii)]{Sa13}}]\label{thm:samart4}
+For pure imaginary $\tau=\ii y$ with $y\ge1/\sqrt2$,
+$n_4\bigl(s_4(\tau)\bigr)=\EK_4(\tau)$.
+\end{theorem}
+
+\begin{lemma}[Composite continuation lemma: the anchor on
+$|s_4|>256$]\label{lem:anchor}
+Let $D\subset\Hh$ be open with $|s_4(\tau)|>256$ for all $\tau\in D$.
+Then $n_4(s_4(\tau))=\EK_4(\tau)$ on $D$.
+\end{lemma}
+\begin{proof}[Proof sketch with quoted inputs]
+Three quoted ingredients compose. (i) \emph{Rogers' evaluation}
+(Prop.~2.2 and Thm.~2.3 of \cite{Ro}): the ${}_5F_4$ hypergeometric
+expression for $n_4$ converges for $|s|>256$
+($\sum b-\sum a=3/2>0$) and equals $n_4(s)$ there: both sides are
+real parts of holomorphic functions of $s$ on $\Cc\setminus\Ast$,
+equal on the real ray $s>256$ by Rogers' theorem, hence equal on the
+connected open set $\{|s|>256\}$ by the identity theorem. (ii)
+\emph{Rogers' transformation} \cite[Thm.~2.3]{Ro}:
+$f_4(s_4(q))=-\tfrac13 G(q)+\tfrac23 G(q^2)$ is an identity of
+functions analytic near $q=0$, extending to $|q|<1$ by the identity
+theorem (the composition with (i) is then restricted to the
+connected component of $\{\tau:|s_4(\tau)|>256\}$ containing
+$\ii\infty$, which is where every application lies). (iii) \emph{Samart's computation} \cite[proof of
+Prop.~2.1(iii)]{Sa13}: the identification of the $q$-series in (ii)
+with the $U$-series expression $\EK_4$ uses termwise integration and
+Fourier expansions whose convergence requires only $|q|<1$. The
+single step of Samart's proof that genuinely needs real $q$ --- the
+comparison $|s_4(q)|\ge s_4(\e^{-\pi\sqrt2})=256$ by real-variable
+monotonicity, which locates his argument in the convergence region
+--- is replaced here by the hypothesis $|s_4|>256$ on $D$, certified
+by interval arithmetic in each application
+(Theorems~\ref{thm:B} and~\ref{thm:F}). This repair was identified
+by a line-by-line check of the proof of \cite[Prop.~2.1(i)]{Sa13}
+and of the convergence analysis of \cite[Thm.~2.3]{Ro} (Samart's
+proof of Prop.~2.1(iii) itself is one sentence, referring to the
+(i)-proof); no other step uses the pure-imaginary hypothesis.
+\end{proof}
+
+Lemma~\ref{lem:anchor} upgrades Samart's theorem from a statement on
+a half-line to an anchor on an open set: the anchor box
+$D=\{|\ReT\tau|\le1/32,\ |\ImT\tau-1|\le1/32\}$ carries the
+certified bound $|s_4|\ge493$ (Section~\ref{sec:app2}), so $F=G$ on
+$D$, and Theorem~\ref{thm:main} propagates the identity through the
+whole component $W$ of $V_4:=\{\tau:c(\tau)\notin\Ast\}$ containing
+$D$. For the deep pure-imaginary points of Theorems A, C, D, E even
+this is unnecessary: Theorem~\ref{thm:samart4} applies directly.
+
+\subsection{The certifier: \texttt{cert0}, \texttt{cert2},
+\texttt{verify\_P1}}\label{sec:cert}
+
+The non-elementary computations are certified by interval arithmetic.
+The object entering the proofs is not a program but a
+\emph{certificate}: finite data (parameter blocks with strict
+enclosures, or exact rational equalities) whose validity is checked
+by deterministic, finite, independently re-runnable computations.
+The trusted base consists of exactly three items:
+(i) the mathematical lemmas below (tail bounds, inclusion property);
+(ii) the documented outward-rounding semantics of the interval
+arithmetic employed (\texttt{mpmath.iv} rounds interval endpoints
+outward, with guard digits for the complex transcendental functions
+\cite{mpmath,ivdoc}); and (iii) the public source code of the
+scripts. Item (ii) is replaceable: any outward-rounded interval
+implementation re-executing the same block lists obtains the same
+verdicts. All scripts are plain Python 3.12 + \texttt{mpmath}
+\cite{mpmath} (standard library \texttt{fractions} for the exact
+algebra), run independently of one another.
+
+\subsubsection{The inclusion property and tail bounds}\label{subsec:incl}
+
+\begin{lemma}[Inclusion property, {\cite{MoKC}}]\label{lem:incl}
+Let $E$ be any expression built from interval-enclosed constants, the
+variable, interval arithmetic operations, and interval elementary
+functions, all with outward-rounded semantics. Then for every
+interval box $I$ in its domain, $E(I)$ contains the true value
+$E(\tau)$ for every $\tau\in I$.
+\end{lemma}
+\begin{proof}
+Induction on the structure of $E$; see \cite[Lemma~6.1]{Zf}.
+\end{proof}
+
+\begin{lemma}[Tail bound for eta-quotient products]\label{lem:tail}
+Let $r:=\overline{|q|}<1$ be a certified upper bound. For
+$d\ge1$, $e\in\Zz$ and the principal branch of $\log$,
+\[
+  \Bigl|\log\prod_{n>N}\bigl(1-q^{dn}\bigr)^{e}\Bigr|
+  \le E:=\frac{|e|\,r^{d(N+1)}}{(1-r^d)(1-r)},
+\]
+so the truncated product carries the rigorous tail factor
+$\exp(z)$ with $z$ enclosed in the box $\{u+\ii v:|u|,|v|\le E\}$
+(evaluated as the interval exponential \emph{of that box}).
+\end{lemma}
+\begin{proof}
+For $|z|\le r<1$, $|\log(1-z)|\le|z|/(1-r)$; sum the geometric
+series, cf.\ \cite[Lemma~6.2]{Zf}. Products and quotients of such
+factors (the parametrization \eqref{eq:cdef} is a quotient of two
+products) are enclosed numerator- and denominator-wise before
+division.
+\end{proof}
+
+On the certified paths $r\le\e^{-2\pi\cdot0.702}<0.0122$, and with
+truncation $N=40$ the tail width satisfies $E<10^{-78}$, far below
+the working precision.
+
+\subsubsection{\texttt{cert2}: path certification}\label{subsec:cert2}
+
+A \emph{path certificate} for a path $\gamma\subset\Hh$ is a finite
+list of parameter blocks $I_\nu$ covering $\gamma$ (down to the
+endpoint, if the endpoint lies in $V$), with complex intervals
+$Z_\nu$ such that $c(I_\nu)\subset Z_\nu$ and every $Z_\nu$ is
+certified disjoint from $\Ast$ --- i.e.\ the interval lower bound of
+$|\ReT z|^{2/3}+|\ImT z|^{2/3}$ over $Z_\nu$ exceeds $4^{2/3}$,
+a pure interval endpoint comparison. By Lemma~\ref{lem:incl} and
+Lemma~\ref{lem:tail} this is a proof, not an estimate
+(cf.\ \cite[Prop.~6.4]{Zf}).
+
+\begin{remark}[Generation and termination of the adaptive search]
+\label{rem:termin}
+Blocks are found by adaptive bisection: accept a block when its
+enclosure is certified outside $\Ast$, else bisect. Termination is
+not part of the trusted base, but it is guaranteed: the natural
+interval extension of an expression built from Lipschitz non-singular
+operations on a box has width $O(\operatorname{diam})$ \cite{MoKC};
+the factors of \eqref{eq:cdef} are non-singular ($|q|<1$,
+$|1\pm q^{dn}|$ bounded away from $0$) and the tail width is
+$<10^{-78}$ uniformly; and on each compact path piece the true image
+has positive distance to $\Ast$. Once the enclosure width drops
+below that margin, the block is accepted. (For a path ending at a
+point of $c^{-1}(K)$ --- which does \emph{not} occur in this paper
+--- the same machinery certifies down to a cap
+$(y_0,y_0+\varepsilon_0]$, closed analytically by a first-order
+Taylor expansion with a Cauchy-estimate remainder and a certified
+enclosure of the derivative at the endpoint; see
+\cite[\S4.3]{Zf}. Theorems~\ref{thm:B} and~\ref{thm:F} have their
+endpoints strictly inside $V_4$, so no cap is needed.)
+\end{remark}
+
+\subsubsection{\texttt{cert0}: exact algebraic locks}\label{subsec:cert0}
+
+The exactness of $s_4(\tau_0)=s$ follows a four-step pattern:
+(i) \emph{integrality}: $s_4\in\Zz(\!(q)\!)$ (exact integer check),
+so by Shimura's CM theorem \cite{Cox} the value of the eta-quotient
+(a modular unit with integral $q$-expansion) at a CM point is an
+algebraic integer in the corresponding ring class field; the class
+number bounds the degree, and conjugates are located via the level
+structure;
+(ii) \emph{symmetric functions}: interval locks with rigorous tails
+force the elementary symmetric functions of the conjugate values
+(e.g.\ sum $S$ and product $P$ for a quadratic value) to be explicit
+integers;
+(iii) \emph{pinning}: an interval enclosure of the target with radius
+smaller than half the separation of the candidate roots singles out a
+unique root;
+(iv) \emph{reality}: real $q$ at the chosen points
+($q(\ii y)>0$, $q((1+\ii y)/2)<0$) makes the products real and
+simplifies the locks.
+No exact equality is ever inferred from a floating-point
+approximation alone: each lock is a discreteness argument over an
+explicit finite candidate set.
+
+\subsubsection{\texttt{verify\_P1}: the three-track CM evaluation}
+\label{subsec:verify}
+
+The evaluation $\EK_4(\tau_0)=R$ (station S5) is certified by three
+independent tracks, any one of which is sufficient in principle:
+\begin{itemize}
+\item \textbf{[X]/[S] exact algebra.} The lattice decomposition of
+  $-T_1+4T_2$ into Hecke and Dirichlet sums, the inclusion--exclusion
+  coefficients, the closed forms of even-character values
+  $L(\chi,2)$ \cite{Wa}, the functional-equation constants, and the
+  final coefficient comparison in a rational \emph{$e$-basis} are all
+  carried out in rational/algebraic-integer arithmetic
+  (\texttt{fractions.Fraction}); no interval estimates enter. The
+  anchors of this track are quoted standard inputs listed explicitly
+  in each application section (Hecke's theorem on gr\"ossencharacter
+  theta series \cite{Miyake}, class numbers, Dirichlet functional
+  equations, Shimura's CM theorem).
+\item \textbf{[V] interval locks.} The same identity is re-proved by
+  outward-rounded interval arithmetic: Poisson row sums with
+  $\coth/\tanh$ closed rows and rigorous Fourier tails for the
+  lattice sums, $E_1$-continued-fraction-bracketed Mellin integrals
+  for the $L$-values, Euler--Maclaurin for the Dirichlet values.
+  Achieved half-widths are quoted in each application section
+  (down to $9.1\times10^{-53}$).
+\item \textbf{mp cross-checks.} Independent $60$-digit
+  (\texttt{mpmath}, non-interval) reimplementations of every
+  quantity, agreeing typically to $10^{-60}$; these corroborate the
+  implementation but do not enter the proof.
+\end{itemize}
+Newform identifications use Ligozat's eta-quotient criteria
+\cite{Lig} (weight, character, cusp orders), exact-integer theta
+identity checks to order $q^{60}$ against the Sturm bound
+\cite{Sturm} (which is $\le6$ in all our cases), and the LMFDB
+labels \cite{LMFDB}. Level and root number of each twist are
+determined by the \emph{Fricke ratio}
+$f\bigl(\ii/(\sqrt N\,y)\bigr)\big/\bigl(y^3 f(\ii y/\sqrt N)\bigr)$
+evaluated at two ordinates --- see \S\ref{subsec:twisttrap} for why
+the naive ``functional-equation residue'' test is vacuous.
+
+\subsubsection{Script inventory}\label{subsec:scripts}
+
+\begin{center}\footnotesize
+\begin{tabular}{lp{9.6cm}}
+\toprule
+script & content \\
+\midrule
+\texttt{cert0\_s4\_s7pair.py} & exactness $s_4(\ii\sqrt7)$,
+  $s_4(\ii\sqrt7/2)=8292456\pm3132675\sqrt7$ (Theorem A) \\
+\texttt{verify\_P1\_n4\_s7pair.py} & Theorem A: exact separation
+  track [S1]--[S10], FE proofs (\S\ref{subsec:app1FE}), interval
+  locks [V0]--[V6] \\
+\texttt{cert0\_s4\_m144.py} & exactness $s_4(\tau_1)=-144$
+  (Theorem B) \\
+\texttt{cert2\_path\_n4\_m144.py} & anchor box + certified path for
+  Theorem B (template for Theorem F) \\
+\texttt{verify\_P1\_n4\_m144.py} & Theorem B: 32 checks, four tracks
+  including [G] Sturm-level newform identification and [V] interval
+  locks \\
+\texttt{n4\_m144\_true\_mahler.py} & true Mahler side of
+  Theorem B by spectral torus integration (22-digit collision) \\
+\texttt{cert0\_n4\_p3\_t1t2.py} & exactness of the $s_4$-values of
+  Theorems C, D and of the conjugate of C (Theorem F's $s$-value) \\
+\texttt{verify\_P1\_n4\_p3\_t1t2.py} & Theorems C, D: three tracks,
+  [G] identifications, Fricke-ratio level determinations \\
+\texttt{cert0\_n4\_p4\_t3.py} & Theorem E: four-point quartic lock
+  of the $s_4$-value \\
+\texttt{verify\_P1\_n4\_p4\_t3.py} & Theorem E: three tracks,
+  genus-character decomposition, [V] locks \\
+\texttt{n4\_p4\_t4\_cert.py} & certified path for Theorem F
+  (interior-point verdict, margin $0.11590$) \\
+\texttt{n4\_p4\_t4\_verify.py} & Theorem F: three tracks, shifted
+  $\coth/\tanh$ row machine, [V] locks \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All computations use \texttt{mpmath} interval arithmetic at
+$40$--$70$ decimal digits (\texttt{iv.dps}); the certification
+scripts print \texttt{PASS}/\texttt{FAIL} per check and terminate
+with an all-checks-passed line, re-verified by the author.
+
+% ============================================================
+\section{Application I: the \texorpdfstring{$\sqrt7$}{sqrt7} pair}
+\label{sec:app1}
+
+Both CM points are pure imaginary and deep inside Samart's region:
+\[
+  \tau_A=\ii\sqrt7\quad(\ImT\tau_A=\sqrt7>1/\sqrt2),\qquad
+  \tau_B=\frac{\ii\sqrt7}{2}\quad(\ImT\tau_B=\tfrac{\sqrt7}{2}>1/\sqrt2),
+\]
+so Theorem~\ref{thm:samart4} applies directly: station S3 is free.
+The work is S4 (the exact $s_4$-values) and S5 (the exact CM
+evaluations, \emph{separately} for the two points --- an earlier
+stage of this project had proved only the sum of the two identities;
+the ray-class decomposition below closes each point independently).
+
+\subsection{Station S4: the exact \texorpdfstring{$s_4$}{s4}-values}
+
+By \texttt{cert0\_s4\_s7pair.py} (four-step lock of
+\S\ref{subsec:cert0}): the two values are conjugate algebraic
+integers in $\Qq(\sqrt7)$ (Shimura integrality; $q(\tau_A)>0$,
+$q(\tau_B)>0$); interval locks force the symmetric functions to
+integers,
+\[
+  S=16584912,\qquad P=69257922561=3^{12}\cdot19^{4}
+  \quad\bigl(\text{exact check: }8292456^2-7\cdot3132675^2=P\bigr),
+\]
+and the root separation $1.6\times10^{7}$ dwarfs the lock radii
+$|s_4(\ii\sqrt7)-r_+|\le9.6\times10^{-51}$,
+$|s_4(\ii\sqrt7/2)-r_-|\le3.6\times10^{-54}$. Hence exactly
+\[
+  s_4(\ii\sqrt7)=8292456+3132675\sqrt7=:r_+,\qquad
+  s_4(\ii\sqrt7/2)=8292456-3132675\sqrt7=:r_- .
+\]
+
+\subsection{Station S5: the lattice decomposition}
+
+Write $\varpi=(1+\sqrt{-7})/2$, so $2\varpi=1+\sqrt{-7}$,
+$K=\Qq(\sqrt{-7})$, $h(-7)=1$, $\OO_K^\times=\{\pm1\}$. The lattices
+of \eqref{eq:EK4lattice} at the two points are (exact set equalities,
+checks [S1]--[S2] of \texttt{verify\_P1\_n4\_s7pair.py}):
+\begin{itemize}
+\item at $\tau_A$: $\Lambda_1(\tau_A)=\Zz+\ii\sqrt7\Zz=\OO^{(2)}$
+  (the order of conductor $2$, discriminant $-28$), and
+  $\Lambda_2(\tau_A)=\OO^{(4)}$ (conductor $4$, discriminant $-112$);
+\item at $\tau_B$: $\Lambda_2(\tau_B)=\OO^{(2)}$, and
+  $\Lambda_1(\tau_B)=\tfrac12\Lambda'$, where
+  $\Lambda'=2\Zz+\ii\sqrt7\Zz$ is the index-$2$ \emph{non-ideal}
+  sublattice of $\OO^{(2)}$; by $(-4)$-homogeneity,
+  $T_1(\tau_B)=16\,T(\Lambda')$.
+\end{itemize}
+With $B(\Lambda)=\sum'_{\lambda\in\Lambda}|\lambda|^{-4}$,
+$G(\Lambda)=\sum'\bar\lambda^2|\lambda|^{-6}$ (real: all three
+lattices are conjugation-stable), $T=2G+B$, the ray-class
+decompositions
+\begin{align*}
+  \OO^{(2)}\setminus\{0\}&=\{\alpha\equiv1\ (2)\}\ \sqcup\
+   2\OO_K\setminus\{0\},\\
+  \OO^{(4)}&=2\OO^{(2)}\ \sqcup\ \{\alpha\equiv1,3\ (4)\},\\
+  \Lambda'&=2\OO^{(2)}\ \sqcup\ \{\alpha\equiv1{+}2\varpi,\,
+   3{+}2\varpi\ (4)\},
+\end{align*}
+the inclusion--exclusion coefficients $9/16$ and $23/16$ at the split
+prime $(2)=(\varpi)(\bar\varpi)$ (exact, using
+$\varpi^2+\bar\varpi^2=-3$), and the mod-$4$ ray-class pairing of the
+character $\chi_{-4}\circ N$ (values $+1,+1,-1,-1$ on the four unit
+classes, check [X4]) give, all in exact rational arithmetic
+(checks [S3]--[S6]):
+\[
+\begin{array}{c|cc|c}
+\text{lattice} & B & G & T=2G+B\\ \hline
+\OO^{(2)} & \frac54\zeta_K(2) & 3L_3 & 6L_3+\frac54\zeta_K(2)\\
+\OO^{(4)} & \frac{41}{64}\zeta_K(2)+z_V & \frac{13}{8}L_3+L_3^{\mathrm{tw}}
+ & \frac{13}{4}L_3+2L_3^{\mathrm{tw}}+\frac{41}{64}\zeta_K(2)+z_V\\
+\Lambda' & \frac{41}{64}\zeta_K(2)-z_V & \frac{13}{8}L_3-L_3^{\mathrm{tw}}
+ & \frac{13}{4}L_3-2L_3^{\mathrm{tw}}+\frac{41}{64}\zeta_K(2)-z_V
+\end{array}
+\]
+where $L_3:=L(g_7,3)$, $L_3^{\mathrm{tw}}:=L(g_7\otimes\chi_{-4},3)$,
+and $z_V:=L(\chi_{-4},2)L(\chi_{-28},2)$. The pointwise assemblies
+(check [S8], including the separation witness
+$\mathrm{combA}\neq\mathrm{combB}$):
+\begin{align*}
+  \mathrm{combA}&:=-T\bigl(\OO^{(2)}\bigr)+4T\bigl(\OO^{(4)}\bigr)
+   =7L_3+8L_3^{\mathrm{tw}}+\frac{21}{16}\zeta_K(2)+4z_V,\\
+  \mathrm{combB}&:=-16\,T(\Lambda')+4T\bigl(\OO^{(2)}\bigr)
+   =-28L_3+32L_3^{\mathrm{tw}}-\frac{21}{4}\zeta_K(2)+16z_V .
+\end{align*}
+
+\subsection{The functional equations and root numbers}\label{subsec:app1FE}
+
+Two functional-equation inputs are proved in
+\texttt{verify\_P1\_n4\_s7pair.py}, not quoted:
+$M_7=\frac{7\sqrt7}{4\pi^3}L_3$ \cite[Lemma~2.8]{Zf} and the twisted
+identity
+\begin{equation}\label{eq:twistfricke}
+  U_{a/4}\,W_{112}=4\,\gamma_a\,W_7\,U_{a/4}\qquad(a=1,3),
+  \qquad
+  \gamma_a=\begin{pmatrix}(1+7a^2)/4 & a\\ 7a & 4\end{pmatrix}
+  \in\Gamma_0(7),
+\end{equation}
+an exact matrix identity (check [X10], with $\chi_{-7}(4)=+1$), which
+gives $h|[W_{112}]_3=\ii\,h$ for $h=g_7\otimes\chi_{-4}$ --- the
+Atkin--Li twist-$W$ technique of \cite{AL} made self-contained for
+these parameters --- hence root number $+1$ at level $112$ and
+$M_7^{\mathrm{tw}}=\frac{112\sqrt7}{\pi^3}L_3^{\mathrm{tw}}$. The
+remaining quoted constants are the Dirichlet functional equations
+(textbook) and the finite-sum evaluation
+\[
+  L(\chi_{-28},2)=\frac{2\pi^2}{7\sqrt7},
+\]
+whose character sum $\sum_a\chi_{-28}(a)a^2=448$ is an exact integer
+check [X7] \cite{Wa}.
+
+\subsection{Assembly}
+
+With the $e$-basis
+$e=\frac{\sqrt7}{\pi^3}\bigl(L_3,L_3^{\mathrm{tw}},\zeta_K(2),z_V\bigr)$
+one has $M_7=\frac74e_1$, $M_7^{\mathrm{tw}}=112e_2$,
+$d_7=\frac{21}{2}e_3$, $d_4=7e_4$ (exact, [S9]); the coefficient
+comparison
+\[
+  \EK_4(\ii\sqrt7)=10\,\mathrm{combA}\cdot e
+  =\Bigl(70,80,\tfrac{105}{8},40\Bigr)\cdot e
+  =\frac{5}{28}\bigl(4M_7^{\mathrm{tw}}+224M_7+32d_4+7d_7\bigr),
+\]
+\[
+  \EK_4\Bigl(\frac{\ii\sqrt7}2\Bigr)=5\,\mathrm{combB}\cdot e
+  =\Bigl(-140,160,-\tfrac{105}{4},80\Bigr)\cdot e
+  =\frac{5}{14}\bigl(4M_7^{\mathrm{tw}}-224M_7+32d_4-7d_7\bigr),
+\]
+is exact rational arithmetic (check [S10]), and the two right-hand
+sides are distinct --- the separation is complete and each identity
+holds individually. Combined with Theorem~\ref{thm:samart4} and
+\S\ref{subsec:cert0} this proves Theorem~\ref{thm:A}. \qed
+
+\begin{remark}[Independent confirmations]
+The mp track (60 dps, independent implementations: Mellin
+integrals, Poisson row sums, ray-class sums) confirms every step to
+$9\times10^{-60}$; the interval-lock track [V0]--[V6]
+(\texttt{iv.dps}$=70$: continued-fraction bracketing, Fourier tail
+bounds, Euler--Maclaurin) locks the two final identities with
+half-widths $1.15\times10^{-52}$ and $2.30\times10^{-52}$.
+Reference values:
+\begin{align*}
+  M_7&=0.1026716077789020112104565948982929139989\ldots,\\
+  M_7^{\mathrm{tw}}&=9.887687024790914246588215159482724883665\ldots
+\end{align*}
+\end{remark}
+
+% ============================================================
+\section{Application II: \texorpdfstring{$n_4(-144)$}{n4(-144)}}
+\label{sec:app2}
+
+The CM point
+\[
+  \tau_1=\frac{1+\sqrt{-3}}2
+\]
+is \emph{not} pure imaginary, so Theorem~\ref{thm:samart4} does not
+apply directly; this is the first use of the full continuation
+machine in the $n_4$ family. It also shows the machine in its
+shortest form: the target is a strict interior point of $V_4$, so no
+endpoint cap and no boundary-continuity step are needed.
+
+\subsection{Station S3: the certified path}
+
+The path $\gamma$ from the anchor box
+$D=\{|\ReT\tau|\le1/32,\ |\ImT\tau-1|\le1/32\}$ to $\tau_1$ ---
+horizontal at $\ImT\tau=1$ to $1/2+\ii$, then vertical at
+$\ReT\tau=1/2$ down to $\tau_1$ --- is certified inside $V_4$ by
+\texttt{cert2\_path\_n4\_m144.py} (machinery of
+\S\ref{subsec:cert2}): the anchor box passes as a single block with
+astroid margin $0.291$ and the certified bound $|s_4|\ge493>256$
+(which activates Lemma~\ref{lem:anchor}: $F=G$ on $D$); the
+horizontal leg takes $2$ blocks (minimum margin $0.148$); the
+vertical leg takes $1$ block (margin $1.051$); and $\tau_1$ itself
+satisfies $c(\tau_1)=2\sqrt3\,\e^{-\ii\pi/4}$, whose astroid
+functional is $3.634>4^{2/3}=2.520$ --- a strict exterior point of
+$\Ast$, so $\tau_1\in V_4$ itself and $\tau_1\in W$. The endpoint
+Taylor cap of \cite{Zf} is absent. By Theorem~\ref{thm:main},
+$n_4(s_4(\tau_1))=\EK_4(\tau_1)$.
+
+\subsection{Station S4: the exact \texorpdfstring{$s_4$}{s4}-value}
+
+\texttt{cert0\_s4\_m144.py}: $q(\tau_1)=-\e^{-\pi\sqrt3}$ is a
+negative real, all products are real, and the value is pinned to a
+\emph{rational integer} (Shimura integrality plus $h(-3)=1$, so the
+ring class field is $K$; reality from the integral $q$-expansion and
+$T$-invariance):
+$|s_4(\tau_1)+144|\le2.3\times10^{-51}<1/2$, hence
+$s_4(\tau_1)=-144$ exactly.
+
+\subsection{Station S5: the CM evaluation}
+
+$K=\Qq(\sqrt{-3})$, $\OO_K=\Zz[\omega]$,
+$\omega=(-1+\sqrt{-3})/2$, units $\mu_6$. The structural
+simplification is the \emph{$\mu_6$ annihilation}
+$\sum_{u\in\mu_6}u^2=0$ (exact check [X1]): it forces
+$G(\OO_K)=0$, which is also the reason $\Qq(\sqrt{-3})$ has no
+conductor-$(1)$ gr\"ossencharacter of type $(2,0)$ and the evaluation
+involves a non-trivial conductor. The lattices are
+$\Lambda_1(\tau_1)=\OO_K$ (since $\tau_1=1+\omega=-\omega^2$) and
+$\Lambda_2(\tau_1)=\OO_2$ (conductor $2$; $2$ is inert), giving
+(exact [X2]--[X8]):
+\[
+  T_1(\tau_1)=6\zeta_K(2),\qquad
+  T_2(\tau_1)=4L(g_{12},3)+\frac94\zeta_K(2),\qquad
+  -T_1+4T_2=16\,L(g_{12},3)+3\zeta_K(2);
+\]
+note the $\zeta_K(2)$-term does \emph{not} cancel (coefficient $3$)
+--- this is the source of the $d_3$-term. The theta identity
+$2g_{12}=\sum'_{\alpha\equiv1\,(2)}\alpha^2q^{N\alpha}$ is checked
+with exact integer arithmetic to order $q^{60}$ (check [L1]); the
+newform identification
+$g_{12}=\eta(2\tau)^3\eta(6\tau)^3\in S_3(\Gamma_0(12),\chi_{-3})$
+is certified at Sturm level (checks [G1]--[G3]): Ligozat's criteria
+\cite{Lig} (both congruences $24\equiv0\bmod24$; character
+$-2^33^3$, square kernel $-3$), all six cusp orders equal $1$
+(cuspidal; divisor degree $6=\frac{3}{12}\cdot24$), Sturm bound
+$\lfloor3\cdot24/12\rfloor=6<60$ \cite{Sturm}; LMFDB label
+\textsf{12.3.c.a} \cite{LMFDB}. With
+$M_{12}=\frac{6\sqrt3}{\pi^3}L(g_{12},3)$ (root number $+1$, Fricke
+ratio) and $d_3=\frac{3\sqrt3}{4\pi}L(\chi_{-3},2)$, the $e$-basis
+assembly gives (exact, [S1]):
+\[
+  \EK_4(\tau_1)=\frac{5\sqrt3}{\pi^3}
+   \bigl(16L(g_{12},3)+3\zeta(2)L(\chi_{-3},2)\bigr)
+  =\frac{10}{3}\bigl(4M_{12}+d_3\bigr),
+\]
+both sides being $(80,\,5/2)$ in the basis
+$\bigl(\sqrt3 L(g_{12},3)/\pi^3,\ \sqrt3 L(\chi_{-3},2)/\pi\bigr)$.
+Theorem~\ref{thm:B} follows. \qed
+
+\begin{remark}[Confirmations and the true-Mahler end]
+The mp track confirms the identity to $3.7\times10^{-60}$ (check
+[E1]); the interval-lock track [V0]--[V3] (shifted $\coth/\tanh$
+rows, since $\ReT\tau_1=1/2$) locks it with half-width
+$5.8\times10^{-52}$. Independently, direct spectral torus integration
+(\texttt{n4\_m144\_true\_}\allowbreak\texttt{mahler.py}: $c(\tau_1)$ lies outside $\Ast$,
+so the Jensen integrand is real-analytic periodic and the
+two-dimensional trapezoidal rule converges spectrally; residual
+$1.16\times10^{-22}$ at $N=128$) collides the two sides of
+Theorem~\ref{thm:B} to $22$ digits:
+\[
+  n_4(-144)=5.09841965623737833323\ldots
+\]
+The propagation argument does not depend on this numerical value.
+Reference value:
+$M_{12}=0.3016149874129407464690529311477683998854\ldots$\,.
+\end{remark}
+
+% ============================================================
+\section{Application III: class number one, deep interior points
+(Theorems C and D)}\label{sec:app3}
+
+Both CM points are pure imaginary and deep inside Samart's region,
+\[
+  \tau_C=\ii\sqrt2\quad(\ImT\tau_C=\sqrt2),\qquad
+  \tau_D=2\ii\quad(\ImT\tau_D=2),
+\]
+so Theorem~\ref{thm:samart4} applies directly and the proofs consist
+of \texttt{cert0} locks and three-track CM evaluations. The new
+methodological content of this section is concentrated in station S5:
+the character $\chi_8\circ N$ as an exact mod-$2$ ray-class projector,
+and the level determination of the twists, which contains a genuine
+trap.
+
+\subsection{The ray-class projector \texorpdfstring{$\chi_8\circ N$}{chi8 o N}}
+\label{subsec:rayproj}
+
+In both fields the twist character materializes as a parity condition.
+Exact checks ([X4], [Y4] of \texttt{verify\_P1\_n4\_p3\_t1t2.py}):
+\begin{itemize}
+\item in $K=\Qq(\sqrt{-2})$: for $a+b\sqrt{-2}$ of odd norm,
+  $\chi_8\bigl(N(a+b\sqrt{-2})\bigr)=+1\iff b$ even ($a$ odd);
+\item in $K=\Qq(\ii)$: for $a+b\ii$ of odd norm,
+  $\chi_8\bigl(N(a+b\ii)\bigr)=+1\iff b\equiv0\ (4)$ ($a$ odd,
+  $b$ even).
+\end{itemize}
+Hence $(1+\chi_8\circ N)/2$ is exactly the projector onto the mod-$2$
+ray class $\{\alpha\equiv1\ (2)\}$, and in class number one no genus
+character is needed: every ideal decomposition in this section is a
+parity bookkeeping exercise certified in rational arithmetic. Also
+used everywhere below: the closed form
+\[
+  L(\chi_8,2)=\frac{\pi^2\sqrt2}{16}
+\]
+(even-character finite-sum formula \cite{Wa}: $\tau(\chi_8)=2\sqrt2$,
+$\sum_a\chi_8(a)a^2=16$, exact check [X7]).
+
+\subsection{Theorem C: \texorpdfstring{$\tau_C=\ii\sqrt2$}{tauC}}
+\label{subsec:app3C}
+
+\textbf{Station S4.} \texttt{cert0\_n4\_p3\_t1t2.py}:
+$q(\ii\sqrt2)=\e^{-2\pi\sqrt2}>0$ and
+$q\bigl((1+\ii\sqrt2)/2\bigr)=-\e^{-\pi\sqrt2}<0$ are real, so real
+interval locks suffice; the symmetric functions lock to the integers
+\[
+  S=7312,\qquad P=-153664=3656^2-2\cdot2600^2
+\]
+($|\Delta|\le1.1\times10^{-49}$, $5.2\times10^{-48}$; root separation
+$7354$), pinning
+\[
+  s_4(\ii\sqrt2)=3656+2600\sqrt2,\qquad
+  s_4\Bigl(\frac{1+\ii\sqrt2}2\Bigr)=3656-2600\sqrt2
+\]
+--- the second value is reused in Theorem~\ref{thm:F}.
+
+\textbf{Station S5.} $K=\Qq(\sqrt{-2})$, $\OO_K=\Zz[\sqrt{-2}]$,
+$h=1$, units $\pm1$, and $2=-(\sqrt{-2})^2$ ramifies. The lattices
+are $\Lambda_1=\OO_K$ and $\Lambda_2=\OO_2=\Zz+2\OO_K$. With
+$L_8:=L(g_8,3)$, $L_8^{\mathrm{tw}}:=L(g_8\otimes\chi_8,3)$, and
+$z_V:=L(\chi_8,2)L(\chi_{-4},2)$, the inclusion--exclusion at the
+ramified prime (factors $1/4$ for $B$, $-1/4$ for $G$) gives (exact,
+[S]-track):
+\[
+  T(\OO_K)=4L_8+2\zeta_K(2),\qquad
+  T(\OO_2)=\frac{11}{4}L_8+2L_8^{\mathrm{tw}}+\frac78\zeta_K(2)+z_V,
+\]
+\[
+  \mathrm{comb}:=-T_1+4T_2
+  =7L_8+8L_8^{\mathrm{tw}}+\frac32\zeta_K(2)+4z_V .
+\]
+The newform identification
+$g_8=\eta(\tau)^2\eta(2\tau)\eta(4\tau)\eta(8\tau)^2
+\in S_3(\Gamma_0(8),\chi_{-8})$ is Sturm-level
+([G]-track: Ligozat congruences $24\equiv0\ (24)$; cusp orders
+$(1,\tfrac12,\tfrac12,1)$; weighted divisor degree
+$3=\frac{3}{12}\cdot12$; Sturm bound $3$; theta identity
+$2g_8=\sum'_{\alpha\in\OO_K}\alpha^2q^{N\alpha}$ exact to $q^{60}$).
+In the $e$-basis
+$e=\frac{\sqrt2}{\pi^3}\bigl(L_8,L_8^{\mathrm{tw}},\zeta_K(2),z_V\bigr)$:
+\[
+  M_8=4e_1,\qquad M_8^{\mathrm{tw}}=32e_2\quad
+  [\text{level }32,\ w=+1,\ \S\ref{subsec:twisttrap}],\qquad
+  d_8=24e_3,\qquad d_4=16e_4,
+\]
+and the exact comparison ([S3])
+$\EK_4(\ii\sqrt2)=10\,\mathrm{comb}\cdot e=(70,80,15,40)\cdot e$
+is the right-hand side of Theorem~\ref{thm:C}. \qed
+
+\subsection{Theorem D: \texorpdfstring{$\tau_D=2\ii$}{tauD}}
+\label{subsec:app3D}
+
+\textbf{Station S4.} The same script locks
+\[
+  S=286416,\qquad P=-126023688=143208^2-2\cdot101574^2
+\]
+($|\Delta|\le4.1\times10^{-48}$, $3.7\times10^{-45}$; separation
+$2.87\times10^{5}$), pinning
+$s_4(2\ii)=143208+101574\sqrt2$ and
+$s_4\bigl((1+2\ii)/2\bigr)=143208-101574\sqrt2$ (the latter is the
+open entry \#1 of Table~\ref{tab:open}).
+
+\textbf{Station S5.} $K=\Qq(\ii)$, $\OO_K=\Zz[\ii]$, $h=1$, units
+$\mu_4$ --- and $\sum_{u\in\mu_4}u^2=0$, so $G(\OO_K)=0$ (exact [Y1];
+same annihilation mechanism as Theorem~\ref{thm:B}); $2=-\ii(1+\ii)^2$
+ramifies. The lattices are $\Lambda_1=\OO_2$ and $\Lambda_2=\OO_4$.
+Every ideal coprime to $2$ has exactly two generators
+$\equiv1\ (2)$ ([Y3]), so the mod-$2$ ray sums carry \emph{no twist
+term}: with $L_{16}:=L(g_{16},3)$,
+$L_{16}^{\mathrm{tw}}:=L(g_{16}\otimes\chi_8,3)$, and
+$z_{V2}:=L(\chi_8,2)L(\chi_{-8},2)$,
+\[
+  T(\OO_2)=4L_{16}+\frac74\zeta_K(2),\qquad
+  T(\OO_4)=\frac94L_{16}+2L_{16}^{\mathrm{tw}}+\frac{55}{64}\zeta_K(2)
+   +z_{V2},
+\]
+\[
+  \mathrm{comb}=5L_{16}+8L_{16}^{\mathrm{tw}}+\frac{27}{16}\zeta_K(2)
+   +4z_{V2},
+\]
+where the $\OO_4$ decomposition uses
+$\OO_4\setminus\{0\}=\{a\text{ odd},\ b\equiv0\ (4)\}\sqcup
+2\OO_2\setminus\{0\}$ and the projector of
+\S\ref{subsec:rayproj} ([Y4]). The newform identification
+$g_{16}=\eta(4\tau)^6\in S_3(\Gamma_0(16),\chi_{-4})$ is Sturm-level
+(five cusp orders all $1$; weighted degree $6=\frac{3}{12}\cdot24$;
+Sturm bound $6$; theta identity
+$2g_{16}=\sum_{\alpha\equiv1\,(2)}\alpha^2q^{N\alpha}$ of conductor
+$(2)$ exact to $q^{60}$). In the $e$-basis
+$e=\frac1{\pi^3}\bigl(L_{16},L_{16}^{\mathrm{tw}},\zeta_K(2),z_{V2}\bigr)$:
+\[
+  M_{16}=16e_1,\qquad M_{16}^{\mathrm{tw}}=128e_2\quad
+  [\text{level }64,\ w=+1],\qquad d_4=12e_3,\qquad d_8=64e_4,
+\]
+and the exact comparison ([S6])
+$\EK_4(2\ii)=20\,\mathrm{comb}\cdot e=(100,160,135/4,80)\cdot e$
+is the right-hand side of Theorem~\ref{thm:D}. \qed
+
+\subsection{The twist-level trap and the Fricke ratio}\label{subsec:twisttrap}
+
+Two methodological points emerged here and now belong to the machine.
+
+\textbf{(i) The ``FE residue'' test is vacuous.} A widespread
+heuristic decides the root number of a completed $L$-function
+$\Lambda(f,s)=N^{s/2}(2\pi)^{-s}\Gamma(s)L(f,s)$ by splitting the
+Mellin integral at $y=1$ and comparing the two sides of
+$\Lambda(1)\stackrel?=w\Lambda(2)$. But the split gives
+$\Lambda(s)=I_1(s)+wI_2(3-s)$-type expressions for which, at
+$w=+1$, the two sides are \emph{the same linear combination of the
+same two integrals at every candidate level $N$}: the ``residue''
+vanishes identically in $N$ and certifies nothing. (The same vacuity
+affected a check in the $\sqrt7$-pair script; there the conclusion
+was independently secured by the Fricke ratio, so no result was
+endangered.)
+
+\textbf{(ii) The non-vacuous discriminator is the Fricke ratio.}
+For the true level $N_0$ one has the exact transformation
+$f\bigl(\ii/(\sqrt{N_0}\,y)\bigr)=w\,y^3f\bigl(\ii y/\sqrt{N_0}\bigr)$
+for \emph{all} $y>0$, coming from the Fricke involution (proved for
+each form in this paper either by the eta transformation law or by a
+twisted Fricke matrix identity such as \eqref{eq:twistfricke}). Hence
+the ratio
+\[
+  R_N(y):=\frac{f\bigl(\ii/(\sqrt N\,y)\bigr)}
+                 {y^3f\bigl(\ii y/\sqrt N\bigr)}
+\]
+is identically $w$ at $N=N_0$, while at $N\neq N_0$ it varies with
+$y$; evaluation at two ordinates separates the candidates. This is
+how the levels in this paper were fixed: $32$ for $g_8\otimes\chi_8$,
+$64$ for $g_{16}\otimes\chi_8$ (two-ordinate agreement to
+$3.1\times10^{-61}$ and better), and $96$ for the twists of
+Section~\ref{sec:app4} (unique match in the candidate scan
+$\{24,48,96,192,384\}$).
+
+\textbf{(iii) The trap itself.} For $g_{16}\otimes\chi_8$ the naive
+level guess $\operatorname{lcm}(16,4^2)$-style reasoning suggests
+$32$ --- and the vacuous test (i) happily ``confirms'' it. With the
+wrong level-$32$ Mellin constant, $M_{16}^{\mathrm{tw}}$ comes out
+smaller by a factor $2\sqrt2$, and the conjectured identity fails
+numerically by $\sim1\%$; a first pass over Theorem~\ref{thm:D}
+recorded exactly this mismatch, briefly suggesting an $s=81$-type
+refutation. The Fricke ratio at two ordinates gives the true level
+$64$, and with it the identity holds to $2.5\times10^{-60}$. Since a
+wrong level \emph{silently scales} an $L$-value by a simple algebraic
+factor, we record the rule: \emph{never determine a twist level by a
+residual; determine it by the Fricke ratio at two ordinates, and
+cross-check against the assembled identity.}
+
+\begin{remark}[Confirmations for Theorems C and D]
+The mp tracks (60 dps) confirm the two final identities to
+$2.5\times10^{-60}$ each; the interval-lock tracks
+[V] contain zero with half-widths $\le4.6\times10^{-53}$ (Theorem C)
+and $\le6.2\times10^{-53}$ (Theorem D). Direct torus integration
+($c\approx9.25$ and $23.14$, smooth integrands) confirms both at
+float64 level. Reference values:
+\begin{align*}
+  M_8&=0.1353184954231269106150060654595395883532\ldots,\\
+  M_8^{\mathrm{tw}}&=1.549084847095611486271658159444376281785\ldots
+   \quad(\text{level }32,\ w=+1),\\
+  M_{16}&=0.4975478545679851929276297713583412482363\ldots,\\
+  M_{16}^{\mathrm{tw}}&=4.336361249244445609135012019721278212973\ldots
+   \quad(\text{level }64,\ w=+1),\\
+  d_8&=\frac{4\sqrt2}{\pi}L(\chi_{-8},2)
+   =1.9171950931209540617988237536697845644585\ldots
+\end{align*}
+($d_8$ by the functional equation and by direct numerical
+differentiation, agreeing exactly at working precision).
+\end{remark}
+
+% ============================================================
+\section{Application IV: class number two (Theorem E)}\label{sec:app4}
+
+The CM point $\tau_E=\ii\sqrt6$ is pure imaginary with
+$\ImT\tau_E=\sqrt6>1/\sqrt2$, so Theorem~\ref{thm:samart4} applies
+directly. The field $K=\Qq(\sqrt{-6})$ has discriminant $-24$ and
+\emph{class number $2$} --- the first such case treated by the
+machine --- and everything is one step richer: two newforms, a genus
+character, a non-principal ideal class, and a four-point
+\texttt{cert0} lock.
+
+\subsection{Station S4: the four-point quartic lock}
+
+Class number two makes the $s_4$-value quartic over $\Qq$, in
+$\Qq(\sqrt2,\sqrt3)$. \texttt{cert0\_n4\_p4\_t3.py} locates and
+locks all four conjugate values:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+signs & CM point & lock half-width\\
+\midrule
+$(+,+)$ & $\ii\sqrt6$ \ ($q=\e^{-2\pi\sqrt6}>0$) & $7.0\times10^{-47}$\\
+$(-,+)$ & $\ii\sqrt6/4$ \ ($q=\e^{-\pi\sqrt6/2}>0$) & $4.4\times10^{-51}$\\
+$(+,-)$ & $(1+\ii\sqrt6)/2$ \ ($q=-\e^{-\pi\sqrt6}<0$) & $3.1\times10^{-50}$\\
+$(-,-)$ & $1/2+\ii\sqrt6/4$ \ ($q=-\e^{-\pi\sqrt6/2}<0$) & $6.8\times10^{-53}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+with minimal polynomial
+\[
+  X^4-4829472X^3-8676927360X^2+3042408646656X+7520406736896,
+\]
+whose coefficients are confirmed as integers both by exact
+$\Zz[\sqrt2,\sqrt3]$ arithmetic and by the interval locks; the
+minimum root separation $305.0$ dwarfs every lock radius. Two
+structural observations aided the location (used for location only,
+not in the certified chain): $s_4$ is $W_2$-invariant,
+$s_4(-1/(2\tau))=s_4(\tau)$, observed numerically to $10^{-33}$ at
+sample points; and the second class of discriminant $-24$ degenerates:
+$s_4(\ii\sqrt6/2)=s_4(\ii\sqrt6/6)=2304\in\Zz$, which is why that
+value is absent from the quartic roots. In particular the $(+,-)$
+value is open entry \#2 of Table~\ref{tab:open} and the $(-,\pm)$
+values are entries \#3, \#4: their station S4 is already done.
+
+\subsection{The two newforms and the genus character}\label{subsec:genus}
+
+The class group is $\Zz/2$ and coincides with the genus group. The
+theta series of the two gr\"ossencharacters $\psi$ and
+$\psi\cdot\chi_g$ of type $(2,0)$ have coefficients (exact-integer
+checks [th0]--[th6]: integrality, $a(1)=1$, the Hecke recursion
+$a(p^2)=a(p)^2-\chi_{-24}(p)p^2$, multiplicativity, vanishing at
+inert primes, distinctness):
+\[
+  a^{(1)}(n)=P(n)-Q(n),\qquad a^{(2)}(n)=P(n)+Q(n),
+\]
+\[
+  P(n)=\frac12{\sum_{a^2+6b^2=n}}^{\!\prime}\bigl(a^2-6b^2\bigr),
+  \qquad
+  Q(n)=\frac14{\sum_{2x^2+3y^2=n}}^{\!\prime}\bigl(4x^2-6y^2\bigr),
+\]
+$P$ collecting the principal ideal class and $Q$ the non-principal
+one (elements of norm $2n$ in $\mathfrak p_2=(2,\sqrt{-6})$ are in
+bijection with non-principal ideals of norm $n$). By Hecke's theorem
+\cite{Miyake} both are newforms of $S_3(\Gamma_0(24),\chi_{-24})$,
+which has dimension $2$, so they exhaust the space; the coefficient
+match ($q\mp2q^2\pm3q^3+4q^4\pm2q^5-6q^6$) fixes the LMFDB labels
+\[
+  g_{24}^{(1)}=P-Q=\textsf{24.3.h.a},\qquad
+  g_{24}^{(2)}=P+Q=\textsf{24.3.h.b},
+\]
+the unique rational CM newforms of level $24$ and weight $3$
+\cite{LMFDB} (in agreement with Sch\"utt's classification \cite{Sch}).
+Samart's $M_{24}^{(1)}$ (coefficient $28$ in
+Theorem~\ref{thm:E}) is our $g_{24}^{(1)}=P-Q$; swapping the labels
+breaks the identity at the $0.4$ level, a labeling pitfall we record.
+The \emph{genus character} is
+$\chi_g=\chi_8\circ N=\chi_{-3}\circ N$ on ideal norms (exact check
+[th2]: $\chi_8\chi_{-3}=\chi_{-24}$, the field character, so the two
+compositions coincide on norms), and it handles exactly the
+non-principal class that the mod-$2$ ray projector of
+\S\ref{subsec:rayproj} cannot see.
+
+\subsection{Station S5: the class-number-two lattice decomposition}
+\label{subsec:class2}
+
+The lattices are $\Lambda_1=\OO_K$ and $\Lambda_2=\OO_2$. The new
+ingredients, relative to class number one, are: (a) the class-group
+projector $(1+\chi_g)/2$ on the $B$-side and the difference of the
+two $\psi$-values on the $G$-side; (b) sums over $\mathfrak p_2$ as a
+lattice, with homothety factors $1/4$ (not $1/2$ --- numerically
+locked, then certified); (c) the ray condition
+$\{a\text{ odd},b\text{ even}\}$ via $\chi_{-8}\circ N$, which is
+\emph{not} a Hecke character (nontrivial on principal ideals) but
+whose $L_K$-value still factors as a product of Dirichlet
+$L$-functions. Exact decomposition:
+\begin{align*}
+  B(\OO_K)&=\zeta_K(2)+L(\chi_8,2)L(\chi_{-3},2),&
+  G(\OO_K)&=L\bigl(g_{24}^{(1)},3\bigr)+L\bigl(g_{24}^{(2)},3\bigr),\\
+  B(\mathfrak p_2)&=\frac{\zeta_K(2)-L(\chi_8,2)L(\chi_{-3},2)}4,&
+  G(\mathfrak p_2)&=\frac{L(g_{24}^{(2)},3)-L(g_{24}^{(1)},3)}4,
+\end{align*}
+(the sign in $G(\mathfrak p_2)$ is $\psi(\mathfrak p_2)=-2$), and
+\[
+  B_{\mathrm{odd},\chi}=L(\chi_{-8},2)L(\chi_{3},2)
+   +L(\chi_{-4},2)L(\chi_{24},2),\qquad
+  G_{\mathrm{odd},\chi}=L\bigl(g_{24}^{(1)}\otimes\chi_{-8},3\bigr)
+   +L\bigl(g_{24}^{(2)}\otimes\chi_{-8},3\bigr).
+\]
+Note $T(\Lambda)=B(\Lambda)+2G(\Lambda)$ for \emph{every} lattice:
+the pointwise identity $4(\ReT z)^2/|z|^6-1/|z|^4
+=2\ReT(z^2)/|z|^6+1/|z|^4$ (exact check [X0]) plus absolute
+convergence, closing what had briefly appeared to be a gap. The even
+primitive closed forms \cite{Wa}
+\[
+  L(\chi_3,2)=\frac{\pi^2\sqrt3}{18}\quad
+  (\text{conductor }12,\ \textstyle\sum a^2\chi_3(a)=48),\qquad
+  L(\chi_{24},2)=\frac{\pi^2\sqrt6}{24}\quad
+  (\textstyle\sum a^2\chi_{24}(a)=288)
+\]
+are absorbed by the $d_8$ and $d_4$ terms in the assembly. With
+$L_1,L_2,L_1^{\mathrm{tw}},L_2^{\mathrm{tw}}$ the four $L$-values at
+$s=3$,
+\begin{align*}
+  \mathrm{comb}=\;&\frac72L_1+\frac32L_2+4L_1^{\mathrm{tw}}
+   +4L_2^{\mathrm{tw}}+\frac34\zeta_K(2)\\
+   &+\frac74L(\chi_8,2)L(\chi_{-3},2)
+   +2L(\chi_{-8},2)L(\chi_3,2)+2\,\mathrm{Cat}\,L(\chi_{24},2),
+\end{align*}
+where $\mathrm{Cat}=L(\chi_{-4},2)$ is Catalan's constant,
+and the [S1]--[S8] Fraction-exact assembly (single-term substitutions)
+produces the coefficient list
+\[
+  \tfrac{35}{12},\ \tfrac54,\ \tfrac{5}{12},\ \tfrac{5}{12},\
+  \tfrac{35}{12},\ \tfrac52,\ \tfrac56,\ \tfrac{5}{48},
+\]
+yielding Theorem~\ref{thm:E}. \qed
+
+\begin{remark}[Traps recorded for the machine]
+(i) $\chi_3$ has conductor $12$ with period values $0$ at even
+positions; a wrongly tabulated period (nonzero even positions) makes
+standard Dirichlet-$L$ software silently return a wrong value
+($1.1325$ instead of $0.951\ldots$), which once produced a false
+failure at the $3.5\times10^{-2}$ level. The machine now treats
+character tables as exact data to be certified ([X3]). (ii) The
+twist levels ($96$) were fixed by the Fricke-ratio scan of
+\S\ref{subsec:twisttrap}, never by residues.
+\end{remark}
+
+\begin{remark}[Confirmations]
+The mp track (60 dps) confirms the final identity to
+$2.49\times10^{-60}$ (check [E]); the [V] interval-lock track
+(Dual-number $\coth$ rows, $E_1$-bracketed Mellin with the
+self-contained coefficient bound $|a(n)|\le6n^3$, level-$96$ Mellin
+truncation $n_0\approx481$) locks $T(\OO_K)$, $T(\OO_2)$, and the
+final identity with half-widths $4.50\times10^{-53}$,
+$4.92\times10^{-53}$, and $9.72\times10^{-53}$. Direct torus
+integration ($c\approx46.88$, smooth) confirms at float64 level.
+Reference values (50 dps, Mellin; level $96$, $w=+1$ for the twists):
+\begin{align*}
+  M_{24}^{(1)}&=0.8366946514850983661417153108277990376289\ldots,\\
+  M_{24}^{(2)}&=1.093580625535742995623816182417982487423\ldots,\\
+  M_{24}^{(1),\mathrm{tw}}&=8.547412838595950972260990976022241348897
+   \ldots,\\
+  M_{24}^{(2),\mathrm{tw}}&=7.183569611977336512537940485577907159979
+   \ldots
+\end{align*}
+\end{remark}
+
+% ============================================================
+\section{Application V: the boundary point that turned out interior
+(Theorem F)}\label{sec:app5}
+
+The point
+\[
+  \tau_4=\frac{1+\sqrt{-2}}2,\qquad \ImT\tau_4=\frac1{\sqrt2},
+\]
+lies \emph{exactly} on the boundary of Samart's applicability region.
+Moreover $q(\tau_4)=-\e^{-\pi\sqrt2}<0$ is a negative real (outside
+his $q\in(0,1)$ hypothesis) and $|s_4(\tau_4)|=20.96\ldots<256$
+(outside the ${}_5F_4$ convergence region), so
+Theorem~\ref{thm:samart4} fails to cover $\tau_4$ for two independent
+reasons. This was expected to require a boundary-continuity argument.
+It does not: the boundary in question is not the boundary of the
+problem.
+
+\subsection{Samart's boundary is not the topological boundary of
+\texorpdfstring{$V_4$}{V4}}\label{subsec:notboundary}
+
+A $60$-digit scan along the line $\ReT\tau=1/2$ shows the astroid
+functional $|\ReT c|^{2/3}+|\ImT c|^{2/3}$ of $c(\tau)$ decreasing
+monotonically from $4.377$ at $y=1$, crossing the threshold
+$4^{2/3}=2.51984$ only at $y\approx0.693$ (margin $+0.064$ at
+$y=0.700$, $-0.011$ at $y=0.690$). At $\tau_4$ ($y=1/\sqrt2=0.70711$)
+the functional is $2.6357$, with margin $+0.116$. Since $c$ is
+holomorphic (an open map) and $\Ast$ is closed, $\tau_4$ is a
+\emph{strict interior point} of $V_4$. Samart's line
+$\{\ImT\tau=1/\sqrt2\}$ is dictated by the real-$q$ mechanism of his
+proof; the topological boundary of $V_4$ along this segment lies
+$\approx0.014$ lower, and $\tau_4$ sits strictly between the two.
+Consequently the short \texttt{cert2} path of Theorem~\ref{thm:B}
+suffices, and no boundary-continuity step is needed.
+
+\subsection{Station S3: the certified path}
+
+\texttt{n4\_p4\_t4\_cert.py} (template
+\texttt{cert2\_path\_n4\_m144.py}; leg B extended down to
+$y=0.702<1/\sqrt2$ so that $\tau_4$ lies strictly inside the
+certified leg; the $|q|$ bound $0.0122$ keeps the tail
+$r^{41}<10^{-78}$):
+\begin{itemize}
+\item anchor box $D$: margin $0.29143$, certified $|c|\ge4.71$,
+  $|s_4|\ge493.6>256$ (activating Lemma~\ref{lem:anchor});
+\item leg A ($y=1$, $x\in[0,1/2]$): $2$ blocks, minimum margin
+  $0.14759$;
+\item leg B ($x=1/2$, $y\in[0.702,1]$): $4$ blocks, minimum margin
+  $0.02270$ (most dangerous block $y\in[0.702,0.7393]$);
+\item point enclosure at $\tau_4$: astroid margin $0.11590>0$ ---
+  an interval-certified interior-point verdict;
+\item self-tests: $21/21$ point inclusions (80-dps values inside
+  interval enclosures, including $\tau_4$ itself) and $5/5$
+  enclosure-containment checks (point enclosures inside block
+  enclosures).
+\end{itemize}
+Hence the whole path and $\tau_4$ lie in $W$, the component of the
+anchor box, and Theorem~\ref{thm:main} gives
+$n_4(s_4(\tau_4))=\EK_4(\tau_4)$. As a byproduct, the open entries
+\#1 ($\tau=(1+2\ii)/2$, the top corner of the legs) and \#7
+($\tau=(3+\ii\sqrt{21})/6=1/2+0.7638\ii$, on leg B) of
+Table~\ref{tab:open} already have their station S3 certified by this
+same path.
+
+\subsection{Station S4}
+
+The value $s_4(\tau_4)=3656-2600\sqrt2$ is already locked exactly by
+\texttt{cert0\_n4\_p3\_t1t2.py} as the conjugate point of
+Theorem~\ref{thm:C} ($S=7312$, $P=-153664$;
+\S\ref{subsec:app3C}).
+
+\subsection{Station S5: a different lattice decomposition, not a
+change of clothes}
+
+Although the $s$-value is conjugate to Theorem~\ref{thm:C}'s, the CM
+point is different, and the lattice structure differs:
+$2\tau_4=1+\sqrt{-2}$ gives $\Lambda_2=\OO_K$ (not $\OO_2$), and
+\[
+  2\Lambda_1=2\Zz+\Zz(1+\sqrt{-2})
+  =\{a+b\sqrt{-2}:a\equiv b\ (2)\}=:\OO'
+  =2\OO_K\ \sqcup\ \bigl((1+\sqrt{-2})+2\OO_K\bigr),
+\]
+a non-ideal sublattice (exact [X1]--[X3]). The parity-class sums from
+Theorem~\ref{thm:C}'s anchors ([X4], [X5], homothety $1/16$ [X8]):
+\[
+  B_{00}=\frac{\zeta_K(2)}8,\quad B_{11}=\frac34\zeta_K(2)-z_V,\qquad
+  G_{00}=\frac{L_8}8,\quad G_{11}=\frac54L_8-L_8^{\mathrm{tw}},
+\]
+\[
+  T(\OO')=\frac{11}{4}L_8-2L_8^{\mathrm{tw}}+\frac78\zeta_K(2)-z_V,
+  \qquad T(\Lambda_1)=16\,T(\OO'),
+\]
+\[
+  \mathrm{comb}=-T(\Lambda_1)+4T(\Lambda_2)
+  =-28L_8+32L_8^{\mathrm{tw}}-6\zeta_K(2)+16z_V .
+\]
+Note the sign pattern: the twisted and $\zeta_K(2)$ terms flip sign
+relative to Theorem~\ref{thm:C} (combinations $-28/+32$ versus
+$+7/+8$), and the $-d_8$ term traces to the coefficient $-16$ of
+$z_V$ (exact witness [S7]: the two sign patterns are genuinely
+different). The $e$-basis assembly of \S\ref{subsec:app3C} gives
+(exact [X10]/[S6])
+\[
+  \EK_4(\tau_4)=5\,\mathrm{comb}\cdot e=(-140,160,-30,80)\cdot e
+  =\frac54\bigl(4M_8^{\mathrm{tw}}-28M_8+4d_4-d_8\bigr),
+\]
+proving Theorem~\ref{thm:F}. \qed
+
+\begin{remark}[Confirmations]
+The mp track (60 dps; the $L$-values recomputed in-script at levels
+$8/32$, cross-checked against Section~\ref{sec:app3} to
+$1.6\times10^{-40}$) confirms the final identity to
+$9.33\times10^{-61}$ (check [E1]); the [V] interval-lock track ---
+extended by a shifted $\coth/\tanh$ row machine
+(\texttt{lattice\_T\_iv\_t4}: at $x_0=1/2$ the Poisson kernel rows
+alternate between $\coth(\pi y)$ and $\tanh(\pi y)$; the power terms
+are shift-independent and the tail bounds uniform in the shift) ---
+locks $T(\Lambda_2)$, $T(\Lambda_1)$, and the final identity with
+half-widths $3.48\times10^{-53}$, $6.94\times10^{-52}$, and
+$9.12\times10^{-53}$. Direct torus integration at the complex
+parameter $c=1.5128932208(1-\ii)$ (outside $\Ast$: functional
+$2.6357$) confirms at float64 level:
+$n_4(3656-2600\sqrt2)\approx3.5283920696\approx\EK_4(\tau_4)$
+(the two computations differ by $2.5\times10^{-13}$, the float64
+noise floor).
+\end{remark}
+
+% ============================================================
+\section{The boundary of the method}\label{sec:boundary}
+
+We collect the precise limits of the machine, all visible already in
+Table~\ref{tab:open}.
+
+\subsection{Two-dimensional critical images}
+
+The decisive invariant is the dimension of the critical image
+(Remark~\ref{rem:2D}). In the $n_2$ family the image is the slit
+$[0,64]$, which does not separate $\Cc$, and every conjectured entry
+was reachable: the family is complete \cite{Zf,ZGQ,GPQ}. In the
+$n_4$ family the image is the astroid disc \eqref{eq:astroid}, which
+has interior. A CM parameter with $c(\tau_0)$ in the interior of
+$\Ast$ lies inside an open bad region of the $\tau$-plane (open
+mapping), no certified path can approach it, and
+Theorem~\ref{thm:main} is silent. The extreme case is the refuted
+conjecture $n_4(81)=40M_7$ \cite{Zf2}: $c=3$ is an interior lattice
+point of the astroid, the conjectured value equals the exact EK
+evaluation at the attached CM point on a \emph{wrong sheet}, and
+direct torus integration gives the different value
+$n_4(81)=4.1655349907533676508(5)$. Entries \#4 and \#5 of
+Table~\ref{tab:open} have $c(\tau_0)$ inside $\Ast$ ($s\approx-2.45$
+and $s\approx-6.17$ respectively) and are blocked by the same
+mechanism; entry \#5 is moreover exterior (see the next subsection).
+
+\subsection{The wrong sheet below \texorpdfstring{$\ImT\tau=1/\sqrt2$}{Im tau = 1/sqrt2}}
+
+Even where the critical image is avoided, the EK series itself can
+fail. A systematic scan (\texttt{diag\_n4\_}\allowbreak\texttt{astroid.py}) shows
+$\EK_4(\tau)\neq4\m(P+c(\tau))$ \emph{at every tested point} below
+the line $\ImT\tau=1/\sqrt2$ --- including points with $c(\tau)$ real and
+larger than $4$, where the ${}_5F_4$ evaluation converges and the
+Mahler side is perfectly smooth (e.g.\ a difference of $11.4$ at
+$\tau=0.3\ii$). The difference grows continuously from $0$ at the
+line; there is no jump. The mechanism is the same wrong-sheet
+phenomenon analyzed for the $n_2$ family in \cite[Remark~5.6]{Zf}:
+the single-valued series $\EK_4$ follows a companion branch of
+$\mt$ once the branch locus is crossed. The propagation of
+Theorem~\ref{thm:main} cannot cross, because the identity theorem
+fixes $\Psi\equiv0$ only on the anchor's component $W$: along the
+imaginary axis the point $\tau=\ii/\sqrt2$ (where $c=4$, a cusp of
+$\Ast$) separates $W$ from the lower component $W'$, and on $W'$ the
+difference $H=F-G$ is non-constant. Entries \#3, \#9, and \#10 of
+Table~\ref{tab:open} (pure imaginary, $y=0.612$, $0.154$, and
+$0.463$, with $c>4$ real in each case) are blocked at this
+\emph{series} level: the conjectured
+identity --- a statement about the true Mahler measure, which
+Samart's PSLQ evidence supports --- has no valid series input for
+station S5, and proving it requires a corrected expression, e.g.\ a
+modified Mahler measure of Samart--Tao $\widetilde n$-type \cite{ST},
+whose design principle (choose the linear combination so that the
+non-closed Deninger path \cite{De} becomes a meaningful pairing) is
+compatible with stations S2/S4 of the machine.
+
+\subsection{Open directions}
+
+\begin{itemize}
+\item \emph{The ready entries} \#1, \#2, \#6, \#7, \#8 of
+  Table~\ref{tab:open}. For \#1 and \#7 the continuation step is
+  already certified (Section~\ref{sec:app5}); what remains is
+  mechanical: \texttt{cert0} pair locks in discriminants $-15$ and
+  $-21$ (class number $2$; the genus machinery of
+  Section~\ref{sec:app4} applies) and three-track P1 assemblies at
+  levels $15$, $84$, and $24$, $16$.
+\item \emph{The blocked entries} \#3, \#4, \#5, \#9, \#10: a
+  corrected (wrong-sheet-free) formula is needed before the machine
+  has anything to certify; the $\widetilde n$ framework of
+  \cite{ST} is the natural candidate.
+\item \emph{Samart's three-modular-$L$-value hypothesis}
+  $s=16+1600\sqrt[3]2-1280\sqrt[3]4$ \cite{Sa15}: the conjectured
+  value involves three modular $L$-values and no attached CM point in
+  the $s_4$-image is known; the machine's station S1 has no input.
+\item \emph{The Boyd-lineage entries}: the two-variable
+  conjectures of Boyd's tables (e.g.\ conductor-$14$ and related
+  families) have no known CM evaluation, so the machine does not
+  apply; regulator-based approaches \cite{De,BZ}, and in particular
+  deconditioning of the currently conditional identities in the
+  Brunault--Zudilin framework \cite{BZ}, remain the promising route.
+\end{itemize}
+
+% ============================================================
+\section*{Statements and Declarations}
+\paragraph{Funding.} The author did not receive support from any
+organization for the submitted work.
+\paragraph{Competing Interests.} The author has no relevant financial or
+non-financial interests to disclose.
+\paragraph{Data Availability.} All certification scripts, frozen
+certificates, and run logs are available at
+\url{https://github.com/huiminZheng-collab/samart-mahler}, archived at
+\url{https://doi.org/10.5281/zenodo.21711884}.
+\paragraph{Use of AI tools.} Documented in the Declaration on the use of
+AI tools on the title page.
+
+\begin{thebibliography}{99}
+
+\bibitem{Sa13}
+D.~Samart,
+\emph{Three-variable Mahler measures and special values of modular and
+Dirichlet $L$-series},
+Ramanujan J. \textbf{32} (2013), no.~2, 245--268.
+arXiv:1205.4803. (Numbering of displayed results refers to the arXiv
+version.)
+
+\bibitem{Sa15}
+D.~Samart,
+\emph{Mahler measures as linear combinations of $L$-values of multiple
+modular forms},
+Canad. J. Math. \textbf{67} (2015), no.~2, 424--449.
+arXiv:1303.6376.
+
+\bibitem{HY}
+Q.~He and D.~Ye,
+\emph{On conjectures of Samart},
+Manuscripta Math. \textbf{167} (2022), no.~3--4, 545--588.
+
+\bibitem{Fei}
+J.~Fei,
+\emph{Mahler measure of 3D Landau--Ginzburg potentials},
+Forum Math. \textbf{33} (2021), no.~5, 1369--1401.
+arXiv:2009.09701.
+
+\bibitem{Zf}
+H.~Zheng,
+\emph{Mahler measures at interior CM points: proofs of two conjectures
+of Samart},
+preprint, 2026; arXiv:2608.02255.
+
+\bibitem{Zf2}
+H.~Zheng,
+\emph{Samart's conjecture $n_4(81)=40M_7$: the exact CM evaluation and
+the two obstructions. A status report},
+preprint, 2026; arXiv:2608.02265.
+
+\bibitem{ST}
+D.~Samart and Z.~Tao,
+\emph{Determinants of Mahler measures and special values of
+$L$-functions},
+preprint; arXiv:2409.14714.
+
+\bibitem{Ro}
+M.~D.~Rogers,
+\emph{New ${}_5F_4$ hypergeometric transformations, three-variable
+Mahler measures, and formulas for $1/\pi$},
+Ramanujan J. \textbf{18} (2009), 327--340.
+
+\bibitem{RV}
+F.~Rodriguez Villegas,
+\emph{Modular Mahler measures, I},
+in: Topics in Number Theory (University Park, PA, 1997),
+Math.\ Appl.\ \textbf{467}, Kluwer, Dordrecht, 1999, 17--48.
+
+\bibitem{ZGQ}
+H.~Zheng, X.~Guo, and H.~Qin,
+\emph{The Mahler measure of $(x+1/x)(y+1/y)(z+1/z)+\sqrt{k}$},
+Electron. Res. Arch. \textbf{28} (2020), no.~1, 103--125.
+
+\bibitem{GPQ}
+X.~Guo, Y.~Peng, and H.~Qin,
+\emph{Three-variable Mahler measures and special values of $L$-functions
+of modular forms},
+Ramanujan J. \textbf{54} (2021), no.~1, 147--175.
+
+\bibitem{Cox}
+D.~A.~Cox,
+\emph{Primes of the Form $x^2+ny^2$: Fermat, Class Field Theory, and
+Complex Multiplication}, 2nd ed., Wiley, 2013.
+
+\bibitem{Miyake}
+T.~Miyake,
+\emph{Modular Forms},
+Springer, Berlin, 1989.
+(Theta series of Hecke gr\"ossencharacters, \S4.8.)
+
+\bibitem{Lig}
+G.~Ligozat,
+\emph{Courbes modulaires de genre $1$},
+Bull. Soc. Math. France, M\'em.\ \textbf{43}, 1975.
+(Eta-quotient modularity and cusp-order criteria.)
+
+\bibitem{Sturm}
+J.~Sturm,
+\emph{On the congruence of modular forms},
+in: Number Theory (New York, 1984--1985),
+Lecture Notes in Math.\ \textbf{1240}, Springer, Berlin, 1987,
+275--280.
+
+\bibitem{Wa}
+L.~C.~Washington,
+\emph{Introduction to Cyclotomic Fields}, 2nd ed.,
+Grad.\ Texts in Math.\ \textbf{83}, Springer, New York, 1997.
+(Finite-sum evaluation of $L(\chi,2)$ for even primitive $\chi$.)
+
+\bibitem{AL}
+A.~O.~L.~Atkin and W.~C.~W.~Li,
+\emph{Twists of newforms and pseudo-eigenvalues of $W$-operators},
+Invent. Math. \textbf{48} (1978), 221--243.
+
+\bibitem{De}
+C.~Deninger,
+\emph{Deligne periods of mixed motives, $K$-theory and the entropy of
+certain $\Zz^n$-actions},
+J. Amer. Math. Soc. \textbf{10} (1997), 259--281.
+
+\bibitem{BZ}
+F.~Brunault and W.~Zudilin,
+\emph{Many Variations of Mahler Measures: A Last Symphony},
+Cambridge Univ. Press, Cambridge, 2020.
+
+\bibitem{Sch}
+M.~Sch\"utt,
+\emph{CM newforms with rational coefficients},
+Ramanujan J. \textbf{19} (2009), 187--205.
+
+\bibitem{LMFDB}
+The LMFDB Collaboration,
+\emph{The $L$-functions and Modular Forms Database},
+newforms \textsf{7.3.b.a}, \textsf{12.3.c.a}, \textsf{24.3.h.a},
+\textsf{24.3.h.b}, \url{https://www.lmfdb.org}
+(accessed August 2026).
+
+\bibitem{mpmath}
+F.~Johansson et al.,
+\emph{mpmath: a Python library for arbitrary-precision floating-point
+arithmetic} (version 1.3.0), \url{https://mpmath.org}
+(accessed August 2026).
+
+\bibitem{ivdoc}
+The \texttt{mpmath} documentation, version 1.3.0,
+\emph{Interval arithmetic (\texttt{mpmath.iv})},
+\url{https://mpmath.org/doc/1.3.0/contexts.html}
+(outward rounding of interval endpoints; accessed August 2026).
+
+\bibitem{MoKC}
+R.~E. Moore, R.~B. Kearfott, and M.~J.~Cloud,
+\emph{Introduction to Interval Analysis},
+SIAM, Philadelphia, 2009.
+
+\end{thebibliography}
+
+\end{document}

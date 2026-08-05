@@ -2,7 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21711884.svg)](https://doi.org/10.5281/zenodo.21711884)
 
-Companion code and certificates for two papers by **Huimin Zheng**
+Companion code and certificates for three papers by **Huimin Zheng**
 (College of Information and Network Engineering, Anhui Science and
 Technology University; `zhhm@ahstu.edu.cn`):
 
@@ -23,6 +23,14 @@ Technology University; `zhhm@ahstu.edu.cn`):
    image; wrong sheet of the U-series below `Im τ = 1/√2`), and records
    that the literal identity is numerically refuted:
    `n4(81) = 4.1655349907533676508(5)` versus `40M7 = 4.1068643111560…`.
+3. **A certified continuation machine for Mahler measure identities at
+   CM points, with seven new proofs of conjectures of Samart**
+   (submitted; `methods/methods.tex`, `methods/methods.pdf`) —
+   axiomatizes the differential-comparison continuation method and
+   proves seven entries of Samart's 2015 Table 6 (`n4` family):
+   `s = 8292456±3132675√7`, `s = 3656±2600√2`, `s = −144`,
+   `s = 143208+101574√2`, and
+   `s = 1207368+853632√2+697680√3+493272√6` (class number two).
 
 ## Layout
 
@@ -34,6 +42,8 @@ cert/      certification scripts (the trusted base of the proofs),
            cert/output/
 numerics/  numerical-evidence scripts (cross-checks, diagnostics, and
            the direct torus integrations) and logs in numerics/output/
+methods/   the methods paper (LaTeX source and PDF) and its thirteen
+           certification/verification scripts
 ```
 
 ## Requirements
@@ -97,6 +107,28 @@ should print `CERTIFICATE VERIFIED` (log: `cert/output/cert2_verify.log`).
 | `verify_P1_n4_81.py` | (P1) for the n4 note: `EK4(τ2)=40M7`, 45 checks | ~17 min |
 | `diag_n4_astroid.py` | wrong-sheet / astroid diagnostics for the n4 note | minutes |
 | `kink_resultant_W.py` + `n4_81_final.py` | exact kink detection and direct integration at `c=3`: `n4(81)=4.1655349907533676508(5)` | ~7.5 h |
+
+### methods/ — the continuation-machine paper
+
+`methods.tex` / `methods.pdf` are the paper; the scripts below are its
+certifier (all print per-check PASS/FAIL and a final
+`ALL CHECKS PASSED`):
+
+| script | certifies | typical runtime |
+|---|---|---|
+| `cert0_s4_s7pair.py` | exactness `s4(√−7) = 8292456+3132675√7`, `s4(√−7/2) = 8292456−3132675√7` (Q(√7) pair lock) | seconds |
+| `verify_P1_n4_s7pair.py` | Theorem A (`s = 8292456±3132675√7`), three tracks | <1 min |
+| `cert0_s4_m144.py` | exactness `s4((1+√−3)/2) = −144`: formal q-series + interval lock | seconds |
+| `cert2_path_n4_m144.py` | certified path from the anchor box to `τ1 = (1+√−3)/2` inside `V4` | <1 min |
+| `verify_P1_n4_m144.py` | Theorem B (`s = −144`), three tracks | <1 min |
+| `n4_m144_true_mahler.py` | true-Mahler side of `n4(−144)` by direct torus integration at `c = 2√3 e^{−iπ/4}` (outside the astroid) | seconds |
+| `cert0_n4_p3_t1t2.py` | exactness `s4(√−2) = 3656+2600√2`, `s4((1+√−2)/2) = 3656−2600√2` | seconds |
+| `verify_P1_n4_p3_t1t2.py` | Theorems C and D (`s = 3656+2600√2`, `s = 143208+101574√2`), three tracks | <1 min |
+| `cert0_n4_p4_t3.py` | exactness of the class-number-two `s4` quartic in Q(√2,√3) | seconds |
+| `verify_P1_n4_p4_t3.py` | Theorem E (`s = 1207368+853632√2+697680√3+493272√6`, Q(√−6), h=2), three tracks | <1 min |
+| `n4_p4_t4_cert.py` | certified path from the anchor box to `τ4 = (1+√−2)/2` inside `V4` | <1 min |
+| `n4_p4_t4_verify.py` | Theorem F (`s = 3656−2600√2`), three tracks | <1 min |
+| `n5_line_cert.py` | vertical line `Re τ = 1/2`, `0.702 ≤ Im τ ≤ √21/2` inside the good component `W` (used for the status of `s = −3969`) | seconds |
 
 ## Reproducibility
 
