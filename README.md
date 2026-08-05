@@ -34,6 +34,11 @@ Technology University; `zhhm@ahstu.edu.cn`):
    `s = 1207368+853632√2−697680√3−493272√6` (class number two),
    `s = (−192303−85995√5)/2` (Q(√−15), class number two), and
    `s = −893952±516096√3` (Q(√−21), class number four).
+   The paper also states six new Heegner-point conjectures
+   (discriminants `D = 11, 19, 27, 43, 67, 163`) with exact
+   lattice-derived coefficients and a new ray-class constant type,
+   and an umbrella conjecture (Section 9; scripts in
+   `methods/gen_conj/`).
 
 ## Layout
 
@@ -45,8 +50,9 @@ cert/      certification scripts (the trusted base of the proofs),
            cert/output/
 numerics/  numerical-evidence scripts (cross-checks, diagnostics, and
            the direct torus integrations) and logs in numerics/output/
-methods/   the methods paper (LaTeX source and PDF) and its nineteen
-           certification/verification scripts
+methods/   the methods paper (LaTeX source and PDF), its nineteen
+           certification/verification scripts, and the conjecture
+           scripts in methods/gen_conj/
 ```
 
 ## Requirements
@@ -138,6 +144,22 @@ certifier (all print per-check PASS/FAIL and a final
 | `verify_P1_n5_e2.py` | Theorem H (`s = 1207368+853632√2−697680√3−493272√6`, Q(√−6), h=2), three tracks, 55 checks | ~1 min |
 | `verify_P1_n5_e6.py` | Theorem I (`s = (−192303−85995√5)/2`, Q(√−15), h=2), three tracks, 44 checks | ~1 min |
 | `verify_P1_n5_e78.py` | Theorems J and K (`s = −893952±516096√3`, Q(√−21), h=4), three tracks, 73 checks | <1 min |
+
+### methods/gen_conj/ — the Heegner-point conjecture scripts
+
+The scripts behind Section 9 of the paper (Conjecture 9.2, the six new
+Heegner-point identities; numerical evidence only, not iv-certified):
+
+| script | purpose |
+|---|---|
+| `gen_conj_fit.py D` | per-discriminant fit machine; control run `D=7` reproduces Samart's `(10/7)(40M7+d7)` with residual 0 |
+| `gen_conj_fit4.py D` | shifted B/G-row machine with exact tail correction; derives the coefficients of Conjecture 9.2 (`D = 11, 19, 43, 67, 163`) |
+| `gen_conj_fit5.py` | the `D = 27` branch (orders of conductor 3 and 6) |
+| `gen_conj_s4.py` | `s4` values and the 40-digit `\|s4\| > 256` ray scan |
+| `gen_conj_minpoly.py` | 110-digit PSLQ search for minimal polynomials of the `s4` parameters (none of degree ≤ 4) |
+
+Representative run logs (`gen_conj_fit4_*.log`, `gen_conj_fit5_27.log`,
+`gen_conj_minpoly.log`) are included.
 
 ## Reproducibility
 
