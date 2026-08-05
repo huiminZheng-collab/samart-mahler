@@ -25,7 +25,7 @@ Technology University; `zhhm@ahstu.edu.cn`):
    `n4(81) = 4.1655349907533676508(5)` versus `40M7 = 4.1068643111560…`.
 3. **A certified continuation machine for Mahler measure identities at
    CM points, with twelve new proofs of conjectures of Samart**
-   (submitted; `methods/methods.tex`, `methods/methods.pdf`) —
+   (in preparation; `methods/methods.tex`, `methods/methods.pdf`) —
    axiomatizes the differential-comparison continuation method and
    proves twelve entries of Samart's 2015 Table 6 (`n4` family):
    `s = 8292456±3132675√7`, `s = 3656±2600√2`, `s = −144`,
