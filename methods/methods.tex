@@ -102,7 +102,8 @@ discovery that Samart's applicability boundary $\{\ImT\tau=1/\sqrt2\}$
 is not the topological boundary of the continuation region $V_4$.
 Every identity is certified by an exact algebraic track (rational
 arithmetic only, up to the quoted CM-theory inputs disclosed in
-Section~\ref{sec:cert}), rigorous interval locks (half-widths down to
+Section~\ref{sec:cert}), rigorous final-identity interval locks
+(half-widths down to
 $9.1\times10^{-53}$), and independent $50$--$60$-digit numerical
 cross-checks; all certification scripts are public. Finally we score
 the five remaining open entries of Table~6 against the machine's five
@@ -309,8 +310,8 @@ certifiable by rigorous interval arithmetic.
 All twelve identities are machine-certified. Concretely, each proof
 consists of an exact algebraic track (rational/algebraic-integer
 arithmetic only, no floating point), rigorous interval locks of the
-CM values and of the final identities (half-widths between
-$9.1\times10^{-53}$ and $2.3\times10^{-51}$), and independent
+CM values and of the final identities (final-identity half-widths
+between $9.1\times10^{-53}$ and $2.3\times10^{-51}$), and independent
 $50$--$60$-digit numerical cross-checks; the scripts are listed in
 Section~\ref{sec:cert} and are publicly available
 (see the Data Availability statement). Two representative reference
@@ -1711,7 +1712,7 @@ $a_2\bigl(g_{15}^{(1)}\bigr)=+1$ and $a_2\bigl(g_{15}^{(2)}\bigr)=-1$.
 With $M_{15}^{(i)}:=L'\bigl(g_{15}^{(i)},0\bigr)$,
 \[
   n_4\Bigl(\frac{-192303-85995\sqrt5}{2}\Bigr)
-  =\frac1{15}\bigl(160M_{15}^{(1)}+120M_{15}^{(2)}+88d_3+5d_{15}\bigr).
+  =\frac1{15}\bigl(120M_{15}^{(1)}+160M_{15}^{(2)}+88d_3+5d_{15}\bigr).
 \]
 The attached CM point is $\tau_0=(1+\sqrt{-15})/2$.
 \end{theorem}
@@ -1761,7 +1762,7 @@ quoted from \texttt{cert0\_n4\_p3\_t1t2.py} (the conjugate lock of
 Theorem~\ref{thm:D}, \S\ref{subsec:app3D}). S5 is
 \texttt{verify\_P1\_n5\_e1.py} ($49$ checks): $2\tau_0=1+2\ii$ gives
 $\Lambda_2=\OO_2$, the conductor-$2$ order of $\Qq(\ii)$ --- the
-same lattice as Theorem~\ref{thm:F}'s $\Lambda_1$ --- and
+same lattice as Theorem~\ref{thm:D}'s $\Lambda_1$ --- and
 $2\Lambda_1=2\OO_2\sqcup\bigl((1+2\ii)+2\OO_2\bigr)$; the exact
 track gives
 $\mathrm{comb}=-20L_{16}+32L_{16}^{\mathrm{tw}}-\tfrac{27}{4}z_C

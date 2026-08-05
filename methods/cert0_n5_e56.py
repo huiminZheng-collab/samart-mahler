@@ -1,7 +1,7 @@
 # cert0_n5_e56.py -- Cert-0 (Phase 8, targets #5/#6): rigorous proof that
 #     s4((3 + i sqrt15)/6)  = (-192303 + 85995 sqrt5)/2   =: r(+),
 #     s4((1 + i sqrt15)/2)  = (-192303 - 85995 sqrt5)/2   =: r(-),
-# the conjugate pair in Q(sqrt5), roots of X^2 + 192303 X - 814329.
+# the conjugate pair in Q(sqrt5), roots of X^2 + 192303 X + 1185921.
 #
 # The two CM points (both with REAL negative q, so real values):
 #   T5: tau = (3+i sqrt15)/6  (q = -e^{-pi sqrt15/3} < 0),
@@ -17,7 +17,7 @@
 #        Samart's Table 6 rows #5/#6; row #5 is NOT treated in this
 #        project -- its s4 ~ 0.986 is interior-critical.)
 #  (iii) Real interval arithmetic with rigorous product tails locks
-#        e1 = -192303 and e2 = -814329.
+#        e1 = -192303 and e2 = 1185921.
 #  (iv)  Individual interval locks pin each value to its root
 #        (root separation ~ 1.92e5 >> lock widths).
 #  QED modulo the quoted CM step (ii), the only non-self-contained input.
