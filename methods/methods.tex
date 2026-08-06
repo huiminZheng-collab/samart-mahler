@@ -6,6 +6,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs}
 \usepackage[hidelinks]{hyperref}
+\emergencystretch=2em
 
 % ---- notation (unified with formal.tex / formal2.tex) ----
 \newcommand{\m}{\mathrm{m}}                 % logarithmic Mahler measure
@@ -778,19 +779,38 @@ be open. Then $n_4(s_4(\tau))=\EK_4(\tau)$ on $D$.
 \end{lemma}
 \begin{proof}[Proof sketch with quoted inputs]
 Three quoted ingredients compose. (i) \emph{Rogers' evaluation}
-\cite[Prop.~2.2]{Ro}. Rogers' $f_4$ is our $n_4$ verbatim:
-$f_4(u):=4\m(x^4+y^4+z^4+1+u^{1/4}xyz)$ \cite[\S2]{Ro}. Here
+\cite[Prop.~2.2]{Ro}. Rogers' $f_4$ \cite[\S2]{Ro} is our $n_4$
+verbatim: $f_4(u):=4\m(P_u)$, where
+$P_u:=x^4+y^4+z^4+1+u^{1/4}xyz$. Here
 $s^{1/4}$ is any local choice of fourth root
 ($|s^{1/4}|=|s|^{1/4}$ is unambiguous), and the Mahler measure
 does not depend on the choice: the substitution
 $(y,z)\mapsto(\ii y,-\ii z)$ on $\Tt^3$ shows $\m(P_s)$ is
 invariant under $s^{1/4}\mapsto\pm\ii\,s^{1/4}$. On
 $U:=\{|s|>256\}$ the polynomial $P_s=x^4+y^4+z^4+1+s^{1/4}xyz$ has no
-zeros on $\Tt^3$, since $|s^{1/4}xyz|>4\ge|x^4+y^4+z^4+1|$ there; in
-particular $U\subset\Cc\setminus\Ast$. Hence $\log P_s$ expands in a
-uniformly convergent Fourier series, and taking constant terms ---
-using the above invariance, which kills all non-integral powers of
-$s$ --- yields
+zeros on $\Tt^3$, since $|s^{1/4}xyz|>4\ge|x^4+y^4+z^4+1|$ there;
+equivalently, every local fourth root $c=s^{1/4}$ satisfies
+$c\notin\Ast$. Note that $P_s$ itself has winding number $1$ in each
+variable on $\Tt^3$ (the monomial $cxyz$ dominates), so it has no
+continuous logarithm on $\Tt^3$; the following factorization is the
+point. Writing $Q=x^4+y^4+z^4+1$,
+\[
+  P_s=cxyz\Bigl(1+\frac{Q}{cxyz}\Bigr),\qquad
+  \Bigl|\frac{Q}{cxyz}\Bigr|\le\frac4{|c|}<1\ \text{on }\Tt^3,
+\]
+so the principal logarithm gives a locally uniformly convergent
+expansion
+\[
+  \log\Bigl(1+\frac{Q}{cxyz}\Bigr)
+  =\sum_{m\ge1}\frac{(-1)^{m+1}}m\Bigl(\frac{Q}{cxyz}\Bigr)^m,
+  \qquad
+  \log|P_s|=\log|c|+\log\Bigl|1+\frac{Q}{cxyz}\Bigr|.
+\]
+Taking constant terms on $\Tt^3$ --- the constant term of
+$(Q/(cxyz))^m$ is a nonnegative integer times $c^{-m}$, and the
+invariance under $c\mapsto\pm\ii c$ kills every $m$ not divisible by
+$4$, hence all non-integral powers of $s$, while
+$4\log|c|=\log|s|=\ReT\log s$ --- yields
 \begin{equation}\label{eq:lift4}
 n_4(s)=\ReT\,\widetilde n_4(s),\qquad
 \widetilde n_4(s)=\log s+\sum_{j\ge1}a_j s^{-j},\qquad a_j\in\Rr,
@@ -818,10 +838,11 @@ of $U$. (ii)
 $G(q)=\ReT\bigl[-\log q+240\sum_{n\ge1}n^2\log(1-q^n)\bigr]$ and
 proves $f_4(s_4(q))=-\tfrac13 G(q)+\tfrac23 G(q^2)$ for real
 $q\in(0,1)$ sufficiently small. To use this as an analytic identity
-we lift away the real parts. Fix a small $q_0\in(0,1)$ and a
-simply connected neighbourhood $\Delta\ni q_0$ inside $(0,1)$; on
-$\Delta$ take the real branches of $\log q$ and of
-$\log(1-q^n)$, and set
+we lift away the real parts. Fix a small $q_0\in(0,1)$ and a small
+simply connected complex disc $\Delta\ni q_0$ contained in the
+punctured unit disc $\{0<|q|<1\}$; on
+$\Delta$ take the branches of $\log q$ and of
+$\log(1-q^n)$ that are real on $\Delta\cap(0,1)$, and set
 $\widetilde G(q):=-\log q+240\sum_{n\ge1}n^2\log(1-q^n)$, a
 holomorphic function on $\Delta$ that is real on
 $\Delta\cap\Rr$. Since $q_0>0$ gives $s_4(q_0)>256$ real, the lift
@@ -1595,9 +1616,9 @@ single ordinate $y_0$ determines $w$ exactly.
 \end{lemma}
 \begin{proof}
 Since $\chi$ is real, the complex conjugate form
-$F^\rho(\tau):=\overline{F(-\bar\tau)}$ is again a newform of
-$S_3(\Gamma_0(N),\chi)$; since $F$ has real coefficients,
-$F^\rho=F$. The functional equation of a primitive form
+$F^\rho$, defined by $F^\rho(\tau):=\overline{F(-\bar\tau)}$, is
+again a newform of $S_3(\Gamma_0(N),\chi)$; since $F$ has real
+coefficients, $F^\rho=F$. The functional equation of a primitive form
 \cite[\S4.3]{Miyake} therefore relates $\Lambda(F,s)$ to
 $\Lambda(F^\rho,3-s)=\Lambda(F,3-s)$: with
 $\Lambda(F,s)=N^{s/2}(2\pi)^{-s}\Gamma(s)L(F,s)$,
@@ -1610,9 +1631,9 @@ that $w$ is the root number of the \emph{self-dual} functional
 equation; for nontrivial $\chi$ it can differ from the Fricke
 $W_N$-pseudo-eigenvalue by factors involving $\ii^3$ and a Gauss
 sum \cite{AL}. No such factor enters the present argument, which
-works with the functional equation alone. Mellin inversion of
-$\Lambda(F,s)=w\,\Lambda(F,3-s)$ along the imaginary axis is the
-identity
+works with the functional equation alone. Uniqueness of the Mellin
+transform, applied to $\Lambda(F,s)=w\,\Lambda(F,3-s)$ along the
+imaginary axis, gives the identity
 $F\bigl(\ii/(\sqrt N\,y)\bigr)=w\,y^3F\bigl(\ii y/\sqrt N\bigr)$
 for every $y>0$, and an enclosure of width $<1$ separates $+1$
 from $-1$.
@@ -2025,15 +2046,14 @@ theta series
   \qquad \varepsilon_2,\varepsilon_3\in\{\pm1\},
 \]
 of the four gr\"ossencharacters of $K$ of type $(2,0)$ span the
-four-dimensional CM subspace of
-$S_3(\Gamma_0(84),\chi_{-84})$; they are the newforms
+four-dimensional CM subspace of $S_3(\Gamma_0(84),\chi_{-84})$;
+they are the newforms
 \textup{LMFDB \textsf{84.3.h.a}--\textsf{84.3.h.d}} (the full
 newspace has dimension $28$, but only the CM subspace enters this
 paper). Here
 $P_0,P_2,P_3,P_6$ are the theta sums over the four ideal classes
-\textup{(}the precise theta
-construction is documented in the header of
-\texttt{verify\_P1\_n5\_e78.py}\textup{)}. With
+\textup{(}explicit formulas in
+Appendix~\ref{app:data}, \S\ref{app:newforms}\textup{)}. With
 $M_{84}^{(3)}:=L'\bigl(g(-1,+1),0\bigr)$ and
 $M_{84}^{(4)}:=L'\bigl(g(-1,-1),0\bigr)$,
 \[
