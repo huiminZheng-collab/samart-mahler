@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-cert_fricke.py -- exact root numbers w = +1 for all 14 newforms of
+cert_fricke.py -- exact root numbers w = +1 for all 15 newforms of
 Theorems C, D, E, G, H, I, J, K, via ONE-ORDINATE INTERVAL Fricke locks.
 
 Mathematical basis (paper, "Levels and root numbers: exact determination"):

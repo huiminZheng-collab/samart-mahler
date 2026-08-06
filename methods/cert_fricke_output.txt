@@ -58,4 +58,4 @@
   g84(-,-) : |R - 1| = 2.334e-61
   [ok] [X] all mp Fricke ratios within 1e-40 of +1
 
-ALL FRICKE LOCKS PASSED: w = +1 for all 14 forms (interval-certified, half-widths < 1e-20)
+ALL FRICKE LOCKS PASSED: w = +1 for all 15 forms (interval-certified, half-widths < 1e-20)

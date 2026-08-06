@@ -274,10 +274,12 @@ $M_{16}^{\mathrm{tw}}:=L'(g_{16}\otimes\chi_8,0)$
 
 \begin{theorem}[Theorem E: class number two]\label{thm:E}
 Let $K=\Qq(\sqrt{-6})$ \textup{(}class number $2$\textup{)}, and let
-$g_{24}^{(1)},g_{24}^{(2)}$ be the two newforms of
+$g_{24}^{(1)},g_{24}^{(2)}$ be the two CM newforms of
 $S_3(\Gamma_0(24),\chi_{-24})$, theta series of the two
 gr\"ossencharacters of $K$ of type $(2,0)$ \textup{(}LMFDB
-\textup{\textsf{24.3.h.a}} and \textup{\textsf{24.3.h.b}}\textup{)}.
+\textup{\textsf{24.3.h.a}} and \textup{\textsf{24.3.h.b}}; the full
+newspace has dimension $6$, but only the CM forms
+enter\textup{)}.
 With $M_{24}^{(i)}:=L'(g_{24}^{(i)},0)$ and
 $M_{24}^{(i),\mathrm{tw}}:=L'(g_{24}^{(i)}\otimes\chi_{-8},0)$
 \textup{(}level $96$\textup{)},
@@ -439,56 +441,70 @@ as Theorems~\ref{thm:G}--\ref{thm:K} (Section~\ref{sec:app6}).
 \caption{All twenty-nine entries of Samart's Table~6 \cite{Sa15} and
 their status. Abbreviations as in Table~\ref{tab:open}:
 $\zeta=1207368$, $a=853632$, $b=697680$, $d=493272$; signs refer to
-$s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$.}
+$s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$. For the twelve entries
+proved here, the route column records the topological input:
+\emph{direct} means the target point is covered by Samart's proved
+pure-imaginary region; \emph{anchor+path} means the anchor of
+Lemma~\ref{lem:anchor} together with an explicitly certified path
+(Remark~\ref{rem:devil}).}
 \label{tab:master29}
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{llll}
+\begin{tabular}{lllll}
 \toprule
-$s$ & $\tau_0$ & status & reference\\
+$s$ & $\tau_0$ & status & reference & route\\
 \midrule
-$256$ & --- & proved & Rogers \cite{Ro}\\
-$648$ & --- & proved & Samart \cite{Sa13}\\
-$2304$ & --- & proved & Samart \cite{Sa13}\\
-$20736$ & --- & proved & Samart \cite{Sa13}\\
-$614656$ & --- & proved & Samart \cite{Sa13}\\
-$26856+15300\sqrt3$ & --- & proved & Samart \cite[Thm.~3.1]{Sa15}\\
-$26856-15300\sqrt3$ & --- & proved & Samart \cite[Thm.~3.1]{Sa15}\\
+$256$ & --- & proved & Rogers \cite{Ro} & ---\\
+$648$ & --- & proved & Samart \cite{Sa13} & ---\\
+$2304$ & --- & proved & Samart \cite{Sa13} & ---\\
+$20736$ & --- & proved & Samart \cite{Sa13} & ---\\
+$614656$ & --- & proved & Samart \cite{Sa13} & ---\\
+$26856+15300\sqrt3$ & --- & proved & Samart \cite[Thm.~3.1]{Sa15} &
+  ---\\
+$26856-15300\sqrt3$ & --- & proved & Samart \cite[Thm.~3.1]{Sa15} &
+  ---\\
 $-3969$ & $(1+\sqrt{-7})/2$ & proved & Fei \cite{Fei} +
-  Remark~\ref{rem:fei}\\
-$-1024$ & --- & proved & Guo--Peng--Qin \cite{GPQ}\\
-$-12288$ & --- & proved & Guo--Peng--Qin \cite{GPQ}\\
-$-82944$ & --- & proved & Guo--Peng--Qin \cite{GPQ}\\
+  Remark~\ref{rem:fei} & ---\\
+$-1024$ & --- & proved & Guo--Peng--Qin \cite{GPQ} & ---\\
+$-12288$ & --- & proved & Guo--Peng--Qin \cite{GPQ} & ---\\
+$-82944$ & --- & proved & Guo--Peng--Qin \cite{GPQ} & ---\\
 \midrule
-$8292456+3132675\sqrt7$ & $\ii\sqrt7$ & proved & Theorem~\ref{thm:A}\\
-$8292456-3132675\sqrt7$ & $\ii\sqrt7/2$ & proved & Theorem~\ref{thm:A}\\
-$-144$ & $(1+\sqrt{-3})/2$ & proved & Theorem~\ref{thm:B}\\
-$3656+2600\sqrt2$ & $\ii\sqrt2$ & proved & Theorem~\ref{thm:C}\\
-$143208+101574\sqrt2$ & $2\ii$ & proved & Theorem~\ref{thm:D}\\
+$8292456+3132675\sqrt7$ & $\ii\sqrt7$ & proved & Theorem~\ref{thm:A}
+  & direct\\
+$8292456-3132675\sqrt7$ & $\ii\sqrt7/2$ & proved & Theorem~\ref{thm:A}
+  & direct\\
+$-144$ & $(1+\sqrt{-3})/2$ & proved & Theorem~\ref{thm:B} &
+  anchor+path\\
+$3656+2600\sqrt2$ & $\ii\sqrt2$ & proved & Theorem~\ref{thm:C} &
+  direct\\
+$143208+101574\sqrt2$ & $2\ii$ & proved & Theorem~\ref{thm:D} &
+  direct\\
 $\zeta$, signs $({+}{+}{+})$ & $\ii\sqrt6$ & proved &
-  Theorem~\ref{thm:E}\\
-$3656-2600\sqrt2$ & $(1+\sqrt{-2})/2$ & proved & Theorem~\ref{thm:F}\\
-$143208-101574\sqrt2$ & $(1+2\ii)/2$ & proved & Theorem~\ref{thm:G}\\
+  Theorem~\ref{thm:E} & direct\\
+$3656-2600\sqrt2$ & $(1+\sqrt{-2})/2$ & proved & Theorem~\ref{thm:F}
+  & anchor+path\\
+$143208-101574\sqrt2$ & $(1+2\ii)/2$ & proved & Theorem~\ref{thm:G}
+  & anchor+path\\
 $\zeta$, signs $({+}{-}{-})$ & $(1+\sqrt{-6})/2$ & proved &
-  Theorem~\ref{thm:H}\\
+  Theorem~\ref{thm:H} & anchor+path\\
 $(-192303-85995\sqrt5)/2$ & $(1+\sqrt{-15})/2$ & proved &
-  Theorem~\ref{thm:I}\\
+  Theorem~\ref{thm:I} & anchor+path\\
 $-893952+516096\sqrt3$ & $(3+\sqrt{-21})/6$ & proved &
-  Theorem~\ref{thm:J}\\
+  Theorem~\ref{thm:J} & anchor+path\\
 $-893952-516096\sqrt3$ & $(1+\sqrt{-21})/2$ & proved &
-  Theorem~\ref{thm:K}\\
+  Theorem~\ref{thm:K} & anchor+path\\
 \midrule
-$81$ & $(7+\sqrt{-7})/4$ & \emph{refuted} & \cite{Zf2}\\
+$81$ & $(7+\sqrt{-7})/4$ & \emph{refuted} & \cite{Zf2} & ---\\
 \midrule
 $\zeta$, signs $({-}{+}{-})$ & $\ii\sqrt6/4$ & open & entry \#3,
-  Table~\ref{tab:open}\\
+  Table~\ref{tab:open} & ---\\
 $\zeta$, signs $({-}{-}{+})$ & $(2+\ii\sqrt6)/4$ & open & entry \#4,
-  Table~\ref{tab:open}\\
+  Table~\ref{tab:open} & ---\\
 $(-192303+85995\sqrt5)/2$ & $(3+\ii\sqrt{15})/6$ & open & entry \#5,
-  Table~\ref{tab:open}\\
+  Table~\ref{tab:open} & ---\\
 $347648256+141926400\sqrt6$ & $\ii\sqrt{42}/42$ & open & entry \#9,
-  Table~\ref{tab:open}\\
+  Table~\ref{tab:open} & ---\\
 $347648256-141926400\sqrt6$ & $\ii\sqrt{42}/14$ & open & entry \#10,
-  Table~\ref{tab:open}\\
+  Table~\ref{tab:open} & ---\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -629,7 +645,7 @@ $3u^2-v^2=4u^2-|w|^2$ exactly as in \cite[Lemma~2.6]{Zf}.
 \subsection{The Mahler differential is single-valued}\label{subsec:diff}
 
 \begin{proposition}[Mahler differential formula]\label{prop:mahlerdiff}
-Let $P_c$ be a admissible family and $K\subset\Cc$ its critical image.
+Let $P_c$ be an admissible family and $K\subset\Cc$ its critical image.
 Then
 \[
   \Omega(c):=\int_{\Tt^n}\frac{\id\mu}{P_c}
@@ -696,7 +712,7 @@ entries of Table~\ref{tab:open}.
 
 \begin{theorem}[Main theorem: differential-comparison continuation]
 \label{thm:main}
-Let $P_c$ be a admissible family with critical image $K$, let
+Let $P_c$ be an admissible family with critical image $K$, let
 $c(\tau)$ be holomorphic on $\Hh$, set
 $V=\{\tau:c(\tau)\notin K\}$, and let $F(\tau)=\m(P_{c(\tau)})$
 \textup{(}with the family normalization\textup{)}. Let $E(\tau)$ be
@@ -755,41 +771,77 @@ $n_4\bigl(s_4(\tau)\bigr)=\EK_4(\tau)$.
 
 \begin{lemma}[Composite continuation lemma: the anchor on
 $|s_4|>256$]\label{lem:anchor}
-Let $D\subset\Hh$ be open with $|s_4(\tau)|>256$ for all $\tau\in D$.
-Then $n_4(s_4(\tau))=\EK_4(\tau)$ on $D$.
+Let $C_\infty$ be the connected component of
+$\{\tau\in\Hh:|s_4(\tau)|>256\}$ containing a punctured
+neighbourhood of the cusp $\ii\infty$, and let $D\subset C_\infty$
+be open. Then $n_4(s_4(\tau))=\EK_4(\tau)$ on $D$.
 \end{lemma}
 \begin{proof}[Proof sketch with quoted inputs]
 Three quoted ingredients compose. (i) \emph{Rogers' evaluation}
 \cite[Prop.~2.2]{Ro}. Rogers' $f_4$ is our $n_4$ verbatim:
-$f_4(u):=4\m(x^4+y^4+z^4+1+u^{1/4}xyz)$ \cite[\S2]{Ro}. On
+$f_4(u):=4\m(x^4+y^4+z^4+1+u^{1/4}xyz)$ \cite[\S2]{Ro}. Here
+$s^{1/4}$ is any local choice of fourth root
+($|s^{1/4}|=|s|^{1/4}$ is unambiguous), and the Mahler measure
+does not depend on the choice: the substitution
+$(y,z)\mapsto(\ii y,-\ii z)$ on $\Tt^3$ shows $\m(P_s)$ is
+invariant under $s^{1/4}\mapsto\pm\ii\,s^{1/4}$. On
 $U:=\{|s|>256\}$ the polynomial $P_s=x^4+y^4+z^4+1+s^{1/4}xyz$ has no
 zeros on $\Tt^3$, since $|s^{1/4}xyz|>4\ge|x^4+y^4+z^4+1|$ there; in
 particular $U\subset\Cc\setminus\Ast$. Hence $\log P_s$ expands in a
 uniformly convergent Fourier series, and taking constant terms ---
-using the invariance of $n_4$ under $s^{1/4}\mapsto\ii\,s^{1/4}$,
-which kills all non-integral powers of $s$ --- yields
+using the above invariance, which kills all non-integral powers of
+$s$ --- yields
 \begin{equation}\label{eq:lift4}
 n_4(s)=\ReT\,\widetilde n_4(s),\qquad
 \widetilde n_4(s)=\log s+\sum_{j\ge1}a_j s^{-j},\qquad a_j\in\Rr,
 \end{equation}
-with the series single-valued and convergent on $U$. Write
-$R(s):=\log s-\frac{24}{s}\,{}_5F_4(\,\cdots\,;256/s)$ for Rogers'
-hypergeometric expression; the ${}_5F_4$ converges for $|s|>256$
-($\sum b-\sum a=3/2>0$), so $R(s)-\log s$ is likewise a single-valued
-series in $1/s$ with real coefficients. The difference
-$H:=\widetilde n_4-R$ is therefore a single-valued holomorphic
-function on the connected open set $U$ --- the $2\pi\ii$ ambiguities
-of the two logarithms cancel --- and $H$ is real on the ray $s>256$.
-Rogers' theorem \cite[Prop.~2.2]{Ro} is the equality $\ReT H=0$ on
-that ray (stated there for $s$ sufficiently large); hence $H\equiv0$
-on the ray, the identity theorem gives $H\equiv0$ on $U$, and taking
-real parts, $n_4(s)=\ReT R(s)$ on all of $U$. (ii)
-\emph{Rogers' transformation} \cite[Thm.~2.3]{Ro}:
-$f_4(s_4(q))=-\tfrac13 G(q)+\tfrac23 G(q^2)$ is an identity of
-functions analytic near $q=0$, extending to $|q|<1$ by the identity
-theorem (the composition with (i) is then restricted to the
-connected component of $\{\tau:|s_4(\tau)|>256\}$ containing
-$\ii\infty$, which is where every application lies). (iii) \emph{Samart's computation} \cite[proof of
+where the series $\sum a_js^{-j}$ is single-valued and convergent on
+$U$, and $\log s$ denotes any local branch. The open set $U$ is not
+simply connected, so neither $\widetilde n_4$ nor Rogers'
+hypergeometric expression
+$R(s):=\log s-\frac{24}{s}\,{}_5F_4(\,\cdots\,;256/s)$ is by itself a
+single-valued function on $U$: each is a local holomorphic lift,
+well-defined only up to addition of an element of $2\pi\ii\Zz$ (the
+${}_5F_4$ converges for $|s|>256$ since $\sum b-\sum a=3/2>0$). The
+difference $H:=\widetilde n_4-R$, however, \emph{is} a single-valued
+holomorphic function on the connected open set $U$: analytic
+continuation of both lifts around the loop $|s|=\mathrm{const}$ adds
+the same $2\pi\ii$ to each, so the ambiguity cancels ---
+equivalently, $H$ is the difference of the two single-valued
+$1/s$-series. Both series have real coefficients, so $H$ is real on
+the ray $s>256$. Rogers' theorem \cite[Prop.~2.2]{Ro} is the
+equality $\ReT H=0$ on that ray (stated there for $s$ sufficiently
+large); hence $H\equiv0$ on the ray, the identity theorem gives
+$H\equiv0$ on $U$, and taking real parts, $n_4(s)=\ReT R(s)$ on all
+of $U$. (ii)
+\emph{Rogers' transformation} \cite[Thm.~2.3]{Ro}. Rogers defines
+$G(q)=\ReT\bigl[-\log q+240\sum_{n\ge1}n^2\log(1-q^n)\bigr]$ and
+proves $f_4(s_4(q))=-\tfrac13 G(q)+\tfrac23 G(q^2)$ for real
+$q\in(0,1)$ sufficiently small. To use this as an analytic identity
+we lift away the real parts. Fix a small $q_0\in(0,1)$ and a
+simply connected neighbourhood $\Delta\ni q_0$ inside $(0,1)$; on
+$\Delta$ take the real branches of $\log q$ and of
+$\log(1-q^n)$, and set
+$\widetilde G(q):=-\log q+240\sum_{n\ge1}n^2\log(1-q^n)$, a
+holomorphic function on $\Delta$ that is real on
+$\Delta\cap\Rr$. Since $q_0>0$ gives $s_4(q_0)>256$ real, the lift
+$R$ of (i) is defined at $s_4(q_0)$ with the real branch of
+$\log s$, and
+\[
+  \Phi(q):=R\bigl(s_4(q)\bigr)+\tfrac13\widetilde G(q)
+           -\tfrac23\widetilde G(q^2)
+\]
+is holomorphic on $\Delta$ and real on $\Delta\cap\Rr$. Rogers'
+theorem says $\ReT\Phi=0$ on a subsegment of $\Delta\cap\Rr$
+(because $f_4=\ReT R$ there by (i) and $G=\ReT\widetilde G$);
+hence $\Phi\equiv0$ on the segment and, by the identity theorem,
+on $\Delta$. Varying the branches changes $\Phi$ by a constant in
+$2\pi\ii\Zz$, so the identity of \emph{real parts}
+$n_4(s_4(\tau))=\ReT\bigl[-\tfrac13\widetilde G(q)+\tfrac23
+\widetilde G(q^2)\bigr]$ is branch-free and propagates by analytic
+continuation along the connected component $C_\infty$ of the
+statement (on which $s_4$ avoids the poles of the ${}_5F_4$);
+every application of this lemma lies in $C_\infty$. (iii) \emph{Samart's computation} \cite[proof of
 Prop.~2.1(iii)]{Sa13}: the identification of the $q$-series in (ii)
 with the $U$-series expression $\EK_4$ uses termwise integration and
 Fourier expansions whose convergence requires only $|q|<1$. The
@@ -1494,8 +1546,10 @@ $3$ and level $|d_K|\,N(\mathfrak{f})$. The conductors of the twisted
 characters are read off the exact congruence criteria of
 Appendix~\ref{app:data} --- e.g.\ $\chi_8(N(a+b\ii))=+1\iff
 b\equiv0\pmod4$ defines a ray class character modulo $(4)$ but not
-modulo $(2)$, the witness being $\alpha=1+2\ii\equiv1\pmod{(2)}$ with
-$\chi_8(N(\alpha))=\chi_8(5)=-1$. This gives the exact levels of
+modulo $(1+\ii)^3$, the witness being
+$\alpha=-1+2\ii\equiv1\pmod{(1+\ii)^3}$ with
+$\chi_8(N(\alpha))=\chi_8(5)=-1$ (every proper divisor of
+$(4)=(1+\ii)^4$ divides $(1+\ii)^3$, so one witness suffices). This gives the exact levels of
 Table~\ref{tab:levels}: $32$ for $g_8\otimes\chi_8$, $64$ for
 $g_{16}\otimes\chi_8$, and $96$ for the twists of
 Section~\ref{sec:app4}. The two-ordinate Fricke \emph{scan} used in
@@ -1528,8 +1582,9 @@ $g_{12}$                       & $\Qq(\sqrt{-3})$  & $(2)$ & $4$  & $12$\\
 \end{table}
 
 \begin{lemma}[Exact sign lock]\label{lem:signlock}
-Let $F$ be a newform of $S_3(\Gamma_0(N),\chi)$ with real coefficients
-and exact level $N$. Then its root number satisfies $w\in\{\pm1\}$, and
+Let $F$ be a newform of $S_3(\Gamma_0(N),\chi)$ with real
+coefficients and quadratic \textup{(}hence real\textup{)}
+nebentypus $\chi$. Then its root number satisfies $w\in\{\pm1\}$, and
 \[
   R_N(y):=\frac{F\bigl(\ii/(\sqrt N\,y)\bigr)}
                {y^3\,F\bigl(\ii y/\sqrt N\bigr)}=w
@@ -1539,14 +1594,28 @@ Hence a rigorous interval enclosure of $R_N(y_0)$ of width $<1$ at a
 single ordinate $y_0$ determines $w$ exactly.
 \end{lemma}
 \begin{proof}
-$F$ has real coefficients, so its completed $L$-function is self-dual:
-$\Lambda(F,s)=w\,\Lambda(F,3-s)$, where $w$ is the Atkin--Lehner
-$W_N$-eigenvalue \cite{AL}. Applying the equation twice gives
-$w\bar w=1$, and $\Lambda(F,\tfrac32+\ii t)$ is real-valued for real
-coefficients, forcing $w\in\{\pm1\}$. Mellin inversion of
-$\Lambda(F,s)=w\,\Lambda(F,3-s)$ is the identity
-$F\bigl(\ii/(\sqrt N\,y)\bigr)=w\,y^3F\bigl(\ii y/\sqrt N\bigr)$, and
-an enclosure of width $<1$ separates $+1$ from $-1$.
+Since $\chi$ is real, the complex conjugate form
+$F^\rho(\tau):=\overline{F(-\bar\tau)}$ is again a newform of
+$S_3(\Gamma_0(N),\chi)$; since $F$ has real coefficients,
+$F^\rho=F$. The functional equation of a primitive form
+\cite[\S4.3]{Miyake} therefore relates $\Lambda(F,s)$ to
+$\Lambda(F^\rho,3-s)=\Lambda(F,3-s)$: with
+$\Lambda(F,s)=N^{s/2}(2\pi)^{-s}\Gamma(s)L(F,s)$,
+\[
+  \Lambda(F,s)=w\,\Lambda(F,3-s)
+\]
+for a constant $w$ (the root number) independent of $s$. Applying
+this equation twice gives $w^2=1$, hence $w\in\{\pm1\}$. We stress
+that $w$ is the root number of the \emph{self-dual} functional
+equation; for nontrivial $\chi$ it can differ from the Fricke
+$W_N$-pseudo-eigenvalue by factors involving $\ii^3$ and a Gauss
+sum \cite{AL}. No such factor enters the present argument, which
+works with the functional equation alone. Mellin inversion of
+$\Lambda(F,s)=w\,\Lambda(F,3-s)$ along the imaginary axis is the
+identity
+$F\bigl(\ii/(\sqrt N\,y)\bigr)=w\,y^3F\bigl(\ii y/\sqrt N\bigr)$
+for every $y>0$, and an enclosure of width $<1$ separates $+1$
+from $-1$.
 \end{proof}
 
 The script \texttt{cert\_fricke.py} evaluates $R_N(0.6)$ and
@@ -1948,17 +2017,21 @@ The attached CM point is $\tau_0=(1+\sqrt{-15})/2$.
 Let $K=\Qq(\sqrt{-21})$ \textup{(}discriminant $-84$, class number
 $4$, class group $(\Zz/2)^2$ with ideal classes
 $1,[\mathfrak p_2],[\mathfrak p_3],[\mathfrak p_6]$,
-$\mathfrak p_6=\mathfrak p_2\mathfrak p_3$\textup{)}. The
-four-dimensional space $S_3(\Gamma_0(84),\chi_{-84})$ is spanned by
-the CM theta series
+$\mathfrak p_6=\mathfrak p_2\mathfrak p_3$\textup{)}. The four CM
+theta series
 \[
   g(\varepsilon_2,\varepsilon_3)
   =P_0+\varepsilon_2P_2+\varepsilon_3P_3+\varepsilon_2\varepsilon_3P_6,
   \qquad \varepsilon_2,\varepsilon_3\in\{\pm1\},
 \]
-of the four gr\"ossencharacters of $K$ of type $(2,0)$, where
+of the four gr\"ossencharacters of $K$ of type $(2,0)$ span the
+four-dimensional CM subspace of
+$S_3(\Gamma_0(84),\chi_{-84})$; they are the newforms
+\textup{LMFDB \textsf{84.3.h.a}--\textsf{84.3.h.d}} (the full
+newspace has dimension $28$, but only the CM subspace enters this
+paper). Here
 $P_0,P_2,P_3,P_6$ are the theta sums over the four ideal classes
-\textup{(}LMFDB \textup{\textsf{84.3.d.*}}; the precise theta
+\textup{(}the precise theta
 construction is documented in the header of
 \texttt{verify\_P1\_n5\_e78.py}\textup{)}. With
 $M_{84}^{(3)}:=L'\bigl(g(-1,+1),0\bigr)$ and
@@ -2382,8 +2455,10 @@ $c(\tau_0)\in\bar{\Qq}$, the value $\m(P_{c(\tau_0)})$ lies in the
 $\Qq$-span of the values $L'(g,0)$ and $L(\chi,2)$, where $g$ runs
 over the weight-$3$ newforms CM by Hecke characters of the orders of
 discriminant $D$, and $\chi$ over the ray class characters of those
-orders; the levels and conductors are explicitly determined by the
-level of $\Gamma$ and by $D$.
+orders. We expect the occurring levels and conductors to be
+determined by the level of $\Gamma$ and by $D$, but we do not know
+the precise rule; making it explicit is part of the problem, not a
+claim of the conjecture.
 \end{conjecture}
 
 The new content: (1) the occurring characters are delimited a priori
@@ -2399,12 +2474,16 @@ the $n=1$ slices of $n\times n$ determinant identities over CM
 Galois orbits.
 
 \begin{conjecture}[Denominators are controlled by local
-data]\label{conj:umbB}
+data \textup{(}qualitative form\textup{)}]\label{conj:umbB}
 In every identity of Conjecture~\ref{conj:umbA},
-the reduced denominators of the rational coefficients divide an
-explicit integer formed from the Tamagawa numbers (component groups)
-of the special fibre at its bad primes, the unit index of the order,
-and the $2$-torsion of its class group.
+the reduced denominators of the rational coefficients are bounded
+in terms of local data of the special fibre and of the order; the
+present data suggest the Tamagawa numbers \textup{(}component
+groups\textup{)} of the special fibre at its bad primes, the unit
+index of the order, and the $2$-torsion of its class group as the
+controlling quantities. No precise recipe is known, and we state
+the conjecture deliberately at this qualitative level; the
+explicit recipe is the associated open problem.
 \end{conjecture}
 
 This is the family analogue of the Bloch--Grayson modification of
@@ -2542,10 +2621,18 @@ The modular parameter is
   W(\tau)=\frac{\eta(\tau)\,\eta(4\tau)^2}{\eta(2\tau)^3},
 \]
 invariant under the Fricke involution $W_2$:
-$s_4(-1/(2\tau))=s_4(\tau)$ (\texttt{cert0\_n4\_p4\_t3.py}). Its
-$q$-expansion has integer coefficients (exact to $q^{30}$ in the
-\texttt{cert0} scripts), so CM values are algebraic integers by
-Shimura's theorem (\S\ref{app:cert0}).
+$s_4(-1/(2\tau))=s_4(\tau)$ (numerically observed to $10^{-33}$ at
+sample points, \texttt{cert0\_n4\_p4\_t3.py}; used for locating
+certificates only, not part of the certified chain). Its
+$q$-expansion at $\ii\infty$ has integer coefficients (exact to
+$q^{30}$ in the \texttt{cert0} scripts). The CM values of $s_4$
+used in this paper are determined exactly by the \texttt{cert0}
+track of \S\ref{app:cert0} (minimal polynomial plus interval
+lock), independently of any general integrality theorem; that such
+values are algebraic integers is explained by Shimura's CM theory
+(a modular function holomorphic on $\Hh$ with integral
+$q$-expansions at all cusps is integral over $\Zz[j]$
+\cite[\S11]{Cox}), on which we do not rely.
 The $U$-series side is
 \[
   \EK_4(\tau)=\frac{10\,\ImT\tau}{\pi^3}\,
@@ -2581,9 +2668,11 @@ theta of the conductor-$(2)$ grössencharacter of $\Qq(\sqrt{-3})$
 \ReT(\alpha^2)\,q^{N(\alpha)}$, $\alpha=a+b\omega$.
 
 \textbf{$K=\Qq(\sqrt{-6})$ (class number $2$).}
-$S_3(\Gamma_0(24),\chi_{-24})$ is two-dimensional, spanned by the two
+The CM subspace of $S_3(\Gamma_0(24),\chi_{-24})$ is
+two-dimensional, spanned by the two
 CM newforms $g_1=P-Q$ (\textsf{24.3.h.a}) and $g_2=P+Q$
-(\textsf{24.3.h.b}), where
+(\textsf{24.3.h.b}); the full newspace has dimension $6$
+(LMFDB), but only the CM forms enter. Here
 \[
   P(n)=\tfrac12{\sum_{a^2+6b^2=n}}'(a^2-6b^2),\qquad
   Q(n)=\tfrac14{\sum_{2x^2+3y^2=n}}'(4x^2-6y^2)
@@ -2621,8 +2710,10 @@ check.
 $(\Zz/2)^2$).} The ideal classes are $1,[\mathfrak p_2],
 [\mathfrak p_3],[\mathfrak p_6]$ with $\mathfrak p_6=\mathfrak
 p_2\mathfrak p_3$ and $\mathfrak p_2^2=(2)$, $\mathfrak p_3^2=(3)$,
-$\mathfrak p_6^2=(6)$. $S_3(\Gamma_0(84),\chi_{-84})$ is
-four-dimensional with newforms (\textsf{84.3.d.*})
+$\mathfrak p_6^2=(6)$. The CM subspace of
+$S_3(\Gamma_0(84),\chi_{-84})$ is four-dimensional with newforms
+(\textsf{84.3.h.a}--\textsf{84.3.h.d}; the full newspace has
+dimension $28$)
 \[
   g(e_2,e_3)=P_0+e_2P_2+e_3P_3+e_2e_3P_6,\qquad e_2,e_3\in\{\pm1\},
 \]
@@ -2658,15 +2749,25 @@ Table~\ref{tab:levels}: if $\alpha\equiv1\pmod{(2)}$ then $a$ is odd
 and $b$ even, so $N(\alpha)\equiv a^2\equiv1\pmod8$ and
 $\chi_8(N(\alpha))=\chi_{-8}(N(\alpha))=+1$; over $\Qq(\ii)$ the same
 holds with $b\equiv0\pmod4$ for $\alpha\equiv1\pmod{(4)}$. The
-conductors are exact by the witnesses
+conductors are exact, by one witness modulo each maximal proper
+divisor. Over $\Qq(\sqrt{-2})$ and $\Qq(\sqrt{-6})$ the prime $2$
+ramifies, $(2)=\mathfrak p_2^2$, and \emph{every} proper ideal
+dividing $(2)$ already divides $\mathfrak p_2$; hence the single
+witnesses
 \[
-  1+\sqrt{-2}\equiv1\ (\mathfrak p_2),\ \chi_8(3)=-1;\qquad
-  1+2\ii\equiv1\ ((2)),\ \chi_8(5)=-1;\qquad
-  1+\sqrt{-6}\equiv1\ (\mathfrak p_2),\ \chi_{-8}(7)=-1,
+  1+\sqrt{-2}\equiv1\ (\mathfrak p_2),\ N=3,\ \chi_8(3)=-1;\qquad
+  1+\sqrt{-6}\equiv1\ (\mathfrak p_2),\ N=7,\ \chi_{-8}(7)=-1
 \]
-which exclude every smaller modulus (over $\Qq(\sqrt{-3})$ the
+exclude every smaller modulus. Over $\Qq(\ii)$,
+$(4)=(1+\ii)^4$, and every proper ideal dividing $(4)$ already
+divides $(1+\ii)^3$; the witness
+\[
+  -1+2\ii\equiv1\ \bigl((1+\ii)^3\bigr)\ \text{since }
+  (1+\ii)^3=(-2+2\ii),\qquad N(-1+2\ii)=5,\ \chi_8(5)=-1
+\]
+excludes every smaller modulus. (Over $\Qq(\sqrt{-3})$ the
 conductor $(2)$ is exact: $2$ is inert and the theta identity of
-\S\ref{app:newforms} has modulus $(2)$).
+\S\ref{app:newforms} has modulus $(2)$.)
 
 \subsection{Genus characters and \texorpdfstring{$L_K$}{L(K)}-factorizations}\label{app:genus}
 
@@ -2781,12 +2882,22 @@ The eta forms are identified by Ligozat's criteria (weight, character,
 cusp orders, divisor degree) and Sturm bounds
 $\frac{3}{12}[\mathrm{SL}_2(\Zz):\Gamma_0(N)]$: bounds $3$ ($N=8$),
 $6$ ($N=16$), $6$ ($N=12$), all below the exact-integer comparison
-order $q^{60}$. For the class-number-$2$ and $4$ fields the newforms
-are identified by exact Hecke recursion
-$a(p^2)=a(p)^2-\chi(p)p^2$, multiplicativity, CM vanishing at inert
-primes, and exhaustion of the (two-, four-dimensional) CM spaces
-(quoted: Hecke's theorem on conductor-$(1)$ grössencharacters; LMFDB
-labels of \S\ref{app:newforms}).
+order $q^{60}$ (i.e.\ coefficients $a_0,\dots,a_{60}$ inclusive).
+For the class-number-$2$ and $4$ fields the logical order is as
+follows. Hecke's theorem on gr\"ossencharacters (quoted;
+\cite{Miyake}) applied to the explicit characters of
+\S\ref{app:newforms} produces bona fide newforms of weight $3$ and
+of the displayed level and nebentypus; modularity is therefore a
+theorem, not a script output. The exact script checks --- the Hecke
+recursion $a(p^2)=a(p)^2-\chi(p)p^2$, multiplicativity, CM
+vanishing at inert primes, all to exact order $q^{60}$ --- serve
+only to \emph{identify} the assembled ideal-class theta sums with
+those gr\"ossencharacter theta series, to fix the numbering, and
+(via the Sturm bound, once both sides are known to lie in the same
+finite-dimensional space) to promote the finite comparison to an
+exact equality; on their own they would not imply the global Hecke
+property. The LMFDB labels of \S\ref{app:newforms} record the
+resulting identifications.
 
 \subsection{Tail bounds for the interval tracks}\label{app:tails}
 
@@ -3022,7 +3133,8 @@ The LMFDB Collaboration,
 \emph{The $L$-functions and Modular Forms Database},
 newforms \textsf{7.3.b.a}, \textsf{12.3.c.a}, \textsf{15.3.d.a},
 \textsf{15.3.d.b}, \textsf{24.3.h.a},
-\textsf{24.3.h.b}, \textsf{84.3.d.*}, \url{https://www.lmfdb.org}
+\textsf{24.3.h.b}, \textsf{84.3.h.a}--\textsf{84.3.h.d},
+\url{https://www.lmfdb.org}
 (accessed August 2026).
 
 \bibitem{mpmath}
