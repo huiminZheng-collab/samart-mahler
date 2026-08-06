@@ -1,0 +1,61 @@
+  [ok] [C1] 2 g8 = theta over Q(sqrt-2) to q^60 (exact)
+  [ok] [C2] 2 g16 = theta over Q(i), a==1(2), to q^60 (exact)
+  [ok] [C2b] 2 g12 = theta over Q(sqrt-3), a==1(2), to q^60 (exact)
+  [ok] [C3] disc -24: P,Q integrality, a1(1)=a2(1)=1 (exact)
+  [ok] [C4] disc -15: a1,a2 rational integral, a(1)=1 (exact)
+  [ok] [C5] disc -15: a1(2)=+1, a2(2)=-1, a1(5)=+5, a2(5)=-5 (exact)
+  [ok] [C6] disc -84: P0,P2,P3,P6 integral, a(1)=1 all four (exact)
+  [ok] [C7] disc -84: sign pins a_(1,1)(2)=+2, a_(1,1)(3)=+3 (exact)
+  [ok] [C8] Hecke recursion a(p^2)=a(p)^2-chi(p)p^2, p^2<=800, p coprime to level (exact)
+
+=== [R] interval Fricke locks (iv.dps = 70, n0 = 800) ===
+  [ok] [R:g8, N=8, y=0.6] : contains 1, half-width = 3.831e-69
+  [ok] [R:g8, N=8, y=1.1] : contains 1, half-width = 4.582e-69
+  [ok] [R:g8 x chi8, N=32, y=0.6] : contains 1, half-width = 1.924e-69
+  [ok] [R:g8 x chi8, N=32, y=1.1] : contains 1, half-width = 1.725e-69
+  [ok] [R:g16, N=16, y=0.6] : contains 1, half-width = 1.915e-69
+  [ok] [R:g16, N=16, y=1.1] : contains 1, half-width = 1.481e-69
+  [ok] [R:g16 x chi8, N=64, y=0.6] : contains 1, half-width = 1.013e-28
+  [ok] [R:g16 x chi8, N=64, y=1.1] : contains 1, half-width = 2.051e-69
+  [ok] [R:g12, N=12, y=0.6] : contains 1, half-width = 1.961e-69
+  [ok] [R:g12, N=12, y=1.1] : contains 1, half-width = 2.613e-69
+  [ok] [R:g1 (disc -24), N=24, y=0.6] : contains 1, half-width = 4.890e-69
+  [ok] [R:g1 (disc -24), N=24, y=1.1] : contains 1, half-width = 4.836e-69
+  [ok] [R:g2 (disc -24), N=24, y=0.6] : contains 1, half-width = 6.384e-69
+  [ok] [R:g2 (disc -24), N=24, y=1.1] : contains 1, half-width = 5.162e-69
+  [ok] [R:g1tw (N=96), N=96, y=0.6] : contains 1, half-width = 2.699e-69
+  [ok] [R:g1tw (N=96), N=96, y=1.1] : contains 1, half-width = 2.604e-69
+  [ok] [R:g2tw (N=96), N=96, y=0.6] : contains 1, half-width = 2.735e-69
+  [ok] [R:g2tw (N=96), N=96, y=1.1] : contains 1, half-width = 3.124e-69
+  [ok] [R:g1 (disc -15), N=15, y=0.6] : contains 1, half-width = 5.714e-69
+  [ok] [R:g1 (disc -15), N=15, y=1.1] : contains 1, half-width = 4.229e-69
+  [ok] [R:g2 (disc -15), N=15, y=0.6] : contains 1, half-width = 6.366e-69
+  [ok] [R:g2 (disc -15), N=15, y=1.1] : contains 1, half-width = 5.049e-69
+  [ok] [R:g84(+,+), N=84, y=0.6] : contains 1, half-width = 6.321e-69
+  [ok] [R:g84(+,+), N=84, y=1.1] : contains 1, half-width = 5.615e-69
+  [ok] [R:g84(+,-), N=84, y=0.6] : contains 1, half-width = 6.371e-69
+  [ok] [R:g84(+,-), N=84, y=1.1] : contains 1, half-width = 6.312e-69
+  [ok] [R:g84(-,+), N=84, y=0.6] : contains 1, half-width = 8.182e-69
+  [ok] [R:g84(-,+), N=84, y=1.1] : contains 1, half-width = 7.620e-69
+  [ok] [R:g84(-,-), N=84, y=0.6] : contains 1, half-width = 8.779e-69
+  [ok] [R:g84(-,-), N=84, y=1.1] : contains 1, half-width = 8.426e-69
+
+=== [X] mp 60-dps cross-check (NOT part of the proof) ===
+  g8 : |R - 1| = 3.112e-61
+  g8 x chi8 : |R - 1| = 4.667e-61
+  g16 : |R - 1| = 0.000e+00
+  g16 x chi8 : |R - 1| = 3.112e-61
+  g12 : |R - 1| = 3.112e-61
+  g1 (disc -24) : |R - 1| = 7.779e-61
+  g2 (disc -24) : |R - 1| = 3.112e-61
+  g1tw (N=96) : |R - 1| = 7.779e-62
+  g2tw (N=96) : |R - 1| = 3.889e-61
+  g1 (disc -15) : |R - 1| = 1.556e-61
+  g2 (disc -15) : |R - 1| = 4.667e-61
+  g84(+,+) : |R - 1| = 8.557e-61
+  g84(+,-) : |R - 1| = 6.223e-61
+  g84(-,+) : |R - 1| = 3.112e-61
+  g84(-,-) : |R - 1| = 2.334e-61
+  [ok] [X] all mp Fricke ratios within 1e-40 of +1
+
+ALL FRICKE LOCKS PASSED: w = +1 for all 14 forms (interval-certified, half-widths < 1e-20)

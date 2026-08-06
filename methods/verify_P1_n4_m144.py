@@ -70,11 +70,11 @@ def check_lock(name, ivl, halfwidth_req=mpf(10)**(-38)):
     """ivl: interval enclosing (computed - target). Lock passes if the
     interval contains 0 and its half-width < halfwidth_req."""
     lo, hi = mp.convert(ivl.a), mp.convert(ivl.b)
-    w = hi - lo
+    w = (hi - lo)/2
     ok = (lo <= 0 <= hi) and (w < halfwidth_req)
     if not ok:
         FAILS.append(name)
-    print("%-76s %s  (width = %.2e)" % (name, "PASS" if ok else "FAIL", w))
+    print("%-76s %s  (half-width = %.2e)" % (name, "PASS" if ok else "FAIL", w))
 
 TOL = mpf(10)**(-45)
 

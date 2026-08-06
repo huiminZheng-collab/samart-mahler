@@ -5,7 +5,7 @@
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 % ---- notation (unified with formal.tex / formal2.tex) ----
 \newcommand{\m}{\mathrm{m}}                 % logarithmic Mahler measure
@@ -95,8 +95,9 @@ $n_4$ family proved
 at CM points of class number four (the $\Qq(\sqrt3)$ pair attached
 to $\Qq(\sqrt{-21})$), where the lattice sums involve four newforms
 and the genus group $(\Zz/2)^2$. New methodological
-ingredients include: the Fricke ratio as the only non-vacuous
-level/root-number discriminator (the ``functional-equation residue''
+ingredients include: exact twist levels via grössencharacter
+conductors (Hecke's theorem), with the interval-locked Fricke ratio
+as an exact root-number sign lock (the ``functional-equation residue''
 test is vacuous for root number $+1$ at every level); a genuine
 twist-level trap ($g_{16}\otimes\chi_8$ has level $64$, not $32$, and
 the wrong level silently scales the $L$-value); a genus-character
@@ -305,7 +306,7 @@ is a strict interior point of the continuation region $V_4$
 
 \begin{theorem}[The machine, informal]\label{thm:machine}
 \textup{(}Precise form: Theorem~\ref{thm:main}.\textup{)}
-Let $P_c$ be a tempered Laurent-polynomial family with a modular
+Let $P_c$ be an admissible Laurent-polynomial family with a modular
 parametrization $c=c(\tau)$ and critical image $K\subset\Cc$, and let
 $E(\tau)$ be the Eisenstein--Kronecker expression for the holomorphic
 Mahler measure, valid on an open set $U\subset\Hh$. If
@@ -323,7 +324,7 @@ All twelve identities are machine-certified. Concretely, each proof
 consists of an exact algebraic track (rational/algebraic-integer
 arithmetic only, no floating point), rigorous interval locks of the
 CM values and of the final identities (final-identity half-widths
-between $4.6\times10^{-53}$ and $5.8\times10^{-52}$), and independent
+between $4.6\times10^{-53}$ and $5.1\times10^{-52}$), and independent
 $50$--$60$-digit numerical cross-checks; the scripts are listed in
 Section~\ref{sec:cert} and are publicly available
 (see the Data Availability statement). Two representative reference
@@ -433,6 +434,65 @@ has no valid input. The five entries that this scoring marked as
 within current reach --- \#1, \#2, \#6, \#7, \#8 --- are now proved
 as Theorems~\ref{thm:G}--\ref{thm:K} (Section~\ref{sec:app6}).
 
+\begin{table}[htb]
+\centering\scriptsize
+\caption{All twenty-nine entries of Samart's Table~6 \cite{Sa15} and
+their status. Abbreviations as in Table~\ref{tab:open}:
+$\zeta=1207368$, $a=853632$, $b=697680$, $d=493272$; signs refer to
+$s=\zeta\pm a\sqrt2\pm b\sqrt3\pm d\sqrt6$.}
+\label{tab:master29}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llll}
+\toprule
+$s$ & $\tau_0$ & status & reference\\
+\midrule
+$256$ & --- & proved & Rogers \cite{Ro}\\
+$648$ & --- & proved & Samart \cite{Sa13}\\
+$2304$ & --- & proved & Samart \cite{Sa13}\\
+$20736$ & --- & proved & Samart \cite{Sa13}\\
+$614656$ & --- & proved & Samart \cite{Sa13}\\
+$26856+15300\sqrt3$ & --- & proved & Samart \cite[Thm.~3.1]{Sa15}\\
+$26856-15300\sqrt3$ & --- & proved & Samart \cite[Thm.~3.1]{Sa15}\\
+$-3969$ & $(1+\sqrt{-7})/2$ & proved & Fei \cite{Fei} +
+  Remark~\ref{rem:fei}\\
+$-1024$ & --- & proved & Guo--Peng--Qin \cite{GPQ}\\
+$-12288$ & --- & proved & Guo--Peng--Qin \cite{GPQ}\\
+$-82944$ & --- & proved & Guo--Peng--Qin \cite{GPQ}\\
+\midrule
+$8292456+3132675\sqrt7$ & $\ii\sqrt7$ & proved & Theorem~\ref{thm:A}\\
+$8292456-3132675\sqrt7$ & $\ii\sqrt7/2$ & proved & Theorem~\ref{thm:A}\\
+$-144$ & $(1+\sqrt{-3})/2$ & proved & Theorem~\ref{thm:B}\\
+$3656+2600\sqrt2$ & $\ii\sqrt2$ & proved & Theorem~\ref{thm:C}\\
+$143208+101574\sqrt2$ & $2\ii$ & proved & Theorem~\ref{thm:D}\\
+$\zeta$, signs $({+}{+}{+})$ & $\ii\sqrt6$ & proved &
+  Theorem~\ref{thm:E}\\
+$3656-2600\sqrt2$ & $(1+\sqrt{-2})/2$ & proved & Theorem~\ref{thm:F}\\
+$143208-101574\sqrt2$ & $(1+2\ii)/2$ & proved & Theorem~\ref{thm:G}\\
+$\zeta$, signs $({+}{-}{-})$ & $(1+\sqrt{-6})/2$ & proved &
+  Theorem~\ref{thm:H}\\
+$(-192303-85995\sqrt5)/2$ & $(1+\sqrt{-15})/2$ & proved &
+  Theorem~\ref{thm:I}\\
+$-893952+516096\sqrt3$ & $(3+\sqrt{-21})/6$ & proved &
+  Theorem~\ref{thm:J}\\
+$-893952-516096\sqrt3$ & $(1+\sqrt{-21})/2$ & proved &
+  Theorem~\ref{thm:K}\\
+\midrule
+$81$ & $(7+\sqrt{-7})/4$ & \emph{refuted} & \cite{Zf2}\\
+\midrule
+$\zeta$, signs $({-}{+}{-})$ & $\ii\sqrt6/4$ & open & entry \#3,
+  Table~\ref{tab:open}\\
+$\zeta$, signs $({-}{-}{+})$ & $(2+\ii\sqrt6)/4$ & open & entry \#4,
+  Table~\ref{tab:open}\\
+$(-192303+85995\sqrt5)/2$ & $(3+\ii\sqrt{15})/6$ & open & entry \#5,
+  Table~\ref{tab:open}\\
+$347648256+141926400\sqrt6$ & $\ii\sqrt{42}/42$ & open & entry \#9,
+  Table~\ref{tab:open}\\
+$347648256-141926400\sqrt6$ & $\ii\sqrt{42}/14$ & open & entry \#10,
+  Table~\ref{tab:open}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 Beyond Table~6, three further open directions are discussed in
 Section~\ref{sec:boundary}: Samart's ``three modular $L$-value''
 hypothesis $s=16+1600\sqrt[3]2-1280\sqrt[3]4$ \cite{Sa15}, which has
@@ -453,20 +513,29 @@ critical image, and the anchor identity; we display them as separate
 
 \subsection{Families, parametrizations, critical images}\label{subsec:fam}
 
-\begin{definition}[Tempered family]\label{def:tempered}
-A \emph{tempered family} is a Laurent-polynomial family
-$P_c(x_1,\dots,x_n)=P(x_1,\dots,x_n)+c$, $c\in\Cc$, such that
-$c\mapsto\m(P_c)$ is continuous on all of $\Cc$ --- for the families
-here this holds by the elementary dominated-convergence argument of
-\cite[Lemma~2.1]{Zf}. A \emph{critical image} is any closed set $K\subset\Cc$ containing
-the full image $P(\Tt^n)$; on $\Cc\setminus K$ the polynomial $P_c$
-does not vanish on $\Tt^n$, the integrand $\log|P_c|$ is
+\begin{definition}[Admissible family]\label{def:admissible}
+An \emph{admissible family} is a Laurent-polynomial family $P_c=P+c$,
+$c\in\Cc$ --- that is,
+$P_c(x_1,\dots,x_n)=P(x_1,\dots,x_n)+c$ --- such that
+$c\mapsto\m(P_c)$ is continuous on all of $\Cc$. (We avoid the word
+\emph{tempered}, which has a different standard meaning in the
+Mahler-measure literature. The required continuity is in fact
+general: by Jensen's formula the Mahler measure is an integral of
+one-variable Mahler measures over the remaining torus, one-variable
+Mahler measure is continuous in the polynomial's coefficients, and
+$\log^+$ of the coefficient sum provides an integrable dominator; the
+detailed argument for the $n_2$ family is \cite[Lemma~2.1]{Zf}, the
+other families here being identical.) A \emph{critical image} is any
+closed set $K\subset\Cc$ containing
+$-P(\Tt^n):=\{-P(x):x\in\Tt^n\}$; on $\Cc\setminus K$ the polynomial
+$P_c$ does not vanish on $\Tt^n$, the integrand $\log|P_c|$ is
 real-analytic in $c$, and $c\mapsto\m(P_c)$ is real-analytic.
 (Taking only the critical \emph{values} of $P$ would not suffice:
 $P_c$ vanishes on $\Tt^n$ for every $-c\in P(\Tt^n)$, including
 regular values --- e.g.\ $P=x+x^{-1}$ on $\Tt^1$ has critical values
 $\pm2$ but image $[-2,2]$. In both running examples below
-$K=\overline{P(\Tt^n)}$, the closure of the full image.)
+$P(\Tt^n)$ is centrally symmetric, so $-P(\Tt^n)=P(\Tt^n)$ and we
+take $K=\overline{P(\Tt^n)}$.)
 \end{definition}
 
 Two families serve as running examples.
@@ -560,7 +629,7 @@ $3u^2-v^2=4u^2-|w|^2$ exactly as in \cite[Lemma~2.6]{Zf}.
 \subsection{The Mahler differential is single-valued}\label{subsec:diff}
 
 \begin{proposition}[Mahler differential formula]\label{prop:mahlerdiff}
-Let $P_c$ be a tempered family and $K\subset\Cc$ its critical image.
+Let $P_c$ be a admissible family and $K\subset\Cc$ its critical image.
 Then
 \[
   \Omega(c):=\int_{\Tt^n}\frac{\id\mu}{P_c}
@@ -627,7 +696,7 @@ entries of Table~\ref{tab:open}.
 
 \begin{theorem}[Main theorem: differential-comparison continuation]
 \label{thm:main}
-Let $P_c$ be a tempered family with critical image $K$, let
+Let $P_c$ be a admissible family with critical image $K$, let
 $c(\tau)$ be holomorphic on $\Hh$, set
 $V=\{\tau:c(\tau)\notin K\}$, and let $F(\tau)=\m(P_{c(\tau)})$
 \textup{(}with the family normalization\textup{)}. Let $E(\tau)$ be
@@ -655,7 +724,7 @@ there, and the identity theorem on the connected open set $W$ gives
 $\Psi\equiv0$ on $W$. Thus $H:=F-G$ is locally constant on $W$,
 constant since $W$ is connected, and zero because it vanishes on the
 anchor; $H$ is continuous on all of $\Hh$ (Mahler continuity,
-Definition~\ref{def:tempered}; $G$ is real-analytic everywhere), so
+Definition~\ref{def:admissible}; $G$ is real-analytic everywhere), so
 Lemma~\ref{lem:prop} with $U=\Hh$, $Z=c^{-1}(K)$ gives
 $H\equiv0$ on $\overline W\cap\Hh$.
 \end{proof}
@@ -691,12 +760,30 @@ Then $n_4(s_4(\tau))=\EK_4(\tau)$ on $D$.
 \end{lemma}
 \begin{proof}[Proof sketch with quoted inputs]
 Three quoted ingredients compose. (i) \emph{Rogers' evaluation}
-(Prop.~2.2 and Thm.~2.3 of \cite{Ro}): the ${}_5F_4$ hypergeometric
-expression for $n_4$ converges for $|s|>256$
-($\sum b-\sum a=3/2>0$) and equals $n_4(s)$ there: both sides are
-real parts of holomorphic functions of $s$ on $\Cc\setminus\Ast$,
-equal on the real ray $s>256$ by Rogers' theorem, hence equal on the
-connected open set $\{|s|>256\}$ by the identity theorem. (ii)
+\cite[Prop.~2.2]{Ro}. Rogers' $f_4$ is our $n_4$ verbatim:
+$f_4(u):=4\m(x^4+y^4+z^4+1+u^{1/4}xyz)$ \cite[\S2]{Ro}. On
+$U:=\{|s|>256\}$ the polynomial $P_s=x^4+y^4+z^4+1+s^{1/4}xyz$ has no
+zeros on $\Tt^3$, since $|s^{1/4}xyz|>4\ge|x^4+y^4+z^4+1|$ there; in
+particular $U\subset\Cc\setminus\Ast$. Hence $\log P_s$ expands in a
+uniformly convergent Fourier series, and taking constant terms ---
+using the invariance of $n_4$ under $s^{1/4}\mapsto\ii\,s^{1/4}$,
+which kills all non-integral powers of $s$ --- yields
+\begin{equation}\label{eq:lift4}
+n_4(s)=\ReT\,\widetilde n_4(s),\qquad
+\widetilde n_4(s)=\log s+\sum_{j\ge1}a_j s^{-j},\qquad a_j\in\Rr,
+\end{equation}
+with the series single-valued and convergent on $U$. Write
+$R(s):=\log s-\frac{24}{s}\,{}_5F_4(\,\cdots\,;256/s)$ for Rogers'
+hypergeometric expression; the ${}_5F_4$ converges for $|s|>256$
+($\sum b-\sum a=3/2>0$), so $R(s)-\log s$ is likewise a single-valued
+series in $1/s$ with real coefficients. The difference
+$H:=\widetilde n_4-R$ is therefore a single-valued holomorphic
+function on the connected open set $U$ --- the $2\pi\ii$ ambiguities
+of the two logarithms cancel --- and $H$ is real on the ray $s>256$.
+Rogers' theorem \cite[Prop.~2.2]{Ro} is the equality $\ReT H=0$ on
+that ray (stated there for $s$ sufficiently large); hence $H\equiv0$
+on the ray, the identity theorem gives $H\equiv0$ on $U$, and taking
+real parts, $n_4(s)=\ReT R(s)$ on all of $U$. (ii)
 \emph{Rogers' transformation} \cite[Thm.~2.3]{Ro}:
 $f_4(s_4(q))=-\tfrac13 G(q)+\tfrac23 G(q^2)$ is an identity of
 functions analytic near $q=0$, extending to $|q|<1$ by the identity
@@ -873,10 +960,13 @@ Newform identifications use Ligozat's eta-quotient criteria
 identity checks to order $q^{60}$ against the Sturm bound
 \cite{Sturm} (at most $48$ in our cases, always below the $q^{60}$
 check order), and the LMFDB
-labels \cite{LMFDB}. Level and root number of each twist are
-determined by the \emph{Fricke ratio}
+labels \cite{LMFDB}. The level of each twist is exact by Hecke's
+theorem applied to the twisted grössencharacter
+(Table~\ref{tab:levels}), and its root number is locked exactly by a
+single interval evaluation of the \emph{Fricke ratio}
 $f\bigl(\ii/(\sqrt N\,y)\bigr)\big/\bigl(y^3 f(\ii y/\sqrt N)\bigr)$
-evaluated at two ordinates --- see \S\ref{subsec:twisttrap} for why
+(Lemma~\ref{lem:signlock}, \texttt{cert\_fricke.py}) ---
+see \S\ref{subsec:twisttrap} for why
 the naive ``functional-equation residue'' test is vacuous.
 
 \subsubsection{Script inventory}\label{subsec:scripts}
@@ -904,7 +994,9 @@ script & content \\
   Theorems C, D, of the conjugate of C (Theorem F's $s$-value), and
   of the conjugate of D (Theorem G's $s$-value) \\
 \texttt{verify\_P1\_n4\_p3\_t1t2.py} & Theorems C, D: three tracks,
-  [G] identifications, Fricke-ratio level determinations \\
+  [G] identifications, [V] locks \\
+\texttt{cert\_fricke.py} & exact root numbers $w=+1$ for all fifteen
+  newforms (interval Fricke locks, Lemma~\ref{lem:signlock}) \\
 \texttt{cert0\_n4\_p4\_t3.py} & Theorem E: four-point quartic lock
   of the $s_4$-value \\
 \texttt{verify\_P1\_n4\_p4\_t3.py} & Theorem E: three tracks,
@@ -932,6 +1024,52 @@ script & content \\
 \bottomrule
 \end{tabular}
 \end{center}
+
+\begin{table}[htb]
+\centering\scriptsize
+\caption{Per-theorem certification summary. ``checks'' counts the
+\texttt{PASS}-lines of a fresh run of the verification script (shared
+scripts are counted once); ``final lock'' is the half-width of the
+interval enclosure of the final identity. \texttt{cert\_fricke.py}
+($40$ checks) covers the root numbers of all fifteen newforms; the
+\texttt{cert2} path certificates are one-leg or two-leg interval
+certifications as indicated.}
+\label{tab:certdata}
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{cllll}
+\toprule
+Thm. & verification script (checks) & \texttt{cert0} lock & path &
+final lock\\
+\midrule
+A & \texttt{verify\_P1\_n4\_s7pair.py} (80) &
+  \texttt{cert0\_s4\_s7pair.py} & direct (Samart) &
+  $1.2\!\times\!10^{-52}$, $2.3\!\times\!10^{-52}$\\
+B & \texttt{verify\_P1\_n4\_m144.py} (32) & \texttt{cert0\_s4\_m144.py}
+  & \texttt{cert2\_path\_n4\_m144.py} & $2.9\!\times\!10^{-52}$\\
+C & \texttt{verify\_P1\_n4\_p3\_t1t2.py} (69, C+D) &
+  \texttt{cert0\_n4\_p3\_t1t2.py} & direct (Samart) &
+  $4.6\!\times\!10^{-53}$\\
+D & (shared with C) & (shared) & direct (Samart) &
+  $6.2\!\times\!10^{-53}$\\
+E & \texttt{verify\_P1\_n4\_p4\_t3.py} (45) &
+  \texttt{cert0\_n4\_p4\_t3.py} & direct (Samart) &
+  $9.7\!\times\!10^{-53}$\\
+F & \texttt{n4\_p4\_t4\_verify.py} (46) & \texttt{cert0\_n4\_p3\_t1t2.py}
+  & \texttt{n4\_p4\_t4\_cert.py} & $9.1\!\times\!10^{-53}$\\
+G & \texttt{verify\_P1\_n5\_e1.py} (48) & \texttt{cert0\_n4\_p3\_t1t2.py}
+  & \texttt{n5\_line\_cert.py} & $1.2\!\times\!10^{-52}$\\
+H & \texttt{verify\_P1\_n5\_e2.py} (53) & \texttt{cert0\_n4\_p4\_t3.py}
+  & \texttt{n5\_line\_cert.py} & $1.9\!\times\!10^{-52}$\\
+I & \texttt{verify\_P1\_n5\_e6.py} (42) & \texttt{cert0\_n5\_e56.py}
+  & \texttt{n5\_line\_cert.py} & $1.0\!\times\!10^{-52}$\\
+J & \texttt{verify\_P1\_n5\_e78.py} (71, J+K) &
+  \texttt{cert0\_n5\_e78.py} & \texttt{n5\_line\_cert.py} &
+  $5.1\!\times\!10^{-52}$\\
+K & (shared with J) & (shared) & \texttt{n5\_line\_cert.py} &
+  $1.7\!\times\!10^{-52}$\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 All computations use \texttt{mpmath} interval arithmetic at
 $40$--$80$ decimal digits (\texttt{iv.dps}); the certification
@@ -1158,8 +1296,8 @@ $-2^33^3$, square kernel $-3$), all six cusp orders equal $1$
 (cuspidal; divisor degree $6=\frac{3}{12}\cdot24$), Sturm bound
 $\lfloor3\cdot24/12\rfloor=6<60$ \cite{Sturm}; LMFDB label
 \textsf{12.3.c.a} \cite{LMFDB}. With
-$M_{12}=\frac{6\sqrt3}{\pi^3}L(g_{12},3)$ (root number $+1$, Fricke
-ratio) and $d_3=\frac{3\sqrt3}{4\pi}L(\chi_{-3},2)$, the $e$-basis
+$M_{12}=\frac{6\sqrt3}{\pi^3}L(g_{12},3)$ (root number $+1$,
+certified by the interval Fricke lock of \texttt{cert\_fricke.py}) and $d_3=\frac{3\sqrt3}{4\pi}L(\chi_{-3},2)$, the $e$-basis
 assembly gives (exact, [S1]):
 \[
   \EK_4(\tau_1)=\frac{5\sqrt3}{\pi^3}
@@ -1344,24 +1482,82 @@ affected a check in the $\sqrt7$-pair script; there the conclusion
 was independently secured by the Fricke ratio, so no result was
 endangered.)
 
-\textbf{(ii) The non-vacuous discriminator is the Fricke ratio.}
-For the true level $N_0$ one has the exact transformation
-$f\bigl(\ii/(\sqrt{N_0}\,y)\bigr)=w\,y^3f\bigl(\ii y/\sqrt{N_0}\bigr)$
-for \emph{all} $y>0$, coming from the Fricke involution (proved for
-each form in this paper either by the eta transformation law or by a
-twisted Fricke matrix identity such as \eqref{eq:twistfricke}). Hence
-the ratio
+\textbf{(ii) Levels are exact (Hecke); the Fricke ratio is an exact
+sign lock.} Every newform in this paper is the theta series of an
+explicit grössencharacter $\psi$ of an imaginary quadratic field $K$
+(Appendix~\ref{app:data}), and twisting by a quadratic Dirichlet
+character $\chi$ twists the grössencharacter by $\chi\circ N$:
+$\theta_\psi\otimes\chi=\theta_{\psi\cdot(\chi\circ N)}$ as formal
+$q$-series. By Hecke's theorem, a grössencharacter of exact conductor
+$\mathfrak{f}$ and infinity type $(2,0)$ produces a newform of weight
+$3$ and level $|d_K|\,N(\mathfrak{f})$. The conductors of the twisted
+characters are read off the exact congruence criteria of
+Appendix~\ref{app:data} --- e.g.\ $\chi_8(N(a+b\ii))=+1\iff
+b\equiv0\pmod4$ defines a ray class character modulo $(4)$ but not
+modulo $(2)$, the witness being $\alpha=1+2\ii\equiv1\pmod{(2)}$ with
+$\chi_8(N(\alpha))=\chi_8(5)=-1$. This gives the exact levels of
+Table~\ref{tab:levels}: $32$ for $g_8\otimes\chi_8$, $64$ for
+$g_{16}\otimes\chi_8$, and $96$ for the twists of
+Section~\ref{sec:app4}. The two-ordinate Fricke \emph{scan} used in
+earlier versions of this work is thereby retired as a level-finder;
+what remains of the Fricke ratio is a \emph{sign} lock, exact by
+Lemma~\ref{lem:signlock}.
+
+\begin{table}[ht]
+\centering\small
+\caption{Exact levels via Hecke's theorem: conductor $\mathfrak{f}$ of
+the (twisted) grössencharacter; level $=|d_K|\,N(\mathfrak{f})$. The
+congruence criteria and the witnesses that no smaller modulus works
+are exact mod arithmetic (Appendix~\ref{app:data}).}
+\label{tab:levels}
+\begin{tabular}{lllll}
+\toprule
+form & $K$ & conductor $\mathfrak{f}$ & $N(\mathfrak{f})$ & level\\
+\midrule
+$g_8$                          & $\Qq(\sqrt{-2})$  & $(1)$ & $1$  & $8$\\
+$g_8\otimes\chi_8$             & $\Qq(\sqrt{-2})$  & $(2)$ & $4$  & $32$\\
+$g_{16}$                       & $\Qq(\ii)$        & $(2)$ & $4$  & $16$\\
+$g_{16}\otimes\chi_8$          & $\Qq(\ii)$        & $(4)$ & $16$ & $64$\\
+$g_1,g_2$                      & $\Qq(\sqrt{-6})$  & $(1)$ & $1$  & $24$\\
+$g_1,g_2$ twisted by $\chi_{-8}$ & $\Qq(\sqrt{-6})$ & $(2)$ & $4$ & $96$\\
+$g_1,g_2$                      & $\Qq(\sqrt{-15})$ & $(1)$ & $1$  & $15$\\
+$g(e_2,e_3)$, four forms       & $\Qq(\sqrt{-21})$ & $(1)$ & $1$  & $84$\\
+$g_{12}$                       & $\Qq(\sqrt{-3})$  & $(2)$ & $4$  & $12$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{lemma}[Exact sign lock]\label{lem:signlock}
+Let $F$ be a newform of $S_3(\Gamma_0(N),\chi)$ with real coefficients
+and exact level $N$. Then its root number satisfies $w\in\{\pm1\}$, and
 \[
-  R_N(y):=\frac{f\bigl(\ii/(\sqrt N\,y)\bigr)}
-                 {y^3f\bigl(\ii y/\sqrt N\bigr)}
+  R_N(y):=\frac{F\bigl(\ii/(\sqrt N\,y)\bigr)}
+               {y^3\,F\bigl(\ii y/\sqrt N\bigr)}=w
+  \qquad\text{for \emph{every} }y>0.
 \]
-is identically $w$ at $N=N_0$, while at $N\neq N_0$ it varies with
-$y$; evaluation at two ordinates separates the candidates. This is
-how the levels in this paper were fixed: $32$ for $g_8\otimes\chi_8$,
-$64$ for $g_{16}\otimes\chi_8$ (two-ordinate agreement to
-$3.1\times10^{-61}$ and better), and $96$ for the twists of
-Section~\ref{sec:app4} (unique match in the candidate scan
-$\{24,48,96,192,384\}$).
+Hence a rigorous interval enclosure of $R_N(y_0)$ of width $<1$ at a
+single ordinate $y_0$ determines $w$ exactly.
+\end{lemma}
+\begin{proof}
+$F$ has real coefficients, so its completed $L$-function is self-dual:
+$\Lambda(F,s)=w\,\Lambda(F,3-s)$, where $w$ is the Atkin--Lehner
+$W_N$-eigenvalue \cite{AL}. Applying the equation twice gives
+$w\bar w=1$, and $\Lambda(F,\tfrac32+\ii t)$ is real-valued for real
+coefficients, forcing $w\in\{\pm1\}$. Mellin inversion of
+$\Lambda(F,s)=w\,\Lambda(F,3-s)$ is the identity
+$F\bigl(\ii/(\sqrt N\,y)\bigr)=w\,y^3F\bigl(\ii y/\sqrt N\bigr)$, and
+an enclosure of width $<1$ separates $+1$ from $-1$.
+\end{proof}
+
+The script \texttt{cert\_fricke.py} evaluates $R_N(0.6)$ and
+$R_N(1.1)$ for all fifteen newforms of Theorems
+\ref{thm:B}--\ref{thm:K} by interval arithmetic with the
+self-contained tail bounds of the [V] tracks (the eta-product bound
+$|a_n|\le(n+5)^5 2^{n/2}$ and the theta bounds $|a(n)|\le 6n^3, 30n^3$);
+every enclosure contains $+1$, with half-width
+$\le1.1\times10^{-28}$. Hence $w=+1$ for every form, certified. (A
+$60$-dps mp cross-check, not part of the proof, agrees to
+$10^{-60}$.)
 
 \textbf{(iii) The trap itself.} For $g_{16}\otimes\chi_8$ the naive
 level guess $\operatorname{lcm}(16,4^2)$-style reasoning suggests
@@ -1370,12 +1566,14 @@ wrong level-$32$ Mellin constant, $M_{16}^{\mathrm{tw}}$ comes out
 smaller by a factor $2\sqrt2$, and the conjectured identity fails
 numerically by $\sim1\%$; a first pass over Theorem~\ref{thm:D}
 recorded exactly this mismatch, briefly suggesting an $s=81$-type
-refutation. The Fricke ratio at two ordinates gives the true level
-$64$, and with it the identity holds to $2.5\times10^{-60}$. Since a
-wrong level \emph{silently scales} an $L$-value by a simple algebraic
-factor, we record the rule: \emph{never determine a twist level by a
-residual; determine it by the Fricke ratio at two ordinates, and
-cross-check against the assembled identity.}
+refutation. The conductor computation of Table~\ref{tab:levels} gives
+the true level $64$ ($\chi_8\circ N$ has conductor $(4)$ over
+$\Qq(\ii)$), and with it the identity holds to $2.5\times10^{-60}$.
+Since a wrong level \emph{silently scales} an $L$-value by a simple
+algebraic factor, we record the rule: \emph{never determine a twist
+level by a residual; determine it by the conductor of the twisted
+grössencharacter, cross-checked by the Fricke sign lock of
+Lemma~\ref{lem:signlock} and against the assembled identity.}
 
 \begin{remark}[Confirmations for Theorems C and D]
 The mp tracks (60 dps) confirm the two final identities to
@@ -1544,8 +1742,9 @@ standard Dirichlet-$L$ software silently return a wrong value
 ($1.1325$ instead of $0.951\ldots$), which once produced a false
 failure at the $3.5\times10^{-2}$ level. The machine now treats
 character tables as exact data to be certified ([X3]). (ii) The
-twist levels ($96$) were fixed by the Fricke-ratio scan of
-\S\ref{subsec:twisttrap}, never by residues.
+twist levels ($96$) are exact: $\chi_{-8}\circ N$ has conductor $(2)$
+over $\Qq(\sqrt{-6})$, so the twist level is $24\cdot4=96$
+(Table~\ref{tab:levels}); residues were never used.
 \end{remark}
 
 \begin{remark}[Confirmations]
@@ -1788,7 +1987,7 @@ corner of the certified path of Section~\ref{sec:app5} (the
 intersection of legs A and B of \texttt{n4\_p4\_t4\_cert.py}). S4 is
 quoted from \texttt{cert0\_n4\_p3\_t1t2.py} (the conjugate lock of
 Theorem~\ref{thm:D}, \S\ref{subsec:app3D}). S5 is
-\texttt{verify\_P1\_n5\_e1.py} ($49$ checks): $2\tau_0=1+2\ii$ gives
+\texttt{verify\_P1\_n5\_e1.py} ($48$ checks): $2\tau_0=1+2\ii$ gives
 $\Lambda_2=\OO_2$, the conductor-$2$ order of $\Qq(\ii)$ --- the
 same lattice as Theorem~\ref{thm:D}'s $\Lambda_1$ --- and
 $2\Lambda_1=2\OO_2\sqcup\bigl((1+2\ii)+2\OO_2\bigr)$; the exact
@@ -1805,7 +2004,7 @@ certified vertical segment of \texttt{n5\_line\_cert.py}
 (point-enclosure astroid margin $3.16$; \S\ref{subsec:app6new}(i)).
 S4 is quoted from \texttt{cert0\_n4\_p4\_t3.py} (the four-point
 quartic lock, point tag \texttt{'C'}; \S\ref{sec:app4}). S5 is
-\texttt{verify\_P1\_n5\_e2.py} ($55$ checks): $2\tau_0=1+\sqrt{-6}$
+\texttt{verify\_P1\_n5\_e2.py} ($53$ checks): $2\tau_0=1+\sqrt{-6}$
 gives $\Lambda_2=\OO_K$, and
 $2\Lambda_1=\{c+d\sqrt{-6}:c\equiv d\ (2)\}
 =2\OO_K\sqcup C''$ with $C''=\{c,d\text{ both odd}\}$ the
@@ -1834,7 +2033,7 @@ together with the point $(3+\ii\sqrt{15})/6$ of the blocked entry
 \#5, minimal polynomial $X^2+192303X+1185921$ (discriminant
 $5\cdot85995^2$), root separation $1.92\times10^{5}$ against lock
 widths $\le2.8\times10^{-48}$. S5 is \texttt{verify\_P1\_n5\_e6.py}
-($44$ checks): $\tau_0=\omega$ with $\OO_K=\Zz[\omega]$, so
+($42$ checks): $\tau_0=\omega$ with $\OO_K=\Zz[\omega]$, so
 $\Lambda_1=\OO_K$ and $\Lambda_2=\Zz[\sqrt{-15}]=\OO_2$, the
 conductor-$2$ order; $\OO_2=2\OO_K\sqcup C''$ with
 $C''=\{\alpha\in\OO_K:N(\alpha)\text{ odd}\}$, evaluated by
@@ -1855,7 +2054,7 @@ segment, certified interior with margin $14.97$. S4 is
 polynomial $X^2+1787904X+84934656$ (discriminant
 $3\cdot1032192^2$), root separation $1.79\times10^{6}$ against lock
 widths $8.3\times10^{-52}$ and $2.6\times10^{-47}$. S5 is
-\texttt{verify\_P1\_n5\_e78.py} ($73$ checks): here the $\EK_4$
+\texttt{verify\_P1\_n5\_e78.py} ($71$ checks): here the $\EK_4$
 lattices are \emph{class} lattices, not orders ---
 $T(\Lambda_1)=1296\,T(\mathfrak p_6)$,
 $T(\Lambda_2)=81\,T(\mathfrak p_3)$ for Theorem~\ref{thm:J} and
@@ -2318,6 +2517,302 @@ compatible with stations S2/S4 of the machine.
   deconditioning of the currently conditional identities in the
   Brunault--Zudilin framework \cite{BZ}, remain the promising route.
 \end{itemize}
+
+% ============================================================
+\appendix
+\section{Exact data for Theorems A--K}\label{app:data}
+
+This appendix records, in one place, every definition and exact datum
+that the certification scripts use but the main text only cites: the
+modular parameter, the newforms and grössencharacters, the ray-class
+and genus characters, the combination vectors of the lattice
+decompositions, the closed Dirichlet values, and the exact external
+inputs. Everything here is either an exact integer/\texttt{Fraction}
+identity verified in the scripts (the box checks are finite mod
+arithmetic, not sampling), or a quoted theorem flagged as such.
+
+\subsection{The modular parameter and the \texorpdfstring{$U$}{U}-series}
+\label{app:s4}
+
+The modular parameter is
+\[
+  s_4(\tau)=\Bigl(\frac{\eta(2\tau)}{\eta(\tau)}\Bigr)^{24}
+            \bigl(16W^4+W^{-4}\bigr)^4,
+  \qquad
+  W(\tau)=\frac{\eta(\tau)\,\eta(4\tau)^2}{\eta(2\tau)^3},
+\]
+invariant under the Fricke involution $W_2$:
+$s_4(-1/(2\tau))=s_4(\tau)$ (\texttt{cert0\_n4\_p4\_t3.py}). Its
+$q$-expansion has integer coefficients (exact to $q^{30}$ in the
+\texttt{cert0} scripts), so CM values are algebraic integers by
+Shimura's theorem (\S\ref{app:cert0}).
+The $U$-series side is
+\[
+  \EK_4(\tau)=\frac{10\,\ImT\tau}{\pi^3}\,
+  \bigl(-T(\Lambda_1)+4\,T(\Lambda_2)\bigr),\qquad
+  \Lambda_1=\Zz+\tau\Zz,\quad \Lambda_2=\Zz+2\tau\Zz,
+\]
+where $T(\Lambda)=B(\Lambda)+2G(\Lambda)$ via the pointwise identity
+\[
+  F(z)=\frac{4(\ReT z)^2}{|z|^6}-\frac1{|z|^4}
+      =\frac{2\ReT(z^2)}{|z|^6}+\frac1{|z|^4},
+\]
+with $B$, $G$ the absolutely convergent lattice sums of
+\S\ref{subsec:fam}; the homothety rule is $T(2\Lambda)=T(\Lambda)/16$.
+
+\subsection{The newforms and their grössencharacters}\label{app:newforms}
+
+\textbf{Eta-quotient forms.}
+$g_8=\eta(\tau)^2\eta(2\tau)\eta(4\tau)\eta(8\tau)^2\in
+S_3(\Gamma_0(8),\chi_{-8})$, the theta series of the conductor-$(1)$
+grössencharacter $\psi((\alpha))=\alpha^2$ of $\Qq(\sqrt{-2})$:
+$2g_8=\sum'_{\alpha}\alpha^2q^{N(\alpha)}$ (exact integers to $q^{60}$,
+Sturm bound $3$).
+$g_{16}=\eta(4\tau)^6\in S_3(\Gamma_0(16),\chi_{-4})$, theta of the
+conductor-$(2)$ grössencharacter of $\Qq(\ii)$:
+$2g_{16}=\sum_{a\equiv1\,(2)}\alpha^2q^{N(\alpha)}$, using that the
+units have image $\{1,\ii\}$ in $(\OO_K/2)^\times$, so every ideal
+prime to $2$ has exactly two generators $\equiv1\bmod2$ (and
+$\sum_{u\in\mu_4}u^2=0$, the ``$\mu_4$ annihilation'', gives
+$G(\OO_K)=0$).
+$g_{12}=\eta(2\tau)^3\eta(6\tau)^3\in S_3(\Gamma_0(12),\chi_{-3})$,
+theta of the conductor-$(2)$ grössencharacter of $\Qq(\sqrt{-3})$
+($2$ inert, $N((2))=4$): $2g_{12}=\sum_{a\equiv1,\,b\equiv0\,(2)}
+\ReT(\alpha^2)\,q^{N(\alpha)}$, $\alpha=a+b\omega$.
+
+\textbf{$K=\Qq(\sqrt{-6})$ (class number $2$).}
+$S_3(\Gamma_0(24),\chi_{-24})$ is two-dimensional, spanned by the two
+CM newforms $g_1=P-Q$ (\textsf{24.3.h.a}) and $g_2=P+Q$
+(\textsf{24.3.h.b}), where
+\[
+  P(n)=\tfrac12{\sum_{a^2+6b^2=n}}'(a^2-6b^2),\qquad
+  Q(n)=\tfrac14{\sum_{2x^2+3y^2=n}}'(4x^2-6y^2)
+\]
+are the class theta sums of the principal and non-principal classes
+($\mathfrak p_2=(2,\sqrt{-6})$, $\mathfrak p_2^2=(2)$). The labelling
+convention $\psi(\mathfrak p_2)=-2$ is pinned by the exact coefficient
+checks $a_1(1..6)=(1,-2,3,4,2,-6)$, $a_2(1..6)=(1,2,-3,4,-2,-6)$.
+
+\textbf{$K=\Qq(\sqrt{-15})$ (class number $2$; $2$ \emph{splits}).}
+$\omega=(1+\sqrt{-15})/2$, $\omega^2=\omega-4$, $N(\omega)=4$;
+$(2)=\mathfrak p_2\mathfrak p_2'$ with
+$\mathfrak p_2^2=(\omega)$. The conductor-$(1)$ grössencharacters are
+$\psi((\alpha))=\alpha^2$ on principals, $\psi(\mathfrak p_2)=\omega$,
+$\psi(\mathfrak p_2')=\bar\omega$ (consistent:
+$\psi(\mathfrak p_2)^2=\omega^2=\psi((\omega))$), and its genus twist.
+With
+\[
+  P(n)=\tfrac18\!\!\sum_{\substack{c^2+15d^2=4n\\ c\equiv d\,(2)}}\!\!(c^2-15d^2),
+  \qquad
+  R(n)=\!\!\sum_{\substack{c^2+15d^2=8n\\ c\equiv d\,(4)}}
+        \Bigl(\tfrac{c^2-15d^2}{4}+\tfrac{cd}{2}\sqrt{-15}\Bigr)
+  =R_r+R_i\sqrt{-15},
+\]
+the two newforms (\textsf{15.3.d.a}, \textsf{15.3.d.b}) are
+$a_1=P+(\bar\omega/8)R$ and $a_2=P-(\bar\omega/8)R$; the $\sqrt{-15}$
+parts cancel exactly, the coefficients are rational integers, and
+$a_1(2)=+1$, $a_2(2)=-1$, $a_1(5)=+5$, $a_2(5)=-5$ pin Samart's
+numbering $\#2=g_1$, $\#1=g_2$. Warning recorded for the machine: the
+principal form of discriminant $-15$ is $x^2+xy+4y^2$, \emph{not}
+$x^2+15y^2$; forms assembled from the latter orbit fail every Hecke
+check.
+
+\textbf{$K=\Qq(\sqrt{-21})$ (class number $4$, genus group
+$(\Zz/2)^2$).} The ideal classes are $1,[\mathfrak p_2],
+[\mathfrak p_3],[\mathfrak p_6]$ with $\mathfrak p_6=\mathfrak
+p_2\mathfrak p_3$ and $\mathfrak p_2^2=(2)$, $\mathfrak p_3^2=(3)$,
+$\mathfrak p_6^2=(6)$. $S_3(\Gamma_0(84),\chi_{-84})$ is
+four-dimensional with newforms (\textsf{84.3.d.*})
+\[
+  g(e_2,e_3)=P_0+e_2P_2+e_3P_3+e_2e_3P_6,\qquad e_2,e_3\in\{\pm1\},
+\]
+where
+\begin{align*}
+  P_0(n)&=\tfrac12{\sum_{a^2+21b^2=n}}'(a^2-21b^2),&
+  P_3(n)&=\tfrac12{\sum_{3a^2+7b^2=n}}'(3a^2-7b^2),\\
+  P_2(n)&=\tfrac14{\sum_{2x^2+2xy+11y^2=n}}'\bigl((2x+y)^2-21y^2\bigr),&
+  P_6(n)&=\tfrac1{12}{\sum_{6x^2+6xy+5y^2=n}}'\bigl((6x+3y)^2-21y^2\bigr).
+\end{align*}
+All grössencharacter values are real: $\psi(\mathfrak p_2)=\pm2$,
+$\psi(\mathfrak p_3)=\pm3$, $\psi(\mathfrak p_6)=\psi(\mathfrak
+p_2)\psi(\mathfrak p_3)$; the convention $\psi(\mathfrak p_2)=+2$,
+$\psi(\mathfrak p_3)=+3$ for $g(1,1)$ is pinned by
+$a_{(1,1)}(2)=+2$, $a_{(1,1)}(3)=+3$. Samart's
+$M_{84}^3=L'(g(-1,+1),0)$ and $M_{84}^4=L'(g(-1,-1),0)$.
+
+\subsection{Ray-class projectors, conductor criteria, and
+witnesses}\label{app:ray}
+
+The twisted thetas use the projections $(1\pm\chi\circ N)/2$ with the
+exact criteria
+\begin{align*}
+  \Qq(\sqrt{-2}):&\quad \chi_8\bigl(N(a+b\sqrt{-2})\bigr)=+1
+    \iff b\ \text{even}\ (a\ \text{odd});\\
+  \Qq(\ii):&\quad \chi_8\bigl(N(a+b\ii)\bigr)=+1
+    \iff b\equiv0\pmod4\ (a\ \text{odd});\\
+  \Qq(\sqrt{-6}):&\quad \chi_{-8}\bigl(N(a+b\sqrt{-6})\bigr)=+1
+    \iff b\ \text{even}\ (a\ \text{odd}).
+\end{align*}
+Each is well defined modulo the conductor of
+Table~\ref{tab:levels}: if $\alpha\equiv1\pmod{(2)}$ then $a$ is odd
+and $b$ even, so $N(\alpha)\equiv a^2\equiv1\pmod8$ and
+$\chi_8(N(\alpha))=\chi_{-8}(N(\alpha))=+1$; over $\Qq(\ii)$ the same
+holds with $b\equiv0\pmod4$ for $\alpha\equiv1\pmod{(4)}$. The
+conductors are exact by the witnesses
+\[
+  1+\sqrt{-2}\equiv1\ (\mathfrak p_2),\ \chi_8(3)=-1;\qquad
+  1+2\ii\equiv1\ ((2)),\ \chi_8(5)=-1;\qquad
+  1+\sqrt{-6}\equiv1\ (\mathfrak p_2),\ \chi_{-8}(7)=-1,
+\]
+which exclude every smaller modulus (over $\Qq(\sqrt{-3})$ the
+conductor $(2)$ is exact: $2$ is inert and the theta identity of
+\S\ref{app:newforms} has modulus $(2)$).
+
+\subsection{Genus characters and \texorpdfstring{$L_K$}{L(K)}-factorizations}\label{app:genus}
+
+The genus-character identities (exact on the relevant norm sets) are
+\[
+  \chi_8(N)=\chi_{-3}(N)\ \text{on $\chi_{-24}$-norms};\qquad
+  \chi_5(N)=\chi_{-3}(N)\ \text{on $\chi_{-15}$-norms};
+\]
+\[
+  \chi_{-4}\chi_{84}=\chi_{21},\qquad
+  \chi_{-3}\chi_{84}=\chi_{28},\qquad
+  \chi_{-7}\chi_{84}=\chi_{12},
+\]
+and for class number $4$ the genus eigenvalues on the classes
+$1,[\mathfrak p_2],[\mathfrak p_3],[\mathfrak p_6]$ are
+\[
+  (+,+,+),\quad (-,-,+),\quad (-,+,-),\quad (+,-,-)
+  \qquad\text{in the basis }(\chi_{-4},\chi_{-3},\chi_{-7}).
+\]
+The factorizations
+$L_K(\chi\circ N,s)=L(\chi,s)\,L(\chi\chi_K,s)$ use the pointwise
+products $\chi_8\chi_{-8}=\chi_{-4}$, $\chi_8\chi_{-4}=\chi_{-8}$,
+$\chi_5\chi_{-15}=\chi_{-3}$ (exact character arithmetic).
+
+\subsection{The combination vectors}\label{app:comb}
+
+Each Theorem's assembly is a \texttt{Fraction}-exact identity
+$\mathrm{comb}=\sum c_i b_i$ in the displayed basis (the [S] tracks):
+\[
+\begin{array}{c|l|l}
+\text{Thm.} & \text{basis }(b_i) & \text{comb vector }(c_i)\\
+\hline
+C & (L_8,\,L_8^{\mathrm{tw}},\,\zeta_K(2),\,z_V) &
+    (7,\,8,\,\tfrac32,\,4)\\
+D & (L_{16},\,L_{16}^{\mathrm{tw}},\,\zeta_K(2),\,z_{V_2}) &
+    (5,\,8,\,\tfrac{27}{16},\,4)\\
+E & (L_1,L_2,L_1^{\mathrm{tw}},L_2^{\mathrm{tw}},\zeta_K(2),L_g,B_1,B_2)
+  & (\tfrac72,\,\tfrac32,\,4,\,4,\,\tfrac34,\,\tfrac74,\,2,\,2)\\
+G & \text{as }D & (-20,\,32,\,-\tfrac{27}{4},\,16)\\
+H & \text{as }E & (-14,\,-6,\,16,\,16,\,-3,\,-7,\,8,\,8)\\
+I & (L_1,L_2,\zeta_K(2),L_g) & (6,\,8,\,\tfrac32,\,\tfrac{11}{2})
+\end{array}
+\]
+with $L_g=L(\chi_8,2)L(\chi_{-3},2)$ (E, H),
+$L_g=L(\chi_5,2)L(\chi_{-3},2)$ (I),
+$B_1=L(\chi_{-8},2)L(\chi_3,2)$, $B_2=\mathrm{Cat}\,L(\chi_{24},2)$;
+Theorem H's vector is $-4\times$Theorem E's with the character blocks
+($L_i^{\mathrm{tw}},B_i$) sign-flipped. For Theorem I the split prime
+$2$ contributes the exact Euler factors
+$(1\mp\omega/8)(1\mp\bar\omega/8)=\tfrac{15}{16},\tfrac{19}{16}$.
+For Theorems J, K the four class-lattice anchors are
+\begin{align*}
+  T(\OO_K)&=\tfrac12(z_K+A_4+A_3+A_7)+(L_1+L_2+L_3+L_4),\\
+  T(\mathfrak p_2)&=\tfrac18(z_K-A_4-A_3+A_7)+\tfrac14(L_1+L_2-L_3-L_4),\\
+  T(\mathfrak p_3)&=\tfrac1{18}(z_K-A_4+A_3-A_7)+\tfrac19(L_1-L_2+L_3-L_4),\\
+  T(\mathfrak p_6)&=\tfrac1{72}(z_K+A_4-A_3-A_7)+\tfrac1{36}(L_1-L_2-L_3+L_4),
+\end{align*}
+with
+\[
+  z_K=\zeta(2)L(\chi_{-84},2),\quad
+  A_4=L(\chi_{-4},2)L(\chi_{21},2),\quad
+  A_3=L(\chi_{-3},2)L(\chi_{28},2),
+\]
+$A_7=L(\chi_{-7},2)L(\chi_{12},2)$, and
+$L_i=L(g_i,3)$; the homotheties
+$T(\Lambda_1)=16\,T(\mathfrak p_2)$, $T(\Lambda_2)=T(\OO_K)$ (K) and
+$T(\Lambda_1)=1296\,T(\mathfrak p_6)$, $T(\Lambda_2)=81\,T(\mathfrak
+p_3)$ (J) give
+\[
+  \mathrm{comb}_J=36(A_3-A_4)+72(L_3-L_4),\qquad
+  \mathrm{comb}_K=4(A_3+A_4)+8(L_3+L_4),
+\]
+in which $z_K$ and $A_7$ cancel, and
+$\EK_4=(5\sqrt{21}/(3\pi^3))\,\mathrm{comb}_J$,
+$\EK_4=(5\sqrt{21}/\pi^3)\,\mathrm{comb}_K$.
+
+\subsection{Closed Dirichlet values and their exact sources}\label{app:dirichlet}
+
+The even-character values use
+$L(\chi,2)=\pi^2\tau(\chi)\sum_a\chi(a)B_2(a/f)/f$
+with exact integer character sums:
+\[
+\begin{array}{c|c|c}
+\chi & \text{conductor} & \sum_a\chi(a)a^2\\
+\hline
+\chi_8 & 8 & 16\\
+\chi_3 & 12 & 48\\
+\chi_{24} & 24 & 288\\
+\chi_5 & 5 & 4\\
+\chi_{28} & 28 & 448\\
+\chi_{21} & 21 & 168
+\end{array}
+\qquad
+\begin{aligned}
+  L(\chi_8,2)&=\pi^2\sqrt2/16,\\
+  L(\chi_3,2)&=\pi^2\sqrt3/18,\\
+  L(\chi_{24},2)&=\pi^2\sqrt6/24,\\
+  L(\chi_5,2)&=4\pi^2\sqrt5/125,\\
+  L(\chi_{28},2)&=2\sqrt7\pi^2/49,\\
+  L(\chi_{21},2)&=8\sqrt{21}\pi^2/441.
+\end{aligned}
+\]
+(Note the conductor-$12$ trap for $\chi_3$: its period table vanishes
+at even positions.) Also
+$L(\chi_{-28},2)=\frac{2\pi^2}{7\sqrt7}$ ($\sum_a\chi_{-28}(a)a^2=448$),
+and $d_k=L'(\chi_{-k},-1)=\frac{k^{3/2}}{4\pi}L(\chi_{-k},2)$ by the
+Dirichlet functional equation.
+
+\subsection{Sturm data and newform identification}\label{app:sturm}
+
+The eta forms are identified by Ligozat's criteria (weight, character,
+cusp orders, divisor degree) and Sturm bounds
+$\frac{3}{12}[\mathrm{SL}_2(\Zz):\Gamma_0(N)]$: bounds $3$ ($N=8$),
+$6$ ($N=16$), $6$ ($N=12$), all below the exact-integer comparison
+order $q^{60}$. For the class-number-$2$ and $4$ fields the newforms
+are identified by exact Hecke recursion
+$a(p^2)=a(p)^2-\chi(p)p^2$, multiplicativity, CM vanishing at inert
+primes, and exhaustion of the (two-, four-dimensional) CM spaces
+(quoted: Hecke's theorem on conductor-$(1)$ grössencharacters; LMFDB
+labels of \S\ref{app:newforms}).
+
+\subsection{Tail bounds for the interval tracks}\label{app:tails}
+
+The [V] locks use only self-contained coefficient bounds:
+$|a_n|\le(n+5)^5 2^{n/2}$ for the eta products (dominating every
+factor $(1-q^{dn})^{r_d}$ by $(1-q^{dn})^{-|r_d|}$ and
+$p(i)\le2^i$); $|a(n)|\le6n^3$ for $\Qq(\sqrt{-6})$ and
+$|a(n)|\le30n^3$ for $\Qq(\sqrt{-15})$, $\Qq(\sqrt{-21})$ (explicit
+representation-count boxes); geometric Mellin tails; closed
+$\coth/\tanh$ lattice rows with the \texttt{tail\_row\_iv} bounds;
+Euler--Maclaurin with Hurwitz tails for the Dirichlet values; closed
+incomplete gamma at $s\in\{1,2,3\}$ and a squeezing continued fraction
+for $E_1$.
+
+\subsection{External inputs of the \texttt{cert0} chain}\label{app:cert0}
+
+The only non-self-contained inputs of the $s_4$-value locks are
+Shimura's CM theorem and the Shimura reciprocity law (integrality of
+the CM values of the eta-quotient modular unit $s_4$, and completeness
+of the Galois orbits). The locked minimal polynomials are:
+$\Qq(\sqrt2)$ pairs (Theorems C, D and their conjugates F, G); the
+$\Qq(\sqrt2,\sqrt3)$ quartic orbit (Theorem E, four CM/level points);
+$X^2+192303X+1185921$ of discriminant $5\cdot85995^2$ (Theorem I);
+$X^2+1787904X+84934656$ of discriminant $3\cdot1032192^2$ (Theorems J,
+K). Individual-root locks use root separations from $305$ up to
+$1.8\times10^6$ against lock widths $\le10^{-45}$.
 
 % ============================================================
 \section*{Statements and Declarations}
