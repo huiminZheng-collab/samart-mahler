@@ -784,9 +784,13 @@ verbatim: $f_4(u):=4\m(P_u)$, where
 $P_u:=x^4+y^4+z^4+1+u^{1/4}xyz$. Here
 $s^{1/4}$ is any local choice of fourth root
 ($|s^{1/4}|=|s|^{1/4}$ is unambiguous), and the Mahler measure
-does not depend on the choice: the substitution
-$(y,z)\mapsto(\ii y,-\ii z)$ on $\Tt^3$ shows $\m(P_s)$ is
-invariant under $s^{1/4}\mapsto\pm\ii\,s^{1/4}$. On
+does not depend on the choice: writing $c=s^{1/4}$, the
+substitution $x\mapsto\pm\ii x$ on $\Tt^3$ leaves $x^4$ unchanged
+and sends $xyz\mapsto\pm\ii xyz$, hence
+$P_c(\pm\ii x,y,z)=P_{\pm\ii c}(x,y,z)$, and Haar measure is
+invariant; so $\m(P_c)=\m(P_{\pm\ii c})$, i.e.\ $\m(P_s)$ is
+invariant under $s^{1/4}\mapsto\pm\ii\,s^{1/4}$ (and
+$x\mapsto-x$ gives $c\mapsto-c$). On
 $U:=\{|s|>256\}$ the polynomial $P_s=x^4+y^4+z^4+1+s^{1/4}xyz$ has no
 zeros on $\Tt^3$, since $|s^{1/4}xyz|>4\ge|x^4+y^4+z^4+1|$ there;
 equivalently, every local fourth root $c=s^{1/4}$ satisfies
